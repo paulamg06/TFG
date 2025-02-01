@@ -11,14 +11,22 @@ CORS(app)  # Permitir peticiones desde React
 
 @app.route("/api/analyzeCrypto", methods=["POST"])
 def analyzeCrypto():
+    print("Recibida solicitud POST en /analyzeCrypto")
     data = request.json
+    print("Datos recibidos:", data)
     analyze_crypto_request = AnalyzeCryptoRequestDTO(**data)
 
     github_repo = analyze_crypto_request.github_repo
 
-    Validations(github_repo)
+    process_git = ProcessRepository(github_repo)
 
-    RepositoryClonation(github_repo)
+    if not process_git.validateGitHubRegex():
+        return jsonify({"Error": "Invalid GitHub URL"}), 400
+    
+    if not process_git.VerifyGitHubUrlExists():
+        return jsonify({"Error": "GitHub URL does not exist"}), 404
+    
+    process_git.createTemporalDirectory()
 
     try:
         """# Semgrep
