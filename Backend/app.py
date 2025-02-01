@@ -3,12 +3,10 @@ from flask_cors import CORS
 from Utils.DTOs import *
 from Utils.Methods import *
 from pydantic import ValidationError
-import subprocess, os, re
+import subprocess
 
 app = Flask(__name__)
 CORS(app)  # Permitir peticiones desde React
-
-CLONED_DIR = "./Backend/ClonedRepositories"
 
 
 @app.route("/api/analyzeCrypto", methods=["POST"])
@@ -16,15 +14,11 @@ def analyzeCrypto():
     data = request.json
     analyze_crypto_request = AnalyzeCryptoRequestDTO(**data)
 
-    gitHub_repo = analyze_crypto_request.gitHub_repo
+    github_repo = analyze_crypto_request.github_repo
 
-    Validations(gitHub_repo)
-    
-    repo_name = gitHub_repo.split("/")[-1]
-    cloned_repo_path = os.path.join(CLONED_DIR, repo_name)
+    Validations(github_repo)
 
-    clone_command = ["git", "clone", gitHub_repo, cloned_repo_path]
-    subprocess.run(clone_command)
+    RepositoryClonation(github_repo)
 
     try:
         """# Semgrep
