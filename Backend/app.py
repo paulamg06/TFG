@@ -1,19 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from DTOs import *
+from Utils.DTOs import *
+from Utils.Methods import *
 from pydantic import ValidationError
-import subprocess, os, re, requests 
+import subprocess, os, re
 
 app = Flask(__name__)
 CORS(app)  # Permitir peticiones desde React
 
-GITHUB_URL_REGEX = r"^(https://github\.com/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.git|git@github\.com:[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.git)$"
+CLONED_DIR = "./Backend/ClonedRepositories"
 
-CLONED_DIR = "./ClonedRepos/"
-
-def verifyGitHubRepExists(url: str) -> bool:
-    response = requests.get(url)
-    return response.status_code == 200
 
 @app.route("/api/analyzeCrypto", methods=["POST"])
 def analyzeCrypto():
@@ -22,11 +18,7 @@ def analyzeCrypto():
 
     gitHub_repo = analyze_crypto_request.gitHub_repo
 
-    if not re.match(GITHUB_URL_REGEX, gitHub_repo):
-        return jsonify({"Error": "The URL is not from a GitHub repository"}), 400
-
-    if not verifyGitHubRepExists(gitHub_repo):
-        return jsonify({"Error": "The GitHub repository doesn't exist"}), 404
+    Validations(gitHub_repo)
     
     repo_name = gitHub_repo.split("/")[-1]
     cloned_repo_path = os.path.join(CLONED_DIR, repo_name)
