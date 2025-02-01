@@ -1,0 +1,2 @@
+from .AnalyzeCryptoRequestDTO import AnalyzeCryptoRequestDTO
+from .AnalyzeCryptoResponseDTO import AnalyzeCryptoResponseDTO
