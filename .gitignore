@@ -5,3 +5,4 @@ Backend/Utils/DTOs/__pycache__/AnalyzeCryptoResponseDTO.cpython-312.pyc
 Backend/Utils/Methods/__pycache__/__init__.cpython-312.pyc
 Backend/Utils/Methods/__pycache__/RepositoryClonation.cpython-312.pyc
 Backend/Utils/Methods/__pycache__/Validations.cpython-312.pyc
+frontend/src/components/EjemploComponente.js
