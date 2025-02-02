@@ -21,12 +21,9 @@ def analyzeCrypto():
     github_repo = analyze_crypto_request.github_repo
 
     process_git = ProcessRepository(github_repo)
-
-    if not process_git.validateGitHubRegex():
-        return jsonify({"error": "Invalid GitHub URL"}), 400
     
-    if not process_git.VerifyGitHubUrlExists():
-        return jsonify({"error": "Repository doesn't exist or is private"}), 404
+    if not process_git.repository_exists:
+        return jsonify({"error": "Invalid URL"}), 404
     
     process_git.createTemporalDirectory()
 
@@ -45,9 +42,6 @@ def analyzeCrypto():
             bandit_response = "Bandit response"
         )
         return jsonify(response.model_dump())
-
-    except ValidationError as exception:
-        return jsonify({"error": "Invalid path format"}), 400
 
     except Exception as exception:
         return jsonify({"error": str(exception)}), 500

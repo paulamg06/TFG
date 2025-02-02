@@ -12,7 +12,7 @@ export const analyzeCrypto = async (github_repo) => {
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(`An error has occured: ${error.error}`);
+            throw new Error(`Error: ${error.error}`);
         }
 
         return await response.json();

@@ -5,6 +5,7 @@ class ProcessRepository:
     def __init__(self, github_repo: str):
         self.github_repo = github_repo
         self.GITHUB_URL_REGEX = r"^(https://github\.com/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.git|git@github\.com:[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.git)$"
+        self.repository_exists = self.VerifyGitHubUrlExists()
 
     def createTemporalDirectory(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -14,12 +15,14 @@ class ProcessRepository:
 
             clone_command = ["git", "clone", self.github_repo, cloned_repo_path]
             subprocess.run(clone_command)
-
-
-    def validateGitHubRegex(self):
-        return re.match(self.GITHUB_URL_REGEX, self.github_repo)
     
 
     def VerifyGitHubUrlExists(self):
+        if not re.match(self.GITHUB_URL_REGEX, self.github_repo):
+            return False
+        
         response = requests.get(self.github_repo)
-        return response.status_code == 200
+        if response.status_code != 200:
+            return False
+        
+        return True
