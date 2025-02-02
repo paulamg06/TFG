@@ -11,9 +11,11 @@ CORS(app)  # Permitir peticiones desde React
 
 @app.route("/api/analyzeCrypto", methods=["POST"])
 def analyzeCrypto():
-    print("Recibida solicitud POST en /analyzeCrypto")
     data = request.json
-    print("Datos recibidos:", data)
+
+    if not data.get("github_repo"):
+        return jsonify({"error": "github_repo es obligatorio"}), 400
+
     analyze_crypto_request = AnalyzeCryptoRequestDTO(**data)
 
     github_repo = analyze_crypto_request.github_repo
@@ -21,10 +23,10 @@ def analyzeCrypto():
     process_git = ProcessRepository(github_repo)
 
     if not process_git.validateGitHubRegex():
-        return jsonify({"Error": "Invalid GitHub URL"}), 400
+        return jsonify({"error": "Invalid GitHub URL"}), 400
     
     if not process_git.VerifyGitHubUrlExists():
-        return jsonify({"Error": "GitHub URL does not exist"}), 404
+        return jsonify({"error": "Repository doesn't exist or is private"}), 404
     
     process_git.createTemporalDirectory()
 
@@ -45,10 +47,10 @@ def analyzeCrypto():
         return jsonify(response.model_dump())
 
     except ValidationError as exception:
-        return jsonify({"Error": "Invalid path format"}), 400
+        return jsonify({"error": "Invalid path format"}), 400
 
     except Exception as exception:
-        return jsonify({"Error": str(exception)}), 500
+        return jsonify({"error": str(exception)}), 500
     
 
 
