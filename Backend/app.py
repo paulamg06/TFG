@@ -3,7 +3,7 @@ from flask_cors import CORS
 from Utils.DTOs import *
 from Utils.Methods import *
 from pydantic import ValidationError
-import subprocess
+import subprocess, os
 
 app = Flask(__name__)
 CORS(app)  # Permitir peticiones desde React
@@ -25,22 +25,29 @@ def analyzeCrypto():
     if not process_git.repository_exists:
         return jsonify({"error": "Invalid URL"}), 404
     
-    process_git.createTemporalDirectory()
+    cloned_path = process_git.createTemporalDirectory()
 
     try:
-        """# Semgrep
-        semgrep_response = subprocess.run(["semgrep", "--config=auto", repo_name], capture_output=True, text=True)
+        # Semgrep
+        semgrep_response = subprocess.run(["semgrep", "--config=auto", cloned_path], capture_output=True, text=True)
         # Bandit
-        bandit_response = subprocess.run(["bandit", "--r", repo_name], capture_output=True, text=True)
+        bandit_response = subprocess.run(["bandit", "--r", cloned_path], capture_output=True, text=True)
+
+        # CBOM
+        cbom_path = f"{cloned_path}/bom.json"
+        cbom_response = subprocess.run(["cyclonedx-bom", "--output-format", "json", "output-file", cbom_path, "--input-file", cloned_path], 
+                                     capture_output=True, text=True)
+        cbom_dict_response = {}
+        if os.path.exists(cbom_path):
+            with open(cbom_path, "r") as file:
+                cbom_dict_response = file.read()
 
         response = AnalyzeCryptoResponseDTO(
             semgrep_response = semgrep_response.stdout,
-            bandit_response = bandit_response.stdout
-        )"""
-        response = AnalyzeCryptoResponseDTO(
-            semgrep_response = "Semgrep response",
-            bandit_response = "Bandit response"
+            bandit_response = bandit_response.stdout,
+            cbom_response = cbom_dict_response
         )
+
         return jsonify(response.model_dump())
 
     except Exception as exception:

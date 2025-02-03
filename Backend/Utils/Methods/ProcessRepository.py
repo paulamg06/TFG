@@ -1,4 +1,6 @@
+from flask import jsonify
 import subprocess, os, tempfile, re, requests
+
 
 class ProcessRepository:
     """Clase que se contiene los métodos relacionados con el manejo del repositorio de GitHub"""
@@ -13,8 +15,11 @@ class ProcessRepository:
 
             cloned_repo_path = os.path.join(temp_dir, repo_name)
 
-            clone_command = ["git", "clone", self.github_repo, cloned_repo_path]
-            subprocess.run(clone_command)
+            try:
+                subprocess.run(["git", "clone", self.github_repo, cloned_repo_path], check=True)
+                return cloned_repo_path
+            except subprocess.CalledProcessError:
+                return jsonify({"error": "Failed to clone repository"}), 500
     
 
     def VerifyGitHubUrlExists(self):
