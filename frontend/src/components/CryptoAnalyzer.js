@@ -37,9 +37,22 @@ const CryptoAnalyzer = () => {
                     onChange={(e) => setGithubRepo(e.target.value)}
                 />
 
-                <button onClick={handleAnalyze} disabled={loading}>
-                    {loading ? "Analyzing..." : "Analyze"}
-                </button>
+                <div className="container">
+                    <a onClick={handleAnalyze} disabled={loading} className="btn">
+                    
+                        <svg>
+                            <defs>
+                                <linearGradient id="grad1">
+                                    <stop offset="0%" stop-color="#FF8282"/>
+                                    <stop offset="100%" stop-color="#E178ED" />
+                                </linearGradient>
+                            </defs>
+                            <rect rx="10" fill="none" stroke="url(#grad1)"></rect>
+                        </svg>
+
+                        <span>{loading ? "Analyzing..." : "Analyze"}</span>
+                    </a>
+                </div>
             </div>
 
             <div className="Response">

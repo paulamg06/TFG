@@ -1,10 +1,16 @@
 .App {
   text-align: center;
   align-items: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .App-header {
-  background-color: lightslategray;
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.7), 
+      rgba(0, 0, 0, 0.7)
+    ),
+    rgba(220, 220, 220, 1) ;
   min-height: 15vh;
   display: flex;
   flex-direction: column;
@@ -23,14 +29,16 @@
 }
 
 .Request {
-  min-height: 5vh;
+  min-height: 20vh;
   min-width: 75vw;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 1vh;
-  gap: 2vw;
+  gap: 1vh;
   font-size: 2vh;
+  background-color: wheat;
 }
 .Request input {
   min-width: 35vw;
@@ -40,15 +48,68 @@
   font-size: inherit;
   border-color: transparent;
 }
-.Request button {
-  min-height: inherit;
-  min-width: 6vw;
-  border-radius: 4vmin;
-  text-align: center;
-  font-size: inherit;
-  border-color: transparent;
-  background-color: rgb(190, 190, 190);
+
+.container{
+  position: relative;
+  min-height: 10vh;
+  min-width: 15vw;
+  background-color: violet;
 }
+.btn {
+  position: relative;
+  display: flex;
+  min-width: 15vw;
+  min-height: 10vh;
+  font-size: 1em;
+  font-weight: bold;
+  line-height: 5vh;
+  background-color: tan;
+  cursor: pointer;
+  border: none;
+  align-items: center;
+  justify-items: center;
+}
+.btn svg {
+  position: relative;
+  display: flex;
+  background-color: tomato;
+  min-width: fit-content;
+  height: 8vh;
+}
+.btn svg rect {
+  width: 12vw;
+  height: 6vh;
+  stroke-width: 3;
+  stroke-dasharray: 200, 0;
+  stroke-dashoffset: 0;
+  -webkit-transition: all 600ms ease;
+  transition: all 600ms ease;
+}
+.btn:hover svg rect {
+  stroke-width: 3;
+  stroke-dasharray: 196, 543;
+  stroke-dashoffset: 450;
+}
+.btn span{
+  background: rgb(255,130,130);
+  background: -moz-linear-gradient(left,  rgba(255,130,130,1) 0%, rgba(225,120,237,1) 100%);
+  background: -webkit-linear-gradient(left,  rgba(255,130,130,1) 0%,rgba(225,120,237,1) 100%);
+  background: linear-gradient(to right,  rgba(255,130,130,1) 0%,rgba(225,120,237,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8282', endColorstr='#e178ed',GradientType=1 );
+  background-clip: text;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight:900;
+  font-size: 3vh;
+  letter-spacing: 0.045em;
+}
+
+
 
 .Response{
   min-width: 75vw;
