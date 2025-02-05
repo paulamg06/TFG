@@ -2,13 +2,16 @@
   text-align: center;
   align-items: center;
   font-family: 'Roboto', sans-serif;
+  background: #17181c;
+  font: 300 1em 'Fira Sans', sans-serif;
+  min-height: 100vh;
 }
 
 .App-header {
   background: 
     linear-gradient(
       rgba(0, 0, 0, 0.7), 
-      rgba(0, 0, 0, 0.7)
+      rgba(117, 117, 117, 0.7)
     ),
     rgba(220, 220, 220, 1) ;
   min-height: 15vh;
@@ -35,80 +38,38 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 1vh;
   gap: 1vh;
   font-size: 2vh;
-  background-color: wheat;
 }
 .Request input {
-  min-width: 35vw;
+  min-width: 60vw;
   min-height: 4.5vh;
   text-align: center;
   border-radius: 4vmin;
   font-size: inherit;
   border-color: transparent;
 }
-
-.container{
-  position: relative;
-  min-height: 10vh;
-  min-width: 15vw;
-  background-color: violet;
+.raise {
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+  color: #ff56e8;
+  --hover: #dea1ff;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em 2em;
+  border-radius: 4vmin;
 }
-.btn {
-  position: relative;
-  display: flex;
-  min-width: 15vw;
-  min-height: 10vh;
-  font-size: 1em;
-  font-weight: bold;
-  line-height: 5vh;
-  background-color: tan;
-  cursor: pointer;
-  border: none;
-  align-items: center;
-  justify-items: center;
+.raise:hover,
+.raise:focus {
+  border-color: var(--hover);
+  color: #fff;
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  -webkit-transform: translateY(-0.25em);
+          transform: translateY(-0.25em);
 }
-.btn svg {
-  position: relative;
-  display: flex;
-  background-color: tomato;
-  min-width: fit-content;
-  height: 8vh;
-}
-.btn svg rect {
-  width: 12vw;
-  height: 6vh;
-  stroke-width: 3;
-  stroke-dasharray: 200, 0;
-  stroke-dashoffset: 0;
-  -webkit-transition: all 600ms ease;
-  transition: all 600ms ease;
-}
-.btn:hover svg rect {
-  stroke-width: 3;
-  stroke-dasharray: 196, 543;
-  stroke-dashoffset: 450;
-}
-.btn span{
-  background: rgb(255,130,130);
-  background: -moz-linear-gradient(left,  rgba(255,130,130,1) 0%, rgba(225,120,237,1) 100%);
-  background: -webkit-linear-gradient(left,  rgba(255,130,130,1) 0%,rgba(225,120,237,1) 100%);
-  background: linear-gradient(to right,  rgba(255,130,130,1) 0%,rgba(225,120,237,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8282', endColorstr='#e178ed',GradientType=1 );
-  background-clip: text;
-  display: flex;
-  position: fixed;
-  align-items: center;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-weight:900;
-  font-size: 3vh;
-  letter-spacing: 0.045em;
-}
-
 
 
 .Response{
