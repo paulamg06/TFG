@@ -87,6 +87,7 @@
   justify-content: center;
   display: flex;
   font-size: 3vmin;
+  color: #dea1ff;
 }
 .Response pre {
   word-wrap: break-word;
