@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 .App {
   text-align: center;
   align-items: center;
-  font-family: 'Roboto', sans-serif;
-  background: #17181c;
-  font: 300 1em 'Fira Sans', sans-serif;
+  font-family: 300, 'Roboto', sans-serif;
+  background: #16376e;
   min-height: 100vh;
   font-size: 1vh;
 }
@@ -11,8 +12,10 @@
 .App-header {
   background: 
     linear-gradient(
-      rgba(0, 0, 0, 0.7), 
-      rgba(117, 117, 117, 0.7)
+      #060e1c, 
+      #0b1c37,
+      #112a53,
+      #16376e
     ),
     rgba(220, 220, 220, 1);
   min-height: 15vh;
@@ -29,7 +32,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: baseline;
-  gap: 2vh;
 }
 
 .Request {
@@ -39,7 +41,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1vh;
+  gap: 2vh;
   font-size: 2vh;
 }
 .Request input {
@@ -50,8 +52,8 @@
   font-size: inherit;
   border-color: transparent;
   background: linear-gradient(
-    rgba(239, 98, 255, 0.7), 
-    rgba(196, 96, 254, 0.7)
+    #e5edfb, 
+    #cadbf6
   );
 }
 .raise {
@@ -59,8 +61,8 @@
   min-height: fit-content;
   -webkit-transition: 0.25s;
   transition: 0.25s;
-  color: #ff56e8;
-  --hover: #dea1ff;
+  color: #2d6fdd;
+  --hover: #7ca5ea;
   background: none;
   border: 2px solid;
   font: inherit;
@@ -87,7 +89,6 @@
   justify-content: center;
   display: flex;
   font-size: 3vmin;
-  color: #dea1ff;
 }
 .Response pre {
   word-wrap: break-word;
