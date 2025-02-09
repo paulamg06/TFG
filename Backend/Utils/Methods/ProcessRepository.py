@@ -9,17 +9,19 @@ class ProcessRepository:
         self.GITHUB_URL_REGEX = r"^(https://github\.com/[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.git|git@github\.com:[A-Za-z0-9_-]+/[A-Za-z0-9_-]+\.git)$"
         self.repository_exists = self.VerifyGitHubUrlExists()
 
-    def createTemporalDirectory(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            repo_name = self.github_repo.split("/")[-1]
+    def cloneRepository(self):
+        repo_name = self.github_repo.split("/")[-1].replace(".git", "")
+        repo_path = os.path.join(os.getcwd(), "Backend", "Repositories")
 
-            cloned_repo_path = os.path.join(temp_dir, repo_name)
-
-            try:
-                subprocess.run(["git", "clone", self.github_repo, cloned_repo_path], check=True)
-                return cloned_repo_path
-            except subprocess.CalledProcessError:
-                return jsonify({"error": "Failed to clone repository"}), 500
+        cloned_repo_path = os.path.join(repo_path, repo_name)
+        if os.path.exists(cloned_repo_path):
+            return cloned_repo_path
+        
+        try:
+            subprocess.run(["git", "clone", self.github_repo, cloned_repo_path], check=True)
+            return cloned_repo_path
+        except subprocess.CalledProcessError:
+            return jsonify({"error": "Failed to clone repository"}), 500
     
 
     def VerifyGitHubUrlExists(self):

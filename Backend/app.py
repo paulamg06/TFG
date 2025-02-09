@@ -2,8 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from Utils.DTOs import *
 from Utils.Methods import *
-from pydantic import ValidationError
-import subprocess, os, chardet
 
 app = Flask(__name__)
 CORS(app)  # Permitir peticiones desde React
@@ -25,34 +23,24 @@ def analyzeCrypto():
     if not process_git.repository_exists:
         return jsonify({"error": "Invalid URL"}), 404
     
-    cloned_path = process_git.createTemporalDirectory()
+    cloned_path = process_git.cloneRepository()
 
     try:
-        path = os.path.join(os.getcwd(), "venv", "Scripts")
+        run_tools = RunTools(cloned_path)
+
         # Semgrep"
-        #semgrep_path = os.path.join(path, "semgrep.exe")
-        #semgrep_response = subprocess.run([semgrep_path, "--config=auto", cloned_path], capture_output=True, text=True)
+        #semgrep_response = run_tools.ProcessSemgrep()
 
         # Bandit
-        bandit_path = os.path.join(path, "bandit.exe")
-        bandit_response = subprocess.run([bandit_path, "--r", cloned_path], capture_output=True, text=True)
+        bandit_response = run_tools.ProcessBandit()
 
         # CBOM
-        cbom_path = os.path.join(path, "cyclonedx-py.exe")
-        generated_cbom_path = f"{cloned_path}/bom.json"
-        cbom_response = subprocess.run([cbom_path, "--output-format", "json", "output-file", generated_cbom_path, "--input-file", cloned_path], 
-                                     capture_output=True, text=True)
-        cbom_dict_response = {}
-        if os.path.exists(cbom_path):
-            with open(cbom_path, "rb") as file:
-                cbom_dict_response = file.read()
-
-        encoding_detected = chardet.detect(cbom_dict_response)['encoding']
+        cbom_dict_response = run_tools.ProcessCBOM()
+        
 
         response = AnalyzeCryptoResponseDTO(
-            #semgrep_response = semgrep_response.stdout,
             semgrep_response = "semgrep_response.stdout",
-            bandit_response = "bandit_response.stdout",
+            bandit_response = bandit_response,
             cbom_response = cbom_dict_response
         )
 
