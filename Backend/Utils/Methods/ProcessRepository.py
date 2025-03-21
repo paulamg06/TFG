@@ -70,7 +70,7 @@ class ProcessRepository:
 
         # Filtrado de componentes "library"
         library_components = [
-        {"name": component.get("name"), "version": component.get("version"), "cryptography": component.get("cryptography")}
+        {"name": component.get("name"), "version": component.get("version")}
         for component in cbom_data.get("components", [])
         if component.get("type") == "library"
         ]
