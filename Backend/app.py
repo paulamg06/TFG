@@ -8,7 +8,7 @@ CORS(app)  # Permitir peticiones desde React
 
 
 @app.route("/api/analyzeCrypto", methods=["POST"])
-def analyzeCrypto():
+def analyze_crypto():
     data = request.json
 
     if not data.get("github_repo"):
@@ -23,18 +23,18 @@ def analyzeCrypto():
     if not process_git.repository_exists:
         return jsonify({"error": "Invalid URL"}), 404
     
-    cloned_path = process_git.cloneRepository()
+    process_git.clone_repository()
 
     try:
-        run_tools = RunTools(cloned_path)
 
         # CBOM
-        cbom_dict_response = run_tools.ProcessCBOM()
-        
+        cbom_dict_response = process_git.process_cbom()
 
         response = AnalyzeCryptoResponseDTO(
             cbom_response = cbom_dict_response
         )
+
+        process_git.filtered_libraries()
 
         return jsonify(response.model_dump())
 
