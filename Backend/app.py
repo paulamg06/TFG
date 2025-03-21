@@ -28,19 +28,11 @@ def analyzeCrypto():
     try:
         run_tools = RunTools(cloned_path)
 
-        # Semgrep"
-        #semgrep_response = run_tools.ProcessSemgrep()
-
-        # Bandit
-        bandit_response = run_tools.ProcessBandit()
-
         # CBOM
         cbom_dict_response = run_tools.ProcessCBOM()
         
 
         response = AnalyzeCryptoResponseDTO(
-            semgrep_response = "semgrep_response.stdout",
-            bandit_response = bandit_response,
             cbom_response = cbom_dict_response
         )
 

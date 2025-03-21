@@ -6,28 +6,6 @@ class RunTools():
     def __init__(self, cloned_path: str):
         self.path = os.path.join(os.getcwd(), "venv", "Scripts")
         self.cloned_path = cloned_path
-
-
-    def ProcessSemgrep(self) -> str:
-        semgrep_path = os.path.join(self.path, "semgrep.exe")
-        semgrep_response = subprocess.run([semgrep_path, "--config=auto", self.cloned_path], capture_output=True, text=True)
-
-        return semgrep_response.stdout
-    
-
-    def ProcessBandit(self) -> dict:
-        bandit_path = os.path.join(self.path, "bandit.exe")
-        bandit_result = subprocess.run([bandit_path, "--r", self.cloned_path], capture_output=True, text=True)
-
-        bandit_response = bandit_result.stdout.splitlines()
-        issues = []
-
-        for line in bandit_response:
-            if line.startswith("["):
-                severity, description = line.split(" ", 1)
-                issues.append({"severity": severity.strip("[]"), "description": description})
-
-        return {"issues": issues}
     
 
     def ProcessCBOM(self) -> dict:
