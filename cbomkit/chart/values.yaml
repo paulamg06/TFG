@@ -1,0 +1,25 @@
+common:
+  clusterDomain: ""
+backend:
+  name: cbomkit
+  image: ghcr.io/PQCA/cbomkit
+  tag: latest
+frontend:
+  name: cbomkit-frontend
+  image: ghcr.io/PQCA/cbomkit-frontend
+  tag: latest
+regulator:
+  enabled: false
+  name: cbomkit-regulator
+  image: ""
+  tag: ""
+  opa:
+    name: cbomkit-opa
+    image: openpolicyagent/opa
+    tag: 0.66.0
+postgresql:
+  fullnameOverride: cbomkit-postgres
+  auth:
+    username: ""
+    password: ""
+    database: postgres
