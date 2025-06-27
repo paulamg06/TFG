@@ -6,7 +6,8 @@ quarkus:
     port: ${CBOMKIT_PORT:8081}
     cors:
       ~: true
-      origins: ${CBOMKIT_FRONTEND_URL_CORS:http://localhost:8001}
+      origins: ${CBOMKIT_FRONTEND_URL_CORS:http://localhost:8080}
+      # origins: ${CBOMKIT_FRONTEND_URL_CORS:http://localhost:8001}
   datasource:
     db-kind: ${CBOMKIT_DB_TYPE:postgresql}
     username: ${CBOMKIT_DB_USERNAME:cbomkit}

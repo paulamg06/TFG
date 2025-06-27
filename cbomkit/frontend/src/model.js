@@ -19,6 +19,7 @@ export const model = reactive({
     startTime: null,
     scanDuration: null,
     totalDuration: null,
+    excludedAssets: [], // List of assets to exclude from the scan
   },
   codeOrigin: {
     projectIdentifier: null,

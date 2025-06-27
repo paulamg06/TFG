@@ -23,7 +23,8 @@ services:
       CBOMKIT_PORT: 8081
       CBOMKIT_DB_USERNAME: ${POSTGRESQL_AUTH_USERNAME}
       CBOMKIT_DB_PASSWORD: ${POSTGRESQL_AUTH_PASSWORD}
-      CBOMKIT_FRONTEND_URL_CORS: "http://localhost:8001"
+      CBOMKIT_FRONTEND_URL_CORS: "http://localhost:8080"
+      # CBOMKIT_FRONTEND_URL_CORS: "http://localhost:8001"
 #      CBOMKIT_REGULATOR_API_BASE: "http://regulator:8080"
 #      CBOMKIT_QS_EXPLORER_API_BASE: "http://localhost:8000/api/v1/scan"
     ports:
@@ -41,7 +42,9 @@ services:
       - ext-compliance
       - dev-frontend
   frontend:
-    image: ghcr.io/pqca/cbomkit-frontend:${CBOMKIT_VERSION}
+    build:
+      context: ./frontend
+      dockerfile: ./docker/Dockerfile
     environment:
       VUE_APP_HTTP_API_BASE: "http://localhost:8081"
       VUE_APP_WS_API_BASE: "ws://localhost:8081"
