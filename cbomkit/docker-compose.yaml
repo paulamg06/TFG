@@ -23,8 +23,7 @@ services:
       CBOMKIT_PORT: 8081
       CBOMKIT_DB_USERNAME: ${POSTGRESQL_AUTH_USERNAME}
       CBOMKIT_DB_PASSWORD: ${POSTGRESQL_AUTH_PASSWORD}
-      CBOMKIT_FRONTEND_URL_CORS: "http://localhost:8080"
-      # CBOMKIT_FRONTEND_URL_CORS: "http://localhost:8001"
+      CBOMKIT_FRONTEND_URL_CORS: "http://localhost:8001"
 #      CBOMKIT_REGULATOR_API_BASE: "http://regulator:8080"
 #      CBOMKIT_QS_EXPLORER_API_BASE: "http://localhost:8000/api/v1/scan"
     ports:

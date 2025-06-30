@@ -80,22 +80,22 @@ public final class BcEncapsulatedSecretExtractor {
     private static @Nonnull List<IDetectionRule<Tree>> specialConstructors() {
         List<IDetectionRule<Tree>> constructorsList = new LinkedList<>();
 
-        // constructorsList.add(
-        //         new DetectionRuleBuilder<Tree>()
-        //                 .createDetectionRule()
-        //                 .forObjectTypes("org.bouncycastle.crypto.kems.RSAKEMExtractor")
-        //                 .forConstructor()
-        //                 .shouldBeDetectedAs(new ValueActionFactory<>("RSAKEMExtractor"))
-        //                 .withMethodParameter("org.bouncycastle.crypto.params.RSAKeyParameters")
-        //                 .addDependingDetectionRules(BcCipherParameters.rules())
-        //                 .withMethodParameter("int")
-        //                 .shouldBeDetectedAs(new KeySizeFactory<>(Size.UnitType.BIT))
-        //                 .asChildOfParameterWithId(-1)
-        //                 .withMethodParameter("org.bouncycastle.crypto.DerivationFunction")
-        //                 .addDependingDetectionRules(BcDerivationFunction.rules())
-        //                 .buildForContext(new KeyContext(Map.of("kind", "KEM")))
-        //                 .inBundle(() -> "Bc")
-        //                 .withoutDependingDetectionRules());
+        constructorsList.add(
+                new DetectionRuleBuilder<Tree>()
+                        .createDetectionRule()
+                        .forObjectTypes("org.bouncycastle.crypto.kems.RSAKEMExtractor")
+                        .forConstructor()
+                        .shouldBeDetectedAs(new ValueActionFactory<>("RSAKEMExtractor"))
+                        .withMethodParameter("org.bouncycastle.crypto.params.RSAKeyParameters")
+                        .addDependingDetectionRules(BcCipherParameters.rules())
+                        .withMethodParameter("int")
+                        .shouldBeDetectedAs(new KeySizeFactory<>(Size.UnitType.BIT))
+                        .asChildOfParameterWithId(-1)
+                        .withMethodParameter("org.bouncycastle.crypto.DerivationFunction")
+                        .addDependingDetectionRules(BcDerivationFunction.rules())
+                        .buildForContext(new KeyContext(Map.of("kind", "KEM")))
+                        .inBundle(() -> "Bc")
+                        .withoutDependingDetectionRules());
 
         constructorsList.add(
                 new DetectionRuleBuilder<Tree>()
