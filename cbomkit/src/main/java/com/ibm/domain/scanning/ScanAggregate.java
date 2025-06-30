@@ -48,6 +48,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class ScanAggregate extends AggregateRoot<ScanId> {
     @Nullable private GitUrl gitUrl;
@@ -55,9 +57,12 @@ public final class ScanAggregate extends AggregateRoot<ScanId> {
     @Nonnull private Revision revision;
     @Nullable private Path packageFolder;
     @Nullable private Commit commit;
+    @Nullable private List<String> excludedAssets; // Lista de assets a excluir
     @Nullable private Map<Language, LanguageScan> languageScans;
 
     public static final Revision REVISION_MAIN = new Revision("main");
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScanAggregate.class);
 
     private ScanAggregate(@Nonnull final ScanId id, @Nonnull final ScanRequest scanRequest) {
         super(id, new ArrayList<>());
@@ -77,6 +82,7 @@ public final class ScanAggregate extends AggregateRoot<ScanId> {
             this.revision = scanRequest.revision();
             this.packageFolder =
                     Optional.ofNullable(scanRequest.subFolder()).map(Path::of).orElse(null);
+            this.excludedAssets = scanRequest.excludedAssets();
         }
     }
 
@@ -87,6 +93,7 @@ public final class ScanAggregate extends AggregateRoot<ScanId> {
             @Nonnull Revision revision,
             @Nullable Path packageFolder,
             @Nullable Commit commit,
+            @Nullable List<String> excludedAssets, // Lista de assets a excluir
             @Nullable Map<Language, LanguageScan> languageScans) {
         super(id, new ArrayList<>());
         this.gitUrl = gitUrl;
@@ -94,6 +101,7 @@ public final class ScanAggregate extends AggregateRoot<ScanId> {
         this.revision = revision;
         this.packageFolder = packageFolder;
         this.commit = commit;
+        this.excludedAssets = excludedAssets;
         this.languageScans = languageScans;
     }
 
@@ -108,6 +116,7 @@ public final class ScanAggregate extends AggregateRoot<ScanId> {
         // create aggregate
         final ScanAggregate aggregate =
                 new ScanAggregate(scanId, scanRequest); // change state: start a scan
+        LOGGER.info("Lista de assets a excluir: {}", aggregate.getExcludedAssets());
         // add domain event, uncommited!
         if (aggregate.getPurl().isPresent()) {
             aggregate.apply(new PurlScanRequestedEvent(aggregate.getId(), credentials));
@@ -192,6 +201,11 @@ public final class ScanAggregate extends AggregateRoot<ScanId> {
     }
 
     @Nonnull
+    public Optional<List<String>> getExcludedAssets() {
+        return Optional.ofNullable(excludedAssets).map(ArrayList::new);
+    }
+
+    @Nonnull
     public Optional<List<LanguageScan>> getLanguageScans() {
         return Optional.ofNullable(languageScans).map(Map::values).map(ArrayList::new);
     }
@@ -270,7 +284,9 @@ public final class ScanAggregate extends AggregateRoot<ScanId> {
             @Nonnull Revision revision,
             @Nullable Path packageFolder,
             @Nullable Commit commit,
+            @Nullable List<String> excludedAssets, // Lista de assets a excluir
             @Nullable Map<Language, LanguageScan> languageScans) {
-        return new ScanAggregate(id, gitUrl, purl, revision, packageFolder, commit, languageScans);
+        return new ScanAggregate(
+                id, gitUrl, purl, revision, packageFolder, commit, excludedAssets, languageScans);
     }
 }

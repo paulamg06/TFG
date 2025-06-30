@@ -35,10 +35,14 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Singleton;
+import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public final class RequestScanCommandHandler extends CommandHandler<ScanId, ScanAggregate> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestScanCommandHandler.class);
 
     void onStart(@Observes StartupEvent event) {
         this.commandBus.register(this);
@@ -59,6 +63,7 @@ public final class RequestScanCommandHandler extends CommandHandler<ScanId, Scan
                         @Nonnull String scanUrl,
                         @Nullable String branch,
                         @Nullable String subfolder,
+                        @Nullable List<String> excludedAssets,
                         @Nullable ICredentials credentials)) {
             final ScanRequest scanRequest =
                     new ScanRequest(
@@ -66,9 +71,11 @@ public final class RequestScanCommandHandler extends CommandHandler<ScanId, Scan
                             Optional.ofNullable(branch)
                                     .map(Revision::new)
                                     .orElse(ScanAggregate.REVISION_MAIN),
-                            subfolder);
+                            subfolder,
+                            excludedAssets);
             // create Aggregate and start scan
             // it will emit a domain event that the scan is requested
+            LOGGER.info("Listado de assets a excluir: {}", excludedAssets);
             final ScanAggregate scanAggregate =
                     ScanAggregate.requestScan(scanId, scanRequest, credentials);
             this.repository.save(scanAggregate);

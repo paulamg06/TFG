@@ -114,13 +114,13 @@ public class ScanningResource {
 
             webSocketProgressDispatcher.send(
                     new ProgressMessage(ProgressMessageType.LABEL, "Starting..."));
-            LOGGER.info("scan request subfolder: {}", scanRequest.getSubfolder());
             commandBus.send(
                     new RequestScanCommand(
                             scanId,
                             scanRequest.getScanUrl(),
                             scanRequest.getBranch(),
                             scanRequest.getSubfolder(),
+                            scanRequest.getExcludedAssets(),
                             authCredentials));
 
         } catch (Exception e) {

@@ -41,10 +41,12 @@
       <id>app-bootstrap</id>
       <url>https://maven.pkg.github.com/n1ckl0sk0rtge/app-bootstrap-core</url>
     </repository>
+    <!--
     <repository>
         <id>github</id>
         <url>https://maven.pkg.github.com/PQCA/sonar-cryptography</url>
     </repository>
+    -->
   </repositories>
 
   <dependencyManagement>

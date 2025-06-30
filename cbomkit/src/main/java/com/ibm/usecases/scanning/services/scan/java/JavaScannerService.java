@@ -71,7 +71,8 @@ public final class JavaScannerService extends ScannerService {
             @Nonnull Revision revision,
             @Nonnull Commit commit,
             @Nullable Path packageFolder,
-            @Nonnull List<ProjectModule> index)
+            @Nonnull List<ProjectModule> index,
+            @Nonnull List<String> excludedAssets)
             throws ClientDisconnected {
         final File targetJarClasses = new File(this.projectDirectory, "target/classes");
         if (!targetJarClasses.exists()) {
@@ -90,7 +91,10 @@ public final class JavaScannerService extends ScannerService {
                                 "sonar.java.binaries",
                                 new File(this.projectDirectory, "target/classes").toString())
                         .setProperty(SonarComponents.SONAR_AUTOSCAN, false)
-                        .setProperty(SonarComponents.SONAR_BATCH_SIZE_KEY, 8 * 1024 * 1024));
+                        .setProperty(SonarComponents.SONAR_BATCH_SIZE_KEY, 8 * 1024 * 1024)
+                        .setProperty(
+                                "sonar.cryptography.excludedAssets",
+                                String.join(",", excludedAssets)));
         final DefaultFileSystem fileSystem = sensorContext.fileSystem();
         final ClasspathForMain classpathForMain =
                 new ClasspathForMain(sensorContext.config(), fileSystem);

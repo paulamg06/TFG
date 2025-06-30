@@ -61,12 +61,14 @@ class JavaScannerServiceTest {
                         assetableProgressDispatcher,
                         configuration.getJavaDependencyJARSPath(),
                         projectDirectory);
+
         javaScannerService.scan(
                 new GitUrl("https://github.com/keycloak/keycloak"),
                 new Revision("main"),
                 new Commit("9c2825eb0e64aa7ea40b8dc3605d37046f6a24cb"),
                 null,
-                projectModules);
+                projectModules,
+                List.of("RSA"));
         // check
         assetableProgressDispatcher.hasNumberOfDetections(14);
 
