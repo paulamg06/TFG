@@ -55,8 +55,7 @@ class PythonScannerServiceTest {
                 new Revision("main"),
                 new Commit("9c2825eb0e64aa7ea40b8dc3605d37046f6a24cb"),
                 null,
-                projectModules,
-                List.of("RSA"));
+                projectModules);
         // check
         assetableProgressDispatcher.hasNumberOfDetections(5);
 

@@ -40,6 +40,7 @@ import com.ibm.infrastructure.progress.IProgressDispatcher;
 import com.ibm.infrastructure.progress.ProgressMessage;
 import com.ibm.infrastructure.progress.ProgressMessageType;
 import com.ibm.infrastructure.scanning.IScanConfiguration;
+import com.ibm.output.util.ExcludedAssetsConfiguration;
 import com.ibm.usecases.scanning.commands.CloneGitRepositoryCommand;
 import com.ibm.usecases.scanning.commands.IdentifyPackageFolderCommand;
 import com.ibm.usecases.scanning.commands.IndexModulesCommand;
@@ -212,7 +213,6 @@ public final class ScanProcessManager extends ProcessManager<ScanId, ScanAggrega
                 // delete old aggregate
                 this.repository.delete(scanId);
                 // emit new scan command with `master` branch
-                LOGGER.info("Activos excluidos: {}", scanAggregate.getExcludedAssets());
                 this.commandBus.send(
                         new RequestScanCommand(
                                 this.scanId,
@@ -352,6 +352,7 @@ public final class ScanProcessManager extends ProcessManager<ScanId, ScanAggrega
             final Commit commit = scanAggregate.getCommit().orElseThrow(NoCommitProvided::new);
             final List<String> excludedAssets = scanAggregate.getExcludedAssets().orElse(List.of());
 
+            ExcludedAssetsConfiguration.setExcludedAssets(excludedAssets);
             LOGGER.info("Iniciando escaneo excluyendo los siguientes activos: {}", excludedAssets);
 
             // progress scan statistics
@@ -374,8 +375,7 @@ public final class ScanProcessManager extends ProcessManager<ScanId, ScanAggrega
                             commit,
                             scanAggregate.getPackageFolder().orElse(null),
                             Optional.ofNullable(this.index.get(Language.JAVA))
-                                    .orElseThrow(NoIndexForProject::new),
-                            excludedAssets);
+                                    .orElseThrow(NoIndexForProject::new));
             // update statistics
             numberOfScannedLine = javaScanResultDTO.numberOfScannedLine();
             numberOfScannedFiles = javaScanResultDTO.numberOfScannedFiles();
@@ -408,8 +408,7 @@ public final class ScanProcessManager extends ProcessManager<ScanId, ScanAggrega
                             commit,
                             scanAggregate.getPackageFolder().orElse(null),
                             Optional.ofNullable(this.index.get(Language.PYTHON))
-                                    .orElseThrow(NoIndexForProject::new),
-                            excludedAssets);
+                                    .orElseThrow(NoIndexForProject::new));
             // update statistics
             numberOfScannedLine += pythonScanResultDTO.numberOfScannedLine();
             numberOfScannedFiles += pythonScanResultDTO.numberOfScannedFiles();

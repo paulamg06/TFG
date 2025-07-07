@@ -53,8 +53,7 @@ public final class PythonScannerService extends ScannerService {
             @Nonnull Revision revision,
             @Nonnull Commit commit,
             @Nullable Path packageFolder,
-            @Nonnull List<ProjectModule> index,
-            @Nonnull List<String> excludedAssets)
+            @Nonnull List<ProjectModule> index)
             throws ClientDisconnected {
         final PythonCheck visitor = new PythonDetectionCollectionRule(this);
 
