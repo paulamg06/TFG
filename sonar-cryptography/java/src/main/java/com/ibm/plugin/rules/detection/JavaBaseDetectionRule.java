@@ -107,17 +107,14 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
     @Override
     public void update(@Nonnull Finding<JavaCheck, Tree, Symbol, JavaFileScannerContext> finding) {
         final List<INode> nodes = javaTranslationProcess.initiate(finding.detectionStore());
-        List<INode> nodesAux =
-                new ArrayList<>(nodes); // Lista auxiliar modificable
-        final List<String> excludedAssets = ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
+        List<INode> nodesAux = new ArrayList<>(nodes); // Lista auxiliar modificable
+        final List<String> excludedAssets =
+                ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
 
         // Filtrado de nodos
         if (excludedAssets != null && !excludedAssets.isEmpty()) {
-            Iterator<INode> iterator = nodesAux.iterator();
-
-            // Iteramos por cada nodo
-            while (iterator.hasNext()) {
-                INode node = iterator.next();
+            // Iteramos por cada nodo de la lista auxiliar
+            nodesAux.forEach(node -> {
                 String nodeString = node.asString().toUpperCase();
 
                 if (nodeString != null) {
@@ -130,11 +127,13 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
 
                     // Si el nodo pertenece a la lista de activos excluidos, lo eliminamos
                     if (excludeNode) {
-                        LOGGER.info("Excluyendo nodo: {} por pertenecer a la lista de activos excluidos", nodeString);
-                        iterator.remove();
+                        LOGGER.info(
+                                "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
+                                nodeString);
+                        nodesAux.remove(node);
                     }
                 }
-            }
+            });
         }
 
         if (isInventory) {

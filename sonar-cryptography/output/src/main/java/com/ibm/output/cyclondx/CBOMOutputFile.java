@@ -69,7 +69,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -109,63 +108,61 @@ public class CBOMOutputFile implements IOutputFile {
 
     @Override
     public void add(@Nonnull List<INode> nodes) {
-        List<INode> nodesAux =
-                new ArrayList<>(nodes); // Lista auxiliar modificable
-        final List<String> excludedAssets = ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
-
-        // Filtrado de nodos
-        if (excludedAssets != null && !excludedAssets.isEmpty()) {
-            Iterator<INode> iterator = nodesAux.iterator();
-
-            // Iteramos por cada nodo
-            while (iterator.hasNext()) {
-                INode node = iterator.next();
-                String nodeString = node.asString().toUpperCase();
-
-                if (nodeString != null) {
-                    boolean excludeNode =
-                            excludedAssets.stream()
-                                    .anyMatch(
-                                            excludedAsset ->
-                                                    nodeString.contains(
-                                                            excludedAsset.toUpperCase()));
-
-                    // Si el nodo pertenece a la lista de activos excluidos, lo eliminamos
-                    if (excludeNode) {
-                        LOGGER.info(
-                                "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
-                                nodeString);
-                        iterator.remove();
-                    }
-                }
-            }
-        }
-
-        LOGGER.info("Adding {} nodes to CBOM", nodesAux);
-        add(null, nodesAux);
+        add(null, nodes);
     }
 
     private void add(@Nullable final String parentBomRef, @Nonnull List<INode> nodes) {
+        final List<String> excludedAssets =
+                ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
+
         nodes.forEach(
                 node -> {
-                    // switch for asset
-                    if (node instanceof Algorithm algorithm) {
-                        createAlgorithmComponent(parentBomRef, algorithm);
-                    } else if (node instanceof Key key) {
-                        createKeyComponent(parentBomRef, key);
-                    } else if (node instanceof Protocol protocol) {
-                        createProtocolComponent(parentBomRef, protocol);
-                    } else if (node instanceof CipherSuite cipherSuite) {
-                        createCipherSuiteComponent(parentBomRef, cipherSuite);
-                    } else if (node instanceof SaltLength
-                            || node instanceof PasswordLength
-                            || node instanceof InitializationVectorLength
-                            || node instanceof NonceLength
-                            || node instanceof TagLength) {
-                        final IProperty property = (IProperty) node;
-                        createRelatedCryptoMaterialComponent(parentBomRef, property);
-                    } else if (node.hasChildren()) {
-                        add(parentBomRef, node.getChildren().values().stream().toList());
+                    boolean excludeNode = false; // Control de exclusión de nodos
+
+                    // Filtrado de nodos
+                    if (excludedAssets != null && !excludedAssets.isEmpty()) {
+                        String nodeString = node.asString().toUpperCase();
+
+                        if (nodeString != null) {
+                            // Valida si el nodo pertenece a la lista de activos excluidos
+                            excludeNode =
+                                    excludedAssets.stream()
+                                            .anyMatch(
+                                                    excludedAsset ->
+                                                            nodeString.contains(
+                                                                    excludedAsset.toUpperCase()));
+
+                            if (excludeNode) { // Debugger
+                                LOGGER.info(
+                                        "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
+                                        nodeString);
+                            }
+                        }
+                    }
+
+                    // Si es un nodo a excluir, no lo procesamos
+                    if (!excludeNode) {
+                        // switch for asset
+                        if (node instanceof Algorithm algorithm) {
+                            createAlgorithmComponent(parentBomRef, algorithm);
+                        } else if (node instanceof Key key) {
+                            createKeyComponent(parentBomRef, key);
+                        } else if (node instanceof Protocol protocol) {
+                            createProtocolComponent(parentBomRef, protocol);
+                        } else if (node instanceof CipherSuite cipherSuite) {
+                            createCipherSuiteComponent(parentBomRef, cipherSuite);
+                        } else if (node instanceof SaltLength
+                                || node instanceof PasswordLength
+                                || node instanceof InitializationVectorLength
+                                || node instanceof NonceLength
+                                || node instanceof TagLength) {
+                            final IProperty property = (IProperty) node;
+                            createRelatedCryptoMaterialComponent(parentBomRef, property);
+                        } else if (node.hasChildren()) {
+                            add(parentBomRef, node.getChildren().values().stream().toList());
+                        }
+                    } else {
+                        LOGGER.info("Skipping node: {} due to exclusion", node.asString());
                     }
                 });
     }
