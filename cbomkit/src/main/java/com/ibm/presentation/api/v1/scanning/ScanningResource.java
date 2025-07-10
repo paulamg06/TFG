@@ -31,6 +31,7 @@ import com.ibm.infrastructure.progress.ProgressMessageType;
 import com.ibm.infrastructure.progress.WebSocketProgressDispatcher;
 import com.ibm.infrastructure.scanning.IScanConfiguration;
 import com.ibm.infrastructure.scanning.repositories.ScanRepository;
+import com.ibm.output.util.ExcludedAssetsConfiguration;
 import com.ibm.usecases.scanning.commands.RequestScanCommand;
 import com.ibm.usecases.scanning.processmanager.ScanProcessManager;
 import jakarta.annotation.Nonnull;
@@ -43,6 +44,7 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -114,6 +116,16 @@ public class ScanningResource {
 
             webSocketProgressDispatcher.send(
                     new ProgressMessage(ProgressMessageType.LABEL, "Starting..."));
+            // Almacenamos la lista de assets a excluir
+            final List<String> excludedAssets =
+                    scanRequest.getExcludedAssets() != null
+                            ? scanRequest.getExcludedAssets()
+                            : List.of();
+            if (!excludedAssets.isEmpty()) {
+                ExcludedAssetsConfiguration.setExcludedAssets(excludedAssets);
+                LOGGER.info(
+                        "Iniciando escaneo excluyendo los siguientes activos: {}", excludedAssets);
+            }
             commandBus.send(
                     new RequestScanCommand(
                             scanId,

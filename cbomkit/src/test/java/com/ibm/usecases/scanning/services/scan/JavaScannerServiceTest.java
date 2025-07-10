@@ -61,6 +61,7 @@ class JavaScannerServiceTest {
                         assetableProgressDispatcher,
                         configuration.getJavaDependencyJARSPath(),
                         projectDirectory);
+
         javaScannerService.scan(
                 new GitUrl("https://github.com/keycloak/keycloak"),
                 new Revision("main"),

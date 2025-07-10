@@ -6,12 +6,12 @@
         class="search-bar"
         placeholder="Enter Git URL or Package URL to scan"
         v-model="model.codeOrigin.scanUrl"
-        @keyup.enter="connectAndScan(advancedOptions()[0], advancedOptions()[1], advancedOptions()[2])"
+        @keyup.enter="connectAndScan(advancedOptions()[0], advancedOptions()[1], advancedOptions()[2], advancedOptions()[3])"
       />
       <cv-button
         class="search-button"
         :icon="ArrowRight24"
-        @click="connectAndScan(advancedOptions()[0], advancedOptions()[1], advancedOptions()[2])"
+        @click="connectAndScan(advancedOptions()[0], advancedOptions()[1], advancedOptions()[2], advancedOptions()[3])"
         :disabled="!model.codeOrigin.scanUrl"
         >Scan</cv-button
       >
@@ -27,6 +27,14 @@
     <Transition name="filters">
       <div v-show="filterOpen">
         <cv-tabs style="padding-top: 15px; padding-bottom: 10px">
+          <cv-tab label="Assets">
+            <cv-text-input
+              class="filter-input"
+              label="Asset"
+              placeholder="Specify a specific asset"
+              v-model="excludedAssets"
+            />
+          </cv-tab>
           <cv-tab label="Scan">
             <cv-text-input
               class="filter-input"
@@ -84,9 +92,9 @@ export default {
   methods: {
     advancedOptions: function () {
       if (this.filterOpen) {
-        return [this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
+        return [this.excludedAssets, this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
       } else {
-        return [null, null, null];
+        return [null, null, null, null];
       }
     },
   },

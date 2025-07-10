@@ -68,12 +68,14 @@ export function stopWebSocket() {
   // }
 }
 
-export function connectAndScan(gitBranch, gitSubfolder, credentials) {
+export function connectAndScan(excludedAssets, gitBranch, gitSubfolder, credentials) {
   model.resetScanningInfo();
+  setExcludedAssets(excludedAssets);
   setCodeOrigin(gitBranch, gitSubfolder);
-  setCredentials(credentials)
+  setCredentials(credentials);
   let clientId = uuid4();
   let socketURL = `${API_SCAN_URL}/${clientId}`;
+  console.log("Connecting to WebSocket at:", socketURL);
   startWebSocket(socketURL);
 }
 
@@ -87,6 +89,11 @@ function scan() {
   } else {
     // build scan request
     const scanRequest = {};
+    // Exclusión de assets en caso de que se haya introducido al menos uno
+    if (model.scanning.excludedAssets && model.scanning.excludedAssets.length > 0) {
+      scanRequest["excludedAssets"] = model.scanning.excludedAssets;
+      console.log("Excluded assets:", model.scanning.excludedAssets);
+    }
     // set scan options
     scanRequest["scanUrl"] = model.codeOrigin.scanUrl;
     if (model.codeOrigin.revision) {
@@ -115,7 +122,6 @@ function scan() {
 
 function handleMessage(messageJson) {
   let obj = JSON.parse(messageJson);
-  // console.log(obj)
   if (obj["type"] === "LABEL") {
     model.scanning.scanningStatusMessage = obj["message"];
     if (obj["message"] === "Starting...") {
@@ -144,9 +150,21 @@ function handleMessage(messageJson) {
   } else if (obj["type"] === "DETECTION") {
     let cryptoAssetJson = obj["message"];
     const cryptoAsset = JSON.parse(cryptoAssetJson);
-    model.scanning.liveDetections.push(cryptoAsset);
+
+    // const algorithmsHide = ["RSA", "AES", "private-key", "secret-key"];
+    const algorithmsHide = [];
+
+    if(!algorithmsHide.some(alg => cryptoAsset.name.includes(alg))) {
+      // If the algorithm is not in the hide list, add it to the live detections
+      model.scanning.liveDetections.push(cryptoAsset);
+    }
+    else {
+      console.log("Detection ignored:", cryptoAsset.name);
+      console.log("Model", model.scanning.liveDetections);
+    }
     // console.log("New detection:",obj)
   } else if (obj["type"] === "CBOM") {
+    console.log("Received CBOM object", obj);
     let cbomString = obj["message"];
     setCbom(JSON.parse(cbomString));
     console.log("Received CBOM from scanning:", model.cbom);
@@ -202,4 +220,19 @@ function setCredentials(credentials) {
   } else if (credentials.passwordOrPAT) {
     model.credentials.pat = credentials.passwordOrPAT;
   }
+}
+
+/* Función que se encarga de añadir al objeto model la lista de assets que el usuario ha introducido para excluir.
+Este objeto se mandará a sonar-cryptography-plugin para que los omita al crear el CBOM. */
+function setExcludedAssets(excludedAssets) {
+  if (excludedAssets === null || excludedAssets.length === 0) {
+    return;
+  }
+  // Separamos el string en una lista de assets
+  const listAssets = excludedAssets.split(",").map(asset => asset.trim());
+  const cleanAssets = [...new Set(listAssets)];
+
+  // Almacenamos la lista de assets en el modelo
+  model.scanning.excludedAssets = cleanAssets;
+  console.log("Excluded assets set:", model.scanning.excludedAssets);
 }

@@ -22,12 +22,14 @@ package com.ibm.presentation.api.v1.scanning;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.util.List;
 
 public class ScanRequest {
     private @Nonnull String scanUrl;
     private @Nullable String branch;
     private @Nullable String subfolder;
     private @Nullable Credentials credentials;
+    private @Nullable List<String> excludedAssets; // Lista de assets excluidos
 
     protected ScanRequest() {}
 
@@ -35,11 +37,13 @@ public class ScanRequest {
             @Nonnull @JsonProperty("scanUrl") String scanUrl,
             @Nullable @JsonProperty("branch") String branch,
             @Nullable @JsonProperty("subfolder") String subfolder,
-            @Nullable @JsonProperty("credentials") Credentials credentials) {
+            @Nullable @JsonProperty("credentials") Credentials credentials,
+            @Nullable @JsonProperty("excludedAssets") List<String> excludedAssets) {
         this.scanUrl = scanUrl;
         this.branch = branch;
         this.subfolder = subfolder;
         this.credentials = credentials;
+        this.excludedAssets = excludedAssets;
     }
 
     public String getScanUrl() {
@@ -56,5 +60,9 @@ public class ScanRequest {
 
     @Nullable public Credentials getCredentials() {
         return credentials;
+    }
+
+    @Nullable public List<String> getExcludedAssets() {
+        return excludedAssets;
     }
 }

@@ -80,21 +80,21 @@ public final class BcEncapsulatedSecretGenerator {
     private static @Nonnull List<IDetectionRule<Tree>> specialConstructors() {
         List<IDetectionRule<Tree>> constructorsList = new LinkedList<>();
 
-        // constructorsList.add(
-        //         new DetectionRuleBuilder<Tree>()
-        //                 .createDetectionRule()
-        //                 .forObjectTypes("org.bouncycastle.crypto.kems.RSAKEMGenerator")
-        //                 .forConstructor()
-        //                 .shouldBeDetectedAs(new ValueActionFactory<>("RSAKEMGenerator"))
-        //                 .withMethodParameter("int")
-        //                 .shouldBeDetectedAs(new KeySizeFactory<>(Size.UnitType.BIT))
-        //                 .asChildOfParameterWithId(-1)
-        //                 .withMethodParameter("org.bouncycastle.crypto.DerivationFunction")
-        //                 .addDependingDetectionRules(BcDerivationFunction.rules())
-        //                 .withMethodParameter("java.security.SecureRandom")
-        //                 .buildForContext(new KeyContext(Map.of("kind", "KEM")))
-        //                 .inBundle(() -> "Bc")
-        //                 .withoutDependingDetectionRules());
+        constructorsList.add(
+                new DetectionRuleBuilder<Tree>()
+                        .createDetectionRule()
+                        .forObjectTypes("org.bouncycastle.crypto.kems.RSAKEMGenerator")
+                        .forConstructor()
+                        .shouldBeDetectedAs(new ValueActionFactory<>("RSAKEMGenerator"))
+                        .withMethodParameter("int")
+                        .shouldBeDetectedAs(new KeySizeFactory<>(Size.UnitType.BIT))
+                        .asChildOfParameterWithId(-1)
+                        .withMethodParameter("org.bouncycastle.crypto.DerivationFunction")
+                        .addDependingDetectionRules(BcDerivationFunction.rules())
+                        .withMethodParameter("java.security.SecureRandom")
+                        .buildForContext(new KeyContext(Map.of("kind", "KEM")))
+                        .inBundle(() -> "Bc")
+                        .withoutDependingDetectionRules());
 
         constructorsList.add(
                 new DetectionRuleBuilder<Tree>()
