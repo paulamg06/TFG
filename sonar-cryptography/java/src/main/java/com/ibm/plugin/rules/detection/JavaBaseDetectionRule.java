@@ -113,8 +113,11 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
 
         // Filtrado de nodos
         if (excludedAssets != null && !excludedAssets.isEmpty()) {
-            // Iteramos por cada nodo de la lista auxiliar
-            nodesAux.forEach(node -> {
+            Iterator<INode> iterator = nodesAux.iterator();
+
+            // Iteramos por cada nodo
+            while (iterator.hasNext()) {
+                INode node = iterator.next();
                 String nodeString = node.asString().toUpperCase();
 
                 if (nodeString != null) {
@@ -130,10 +133,10 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
                         LOGGER.info(
                                 "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
                                 nodeString);
-                        nodesAux.remove(node);
+                        iterator.remove();
                     }
                 }
-            });
+            }
         }
 
         if (isInventory) {
