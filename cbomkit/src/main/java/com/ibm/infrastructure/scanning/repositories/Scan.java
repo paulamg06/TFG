@@ -64,7 +64,6 @@ class Scan extends PanacheEntityBase {
     @Nonnull public String revision;
     @Nullable public String packageFolder;
     @Nullable public String commitHash;
-    @Nullable public List<String> excludedAssets;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Nonnull
@@ -80,10 +79,6 @@ class Scan extends PanacheEntityBase {
         this.revision = aggregate.getRevision().value();
         this.packageFolder = aggregate.getPackageFolder().map(Path::toString).orElse(null);
         this.commitHash = aggregate.getCommit().map(Commit::hash).orElse(null);
-        this.excludedAssets =
-                aggregate.getExcludedAssets().orElse(List.of()).stream()
-                        .map(String::valueOf)
-                        .toList();
 
         final Optional<List<LanguageScan>> languageScans = aggregate.getLanguageScans();
         if (languageScans.isEmpty()) {
@@ -141,9 +136,6 @@ class Scan extends PanacheEntityBase {
                             .orElse(ScanAggregate.REVISION_MAIN),
                     Optional.ofNullable(this.packageFolder).map(Path::of).orElse(null),
                     Optional.ofNullable(this.commitHash).map(Commit::new).orElse(null),
-                    Optional.ofNullable(this.excludedAssets).orElse(List.of()).stream()
-                            .map(String::valueOf)
-                            .toList(),
                     languageScans);
         } catch (MalformedPackageURLException | CBOMSerializationFailed e) {
             throw new AggregateReconstructionFailed(e);

@@ -23,13 +23,9 @@ import app.bootstrap.core.ddd.IValueObject;
 import com.ibm.domain.scanning.errors.InvalidScanUrl;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import java.util.List;
 
 public record ScanRequest(
-        @Nonnull ScanUrl scanUrl,
-        @Nonnull Revision revision,
-        @Nullable String subFolder,
-        @Nullable List<String> excludedAssets)
+        @Nonnull ScanUrl scanUrl, @Nonnull Revision revision, @Nullable String subFolder)
         implements IValueObject {
 
     @Override

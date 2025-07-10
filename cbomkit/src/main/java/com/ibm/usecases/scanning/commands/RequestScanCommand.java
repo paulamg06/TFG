@@ -24,7 +24,6 @@ import com.ibm.domain.scanning.ScanId;
 import com.ibm.domain.scanning.authentication.ICredentials;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import java.util.List;
 import java.util.Optional;
 
 public record RequestScanCommand(
@@ -32,7 +31,6 @@ public record RequestScanCommand(
         @Nonnull String scanUrl,
         @Nullable String branch,
         @Nullable String subfolder,
-        @Nullable List<String> excludedAssets, // Lista de assets a excluir
         // authentication
         @Nullable ICredentials credentials)
         implements ICommand {
@@ -49,8 +47,6 @@ public record RequestScanCommand(
                 + branch
                 + ", subfolder="
                 + subfolder
-                + ", excludedAssets="
-                + excludedAssets
                 + ", credentials="
                 + Optional.ofNullable(credentials)
                         .map(c -> c.getClass().getSimpleName())

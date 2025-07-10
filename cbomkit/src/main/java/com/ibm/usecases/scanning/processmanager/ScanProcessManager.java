@@ -40,7 +40,6 @@ import com.ibm.infrastructure.progress.IProgressDispatcher;
 import com.ibm.infrastructure.progress.ProgressMessage;
 import com.ibm.infrastructure.progress.ProgressMessageType;
 import com.ibm.infrastructure.scanning.IScanConfiguration;
-import com.ibm.output.util.ExcludedAssetsConfiguration;
 import com.ibm.usecases.scanning.commands.CloneGitRepositoryCommand;
 import com.ibm.usecases.scanning.commands.IdentifyPackageFolderCommand;
 import com.ibm.usecases.scanning.commands.IndexModulesCommand;
@@ -219,7 +218,6 @@ public final class ScanProcessManager extends ProcessManager<ScanId, ScanAggrega
                                 gitUrl.value(),
                                 "master",
                                 scanAggregate.getPackageFolder().map(Path::toString).orElse(null),
-                                scanAggregate.getExcludedAssets().orElse(List.of()),
                                 command.credentials()));
             } else {
                 this.progressDispatcher.send(
@@ -350,10 +348,6 @@ public final class ScanProcessManager extends ProcessManager<ScanId, ScanAggrega
                             .getGitUrl()
                             .orElseThrow(() -> new NoGitUrlSpecifiedForScan(scanId));
             final Commit commit = scanAggregate.getCommit().orElseThrow(NoCommitProvided::new);
-            final List<String> excludedAssets = scanAggregate.getExcludedAssets().orElse(List.of());
-
-            ExcludedAssetsConfiguration.setExcludedAssets(excludedAssets);
-            LOGGER.info("Iniciando escaneo excluyendo los siguientes activos: {}", excludedAssets);
 
             // progress scan statistics
             final long startTime = System.currentTimeMillis();

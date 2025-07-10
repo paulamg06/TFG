@@ -120,7 +120,6 @@ public class ScanningResource {
                             scanRequest.getScanUrl(),
                             scanRequest.getBranch(),
                             scanRequest.getSubfolder(),
-                            scanRequest.getExcludedAssets(),
                             authCredentials));
 
         } catch (Exception e) {
