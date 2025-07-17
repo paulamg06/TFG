@@ -31,7 +31,7 @@ import com.ibm.infrastructure.progress.ProgressMessageType;
 import com.ibm.infrastructure.progress.WebSocketProgressDispatcher;
 import com.ibm.infrastructure.scanning.IScanConfiguration;
 import com.ibm.infrastructure.scanning.repositories.ScanRepository;
-import com.ibm.output.util.ExcludedAssetsConfiguration;
+import com.ibm.rules.ExcludedAssetsConfiguration;
 import com.ibm.usecases.scanning.commands.RequestScanCommand;
 import com.ibm.usecases.scanning.processmanager.ScanProcessManager;
 import jakarta.annotation.Nonnull;
