@@ -61,7 +61,6 @@ import com.ibm.output.IOutputFile;
 import com.ibm.output.cyclondx.builder.AlgorithmComponentBuilder;
 import com.ibm.output.cyclondx.builder.ProtocolComponentBuilder;
 import com.ibm.output.cyclondx.builder.RelatedCryptoMaterialComponentBuilder;
-import com.ibm.output.util.ExcludedAssetsConfiguration;
 import com.ibm.output.util.Utils;
 import java.io.File;
 import java.io.IOException;
@@ -112,57 +111,26 @@ public class CBOMOutputFile implements IOutputFile {
     }
 
     private void add(@Nullable final String parentBomRef, @Nonnull List<INode> nodes) {
-        final List<String> excludedAssets =
-                ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
-
         nodes.forEach(
                 node -> {
-                    boolean excludeNode = false; // Control de exclusión de nodos
-
-                    // Filtrado de nodos
-                    if (excludedAssets != null && !excludedAssets.isEmpty()) {
-                        String nodeString = node.asString().toUpperCase();
-
-                        if (nodeString != null) {
-                            // Valida si el nodo pertenece a la lista de activos excluidos
-                            excludeNode =
-                                    excludedAssets.stream()
-                                            .anyMatch(
-                                                    excludedAsset ->
-                                                            nodeString.contains(
-                                                                    excludedAsset.toUpperCase()));
-
-                            if (excludeNode) { // Debugger
-                                LOGGER.info(
-                                        "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
-                                        nodeString);
-                            }
-                        }
-                    }
-
-                    // Si es un nodo a excluir, no lo procesamos
-                    if (!excludeNode) {
-                        // switch for asset
-                        if (node instanceof Algorithm algorithm) {
-                            createAlgorithmComponent(parentBomRef, algorithm);
-                        } else if (node instanceof Key key) {
-                            createKeyComponent(parentBomRef, key);
-                        } else if (node instanceof Protocol protocol) {
-                            createProtocolComponent(parentBomRef, protocol);
-                        } else if (node instanceof CipherSuite cipherSuite) {
-                            createCipherSuiteComponent(parentBomRef, cipherSuite);
-                        } else if (node instanceof SaltLength
-                                || node instanceof PasswordLength
-                                || node instanceof InitializationVectorLength
-                                || node instanceof NonceLength
-                                || node instanceof TagLength) {
-                            final IProperty property = (IProperty) node;
-                            createRelatedCryptoMaterialComponent(parentBomRef, property);
-                        } else if (node.hasChildren()) {
-                            add(parentBomRef, node.getChildren().values().stream().toList());
-                        }
-                    } else {
-                        LOGGER.info("Skipping node: {} due to exclusion", node.asString());
+                    // switch for asset
+                    if (node instanceof Algorithm algorithm) {
+                        createAlgorithmComponent(parentBomRef, algorithm);
+                    } else if (node instanceof Key key) {
+                        createKeyComponent(parentBomRef, key);
+                    } else if (node instanceof Protocol protocol) {
+                        createProtocolComponent(parentBomRef, protocol);
+                    } else if (node instanceof CipherSuite cipherSuite) {
+                        createCipherSuiteComponent(parentBomRef, cipherSuite);
+                    } else if (node instanceof SaltLength
+                            || node instanceof PasswordLength
+                            || node instanceof InitializationVectorLength
+                            || node instanceof NonceLength
+                            || node instanceof TagLength) {
+                        final IProperty property = (IProperty) node;
+                        createRelatedCryptoMaterialComponent(parentBomRef, property);
+                    } else if (node.hasChildren()) {
+                        add(parentBomRef, node.getChildren().values().stream().toList());
                     }
                 });
     }
