@@ -26,6 +26,12 @@ public final class ExcludedAssetsList {
         return excludedAssets;
     }
 
+    // Método para vaciar la lista de assets excluidos
+    public static void clearExcludedAssets() {
+        excludedAssets = List.of();
+        LOGGER.info("Excluded assets list cleared.");
+    }
+
     // Método para verificar si un asset está excluido
     public static boolean isAssetExcluded(String asset) {
         LOGGER.info("Checking if asset is excluded: {} with list {}", asset, excludedAssets);

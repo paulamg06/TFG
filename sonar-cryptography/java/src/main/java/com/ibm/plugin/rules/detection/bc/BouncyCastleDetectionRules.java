@@ -46,9 +46,12 @@ import com.ibm.plugin.rules.detection.bc.pbe.BcPBEParametersGenerator;
 import com.ibm.plugin.rules.detection.bc.signer.BcSigner;
 import com.ibm.plugin.rules.detection.bc.streamcipher.BcStreamCipherEngine;
 import com.ibm.plugin.rules.detection.bc.wrapper.BcWrapperEngine;
+import com.ibm.rules.ExcludedAssetsList;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.plugins.java.api.tree.Tree;
 
 public final class BouncyCastleDetectionRules {
@@ -56,50 +59,73 @@ public final class BouncyCastleDetectionRules {
         // private
     }
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(BouncyCastleDetectionRules.class);
+
     @Nonnull
     public static List<IDetectionRule<Tree>> rules() {
-        return Stream.of(
-                        // AsymmetricBlockCipher
-                        BcAsymmetricBlockCipher.rules().stream(),
-                        BcBufferedAsymmetricBlockCipher.rules().stream(),
-                        // AEADCipher
-                        BcCCMBlockCipher.rules().stream(),
-                        BcChaCha20Poly1305.rules().stream(),
-                        BcEAXBlockCipher.rules().stream(),
-                        BcGCMBlockCipher.rules().stream(),
-                        BcGCMSIVBlockCipher.rules().stream(),
-                        BcKCCMBlockCipher.rules().stream(),
-                        BcKGCMBlockCipher.rules().stream(),
-                        BcOCBBlockCipher.rules().stream(),
-                        BcAEADCipherEngine.rules().stream(),
-                        // BlockCipher
-                        BcBlockCipher.rules().stream(),
-                        BcBlockCipherEngine.rules().stream(),
-                        // BufferedBlockCipher
-                        BcBufferedBlockCipher.rules().stream(),
-                        // StreamCipher
-                        BcStreamCipherEngine.rules().stream(),
-                        // Mac
-                        BcMac.rules().stream(),
-                        // PBE
-                        BcPBEParametersGenerator.rules().stream(),
-                        // Wrapper
-                        BcWrapperEngine.rules().stream(),
-                        // BasicAgreement
-                        BcBasicAgreement.rules().stream(),
-                        // DerivationFunction
-                        BcDerivationFunction.rules().stream(),
-                        // EncapsulatedSecret
-                        BcEncapsulatedSecretGenerator.rules().stream(),
-                        BcEncapsulatedSecretExtractor.rules().stream(),
-                        // DSA
-                        BcDSA.rules().stream(),
-                        // Signer
-                        BcSigner.rules().stream(),
-                        // Other
-                        BcIESEngine.rules().stream(),
-                        BcSM2Engine.rules().stream())
-                .flatMap(i -> i)
-                .toList();
+        List<IDetectionRule<Tree>> streamRules =
+                Stream.of(
+                                // AsymmetricBlockCipher
+                                BcAsymmetricBlockCipher.rules().stream(),
+                                BcBufferedAsymmetricBlockCipher.rules().stream(),
+                                // AEADCipher
+                                BcCCMBlockCipher.rules().stream(),
+                                BcChaCha20Poly1305.rules().stream(),
+                                BcEAXBlockCipher.rules().stream(),
+                                BcGCMBlockCipher.rules().stream(),
+                                BcGCMSIVBlockCipher.rules().stream(),
+                                BcKCCMBlockCipher.rules().stream(),
+                                BcKGCMBlockCipher.rules().stream(),
+                                BcOCBBlockCipher.rules().stream(),
+                                BcAEADCipherEngine.rules().stream(),
+                                // BlockCipher
+                                BcBlockCipher.rules().stream(),
+                                BcBlockCipherEngine.rules().stream(),
+                                // BufferedBlockCipher
+                                BcBufferedBlockCipher.rules().stream(),
+                                // StreamCipher
+                                BcStreamCipherEngine.rules().stream(),
+                                // Mac
+                                BcMac.rules().stream(),
+                                // PBE
+                                BcPBEParametersGenerator.rules().stream(),
+                                // Wrapper
+                                BcWrapperEngine.rules().stream(),
+                                // BasicAgreement
+                                BcBasicAgreement.rules().stream(),
+                                // DerivationFunction
+                                BcDerivationFunction.rules().stream(),
+                                // EncapsulatedSecret
+                                BcEncapsulatedSecretGenerator.rules().stream(),
+                                BcEncapsulatedSecretExtractor.rules().stream(),
+                                // DSA
+                                BcDSA.rules().stream(),
+                                // Signer
+                                BcSigner.rules().stream(),
+                                // Other
+                                BcIESEngine.rules().stream(),
+                                BcSM2Engine.rules().stream())
+                        .flatMap(i -> i)
+                        .toList();
+
+        List<String> excludedAssets = ExcludedAssetsList.getExcludedAssets();
+        LOGGER.info("Excluded assets list: {}", excludedAssets);
+        if (!excludedAssets.isEmpty()) {
+
+            streamRules.removeIf(
+                    rule -> {
+                        String bundleRule = rule.bundle().toString();
+                        boolean excluded = ExcludedAssetsList.isAssetExcluded(bundleRule);
+                        if (excluded) {
+                            LOGGER.info(
+                                    "Excluding rule {} from Bouncy Castle detection rules due to asset exclusion list.",
+                                    bundleRule);
+                        }
+                        return excluded;
+                        // return ExcludedAssetsList.isAssetExcluded(bundleRule);
+                    });
+        }
+
+        return streamRules;
     }
 }

@@ -116,6 +116,10 @@ public class ScanningResource {
 
             webSocketProgressDispatcher.send(
                     new ProgressMessage(ProgressMessageType.LABEL, "Starting..."));
+                    
+            // Limpiamos la lista de activos excluidos antes de iniciar el escaneo
+            ExcludedAssetsList.clearExcludedAssets();
+
             // Almacenamos la lista de assets a excluir
             final List<String> excludedAssets =
                     scanRequest.getExcludedAssets() != null

@@ -92,7 +92,6 @@ function scan() {
     // Exclusión de assets en caso de que se haya introducido al menos uno
     if (model.scanning.excludedAssets && model.scanning.excludedAssets.length > 0) {
       scanRequest["excludedAssets"] = model.scanning.excludedAssets;
-      console.log("Excluded assets:", model.scanning.excludedAssets);
     }
     // set scan options
     scanRequest["scanUrl"] = model.codeOrigin.scanUrl;
@@ -225,7 +224,11 @@ function setCredentials(credentials) {
 /* Función que se encarga de añadir al objeto model la lista de assets que el usuario ha introducido para excluir.
 Este objeto se mandará a sonar-cryptography-plugin para que los omita al crear el CBOM. */
 function setExcludedAssets(excludedAssets) {
-  if (excludedAssets === null || excludedAssets.length === 0) {
+  console.log("Setting excluded assets:", excludedAssets);
+  if (excludedAssets === null || excludedAssets === undefined || excludedAssets.length === 0) {
+    console.log("No excluded assets provided.");
+    // Si es null, undefined o vacío, limpiamos la lista del modelo
+    model.scanning.excludedAssets = [];
     return;
   }
   // Separamos el string en una lista de assets
