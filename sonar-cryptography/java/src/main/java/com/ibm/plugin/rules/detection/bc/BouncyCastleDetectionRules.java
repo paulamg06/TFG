@@ -47,7 +47,9 @@ import com.ibm.plugin.rules.detection.bc.signer.BcSigner;
 import com.ibm.plugin.rules.detection.bc.streamcipher.BcStreamCipherEngine;
 import com.ibm.plugin.rules.detection.bc.wrapper.BcWrapperEngine;
 import com.ibm.rules.ExcludedAssetsList;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import org.slf4j.Logger;
@@ -106,24 +108,37 @@ public final class BouncyCastleDetectionRules {
                                 BcIESEngine.rules().stream(),
                                 BcSM2Engine.rules().stream())
                         .flatMap(i -> i)
-                        .toList();
+                        .collect(Collectors.toCollection(ArrayList::new));
 
         List<String> excludedAssets = ExcludedAssetsList.getExcludedAssets();
-        LOGGER.info("Excluded assets list: {}", excludedAssets);
-        if (!excludedAssets.isEmpty()) {
 
-            streamRules.removeIf(
-                    rule -> {
-                        String bundleRule = rule.bundle().toString();
-                        boolean excluded = ExcludedAssetsList.isAssetExcluded(bundleRule);
-                        if (excluded) {
-                            LOGGER.info(
-                                    "Excluding rule {} from Bouncy Castle detection rules due to asset exclusion list.",
-                                    bundleRule);
-                        }
-                        return excluded;
-                        // return ExcludedAssetsList.isAssetExcluded(bundleRule);
-                    });
+        if (!excludedAssets.isEmpty()) {
+            try {
+                streamRules.removeIf(
+                        rule -> {
+                            try {
+                                LOGGER.info(">>> Evaluating rule: {}", rule.getClass().getName());
+                                // Control de nulos para bundle
+                                if (rule.bundle() == null) {
+                                    LOGGER.info(
+                                            "Found rule with null bundle: {}",
+                                            rule.getClass().getName());
+                                    return false;
+                                }
+
+                                String bundleRule = rule.bundle().toString();
+                                return ExcludedAssetsList.isAssetExcluded(bundleRule);
+                            } catch (Exception e) {
+                                LOGGER.error(
+                                        "Error while evaluating rule: {}",
+                                        e.getMessage(),
+                                        e);
+                                return false;
+                            }
+                        });
+            } catch (Exception e) {
+                LOGGER.error("Error while removing excluded assets: {}", e.getMessage(), e);
+            }
         }
 
         return streamRules;
