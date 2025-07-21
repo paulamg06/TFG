@@ -3,7 +3,7 @@
  * en el análisis.
  * - Paula Morales García
  */
-package com.ibm.rules;
+package com.ibm.engine.rule;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -35,9 +35,11 @@ public final class ExcludedAssetsList {
     // Método para verificar si un asset está excluido
     public static boolean isAssetExcluded(String asset) {
         LOGGER.info("Checking if asset is excluded: {} with list {}", asset, excludedAssets);
-        if (excludedAssets.isEmpty()) {
+
+        // Si está vacía, no hace falta hacer nada
+        if (excludedAssets.isEmpty() || excludedAssets == null || excludedAssets.size() == 0) {
             LOGGER.info("No excluded assets configured.");
-            return false; // No hay assets excluidos configurados
+            return false;
         }
 
         return excludedAssets.stream()

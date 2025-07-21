@@ -26,6 +26,8 @@ import com.ibm.engine.model.context.IDetectionContext;
 import com.ibm.engine.model.factory.IActionFactory;
 import java.util.List;
 import javax.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public record MethodDetectionRule<T>(
         @Nonnull MethodMatcher<T> matchers,
@@ -40,8 +42,16 @@ public record MethodDetectionRule<T>(
         return kind.equals(MethodDetectionRule.class);
     }
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(MethodDetectionRule.class);
+
     @Override
     public boolean match(@Nonnull T expression, @Nonnull ILanguageTranslation<T> translation) {
         return matchers.match(expression, translation, MatchContext.build(false, this));
+    }
+
+    // Método para obtener el tipo de objeto. Contiene el nombre de las reglas de detección
+    @Nonnull
+    public List<String> getInvokedObjectTypeStringsSerializable() {
+        return matchers.getInvokedObjectTypeStringsSerializable();
     }
 }

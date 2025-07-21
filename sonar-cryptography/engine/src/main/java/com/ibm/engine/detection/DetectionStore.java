@@ -45,6 +45,8 @@ import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, S, P> {
     protected final int level;
@@ -66,6 +68,8 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
      * action related to the detected method
      */
     @Nullable IAction<T> actionValue;
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(DetectionStore.class);
 
     public DetectionStore(
             final int level,
@@ -267,15 +271,23 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
             if (detectionRule.is(DetectionRule.class)) {
                 DetectionRule<T> fullDetectionRule = (DetectionRule<T>) detectionRule;
                 if (fullDetectionRule.actionFactory() != null) {
+                    List<String> invokedObjectTypeStringsSerializable =
+                            fullDetectionRule.getInvokedObjectTypeStringsSerializable();
                     methodDetection
-                            .toValue(fullDetectionRule.actionFactory())
+                            .toValue(
+                                    fullDetectionRule.actionFactory(),
+                                    invokedObjectTypeStringsSerializable)
                             .ifPresent(iAction -> this.actionValue = iAction);
                 }
                 nextDetectionRules = fullDetectionRule.nextDetectionRules();
             } else if (detectionRule.is(MethodDetectionRule.class)) {
                 MethodDetectionRule<T> methodDetectionRule = (MethodDetectionRule<T>) detectionRule;
+                List<String> invokedObjectTypeStringsSerializable =
+                        methodDetectionRule.getInvokedObjectTypeStringsSerializable();
                 methodDetection
-                        .toValue(methodDetectionRule.actionFactory())
+                        .toValue(
+                                methodDetectionRule.actionFactory(),
+                                invokedObjectTypeStringsSerializable)
                         .ifPresent(iAction -> this.actionValue = iAction);
                 nextDetectionRules = methodDetectionRule.nextDetectionRules();
             }

@@ -26,10 +26,14 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import javax.annotation.Nonnull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonarsource.analyzer.commons.collections.SetUtils;
 
 public final class MethodMatcher<T> {
     public static final String ANY = "*";
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(MethodMatcher.class);
 
     @Nonnull private final Predicate<IType> invokedObjectTypeString;
     @Nonnull private final Predicate<String> methodName;
