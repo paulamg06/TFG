@@ -87,6 +87,28 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         this.statusReporting = statusReporting;
     }
 
+    @Override
+    public String toString() {
+        return "DetectionStore{"
+                + "level="
+                + level
+                + ", detectionRule="
+                + detectionRule
+                + ", scanContext="
+                + scanContext
+                + ", detectionValues="
+                + detectionValues
+                + ", children="
+                + children
+                + ", handler="
+                + handler
+                + ", statusReporting="
+                + statusReporting
+                + ", storeId="
+                + storeId
+                + '}';
+    }
+
     public int getLevel() {
         return level;
     }
@@ -307,12 +329,17 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
             final DetectableParameter<T> detectableParameter = valueDetection.detectableParameter();
 
             final Optional<Integer> positionMove = detectableParameter.getShouldBeMovedUnder();
+
+            List<String> invokedObjectTypeStringsSerializable =
+                    detectionRule.getInvokedObjectTypeStringsSerializable();
             // Check if the parameter should be moved under
             if (positionMove.isPresent()) {
                 final int id = positionMove.get();
                 // Get the iValue to be detected and store it in a variable
                 valueDetection
-                        .toValue(valueDetection.detectableParameter().getiValueFactory())
+                        .toValue(
+                                valueDetection.detectableParameter().getiValueFactory(),
+                                invokedObjectTypeStringsSerializable)
                         .ifPresent(
                                 iValue -> {
                                     // Create a detection store with the given parameters
@@ -330,7 +357,9 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                                 });
             } else {
                 valueDetection
-                        .toValue(valueDetection.detectableParameter().getiValueFactory())
+                        .toValue(
+                                valueDetection.detectableParameter().getiValueFactory(),
+                                invokedObjectTypeStringsSerializable)
                         .ifPresent(
                                 iValue -> addValue(this, detectableParameter.getIndex(), iValue));
             }

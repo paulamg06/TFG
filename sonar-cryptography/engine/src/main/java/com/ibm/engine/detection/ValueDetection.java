@@ -23,6 +23,7 @@ import com.ibm.engine.model.IValue;
 import com.ibm.engine.model.factory.IValueFactory;
 import com.ibm.engine.rule.DetectableParameter;
 import com.ibm.engine.rule.ExcludedAssetsList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nonnull;
@@ -41,10 +42,15 @@ public record ValueDetection<O, T>(
 
     @Nonnull
     @Override
-    public Optional<IValue<T>> toValue(@Nonnull IValueFactory<T> valueFactory) {
-        if (ExcludedAssetsList.isAssetExcluded(resolvedValue.toString())) {
-            LOGGER.info("Excluding value {} from detection", resolvedValue);
-            return Optional.empty(); // Exclude the value if it is in the excluded assets list
+    public Optional<IValue<T>> toValue(
+            @Nonnull IValueFactory<T> valueFactory,
+            @Nullable List<String> invokedObjectTypeStringsSerializable) {
+        // Iteramos por cada tipo y si hay uno que coincide, excluimos el método
+        for (String type : invokedObjectTypeStringsSerializable) {
+            if (ExcludedAssetsList.isAssetExcluded(type)) {
+                LOGGER.info("Excluding method {} from detection", type);
+                return Optional.empty();
+            }
         }
 
         return valueFactory.apply(

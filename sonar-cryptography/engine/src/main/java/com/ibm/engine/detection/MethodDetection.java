@@ -41,10 +41,6 @@ public record MethodDetection<T>(@Nonnull T expression, @Nullable T markerTree)
             @Nonnull IActionFactory<T> actionFactory,
             @Nullable List<String> invokedObjectTypeStringsSerializable) {
 
-        // LOGGER.info(
-        //         "invokedObjectTypeStringsSerializable: {}",
-        // invokedObjectTypeStringsSerializable);
-
         // Iteramos por cada tipo y si hay uno que coincide, excluimos el método
         for (String type : invokedObjectTypeStringsSerializable) {
             if (ExcludedAssetsList.isAssetExcluded(type)) {

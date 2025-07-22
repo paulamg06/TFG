@@ -34,6 +34,9 @@ public interface IDetectionRule<T> {
     boolean shouldMatchExactTypes();
 
     @Nonnull
+    List<String> getInvokedObjectTypeStringsSerializable();
+
+    @Nonnull
     IDetectionContext detectionValueContext();
 
     @Nonnull
