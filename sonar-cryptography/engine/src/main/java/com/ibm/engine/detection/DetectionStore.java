@@ -69,6 +69,7 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
      */
     @Nullable IAction<T> actionValue;
 
+    // pmg
     public static final Logger LOGGER = LoggerFactory.getLogger(DetectionStore.class);
 
     public DetectionStore(
@@ -87,6 +88,7 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         this.statusReporting = statusReporting;
     }
 
+    // pmg
     @Override
     public String toString() {
         return "DetectionStore{"
@@ -254,11 +256,19 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         detectionStore.detectionValues.compute(
                 index,
                 (i, list) -> {
+
+                    // pmg
+                    LOGGER.info("detectionValues list: {}", list);
+
                     if (list == null) {
                         // If the list is null, create a new ArrayList
                         // with the iValue and return it
                         final List<IValue<T>> values = new ArrayList<>();
                         values.add(iValue);
+
+                        // pmg
+                        LOGGER.info("Adding new value: {}", iValue);
+
                         return values;
                     } else {
                         // If the list is not null, add the iValue to it
@@ -293,23 +303,29 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
             if (detectionRule.is(DetectionRule.class)) {
                 DetectionRule<T> fullDetectionRule = (DetectionRule<T>) detectionRule;
                 if (fullDetectionRule.actionFactory() != null) {
+
+                    // pmg
                     List<String> invokedObjectTypeStringsSerializable =
                             fullDetectionRule.getInvokedObjectTypeStringsSerializable();
+
                     methodDetection
                             .toValue(
                                     fullDetectionRule.actionFactory(),
-                                    invokedObjectTypeStringsSerializable)
+                                    invokedObjectTypeStringsSerializable) // pmg
                             .ifPresent(iAction -> this.actionValue = iAction);
                 }
                 nextDetectionRules = fullDetectionRule.nextDetectionRules();
             } else if (detectionRule.is(MethodDetectionRule.class)) {
                 MethodDetectionRule<T> methodDetectionRule = (MethodDetectionRule<T>) detectionRule;
+
+                // pmg
                 List<String> invokedObjectTypeStringsSerializable =
                         methodDetectionRule.getInvokedObjectTypeStringsSerializable();
+
                 methodDetection
                         .toValue(
                                 methodDetectionRule.actionFactory(),
-                                invokedObjectTypeStringsSerializable)
+                                invokedObjectTypeStringsSerializable) // pmg
                         .ifPresent(iAction -> this.actionValue = iAction);
                 nextDetectionRules = methodDetectionRule.nextDetectionRules();
             }
@@ -330,8 +346,10 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
 
             final Optional<Integer> positionMove = detectableParameter.getShouldBeMovedUnder();
 
+            // pmg
             List<String> invokedObjectTypeStringsSerializable =
                     detectionRule.getInvokedObjectTypeStringsSerializable();
+
             // Check if the parameter should be moved under
             if (positionMove.isPresent()) {
                 final int id = positionMove.get();
@@ -339,7 +357,7 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                 valueDetection
                         .toValue(
                                 valueDetection.detectableParameter().getiValueFactory(),
-                                invokedObjectTypeStringsSerializable)
+                                invokedObjectTypeStringsSerializable) // pmg
                         .ifPresent(
                                 iValue -> {
                                     // Create a detection store with the given parameters

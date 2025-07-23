@@ -38,13 +38,17 @@ public record ValueDetection<O, T>(
         @Nullable T markerTree)
         implements IValueDetection<T> {
 
+    // pmg: añadido logger para registrar exclusiones
     private static final Logger LOGGER = LoggerFactory.getLogger(ValueDetection.class);
 
     @Nonnull
     @Override
     public Optional<IValue<T>> toValue(
             @Nonnull IValueFactory<T> valueFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable) {
+            @Nullable List<String> invokedObjectTypeStringsSerializable) { // pmg: añadido parámetro
+        // nullable, tipo de objeto
+
+        // pmg: añadida lógica para realizar exclusiones
         // Iteramos por cada tipo y si hay uno que coincide, excluimos el método
         for (String type : invokedObjectTypeStringsSerializable) {
             if (ExcludedAssetsList.isAssetExcluded(type)) {

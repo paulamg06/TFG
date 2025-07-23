@@ -30,5 +30,6 @@ public sealed interface IValueDetection<T> extends IDetection<T> permits ValueDe
     @Nonnull
     Optional<IValue<T>> toValue(
             @Nonnull IValueFactory<T> valueFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable);
+            @Nullable List<String> invokedObjectTypeStringsSerializable); // pmg: añadido parámetro
+    // nullable, tipo de objeto
 }

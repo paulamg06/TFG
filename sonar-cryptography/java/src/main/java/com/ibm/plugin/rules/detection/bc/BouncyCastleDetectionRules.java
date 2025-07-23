@@ -49,16 +49,12 @@ import com.ibm.plugin.rules.detection.bc.wrapper.BcWrapperEngine;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.plugins.java.api.tree.Tree;
 
 public final class BouncyCastleDetectionRules {
     private BouncyCastleDetectionRules() {
         // private
     }
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(BouncyCastleDetectionRules.class);
 
     @Nonnull
     public static List<IDetectionRule<Tree>> rules() {

@@ -33,14 +33,17 @@ import org.slf4j.LoggerFactory;
 public record MethodDetection<T>(@Nonnull T expression, @Nullable T markerTree)
         implements IMethodDetection<T> {
 
+    // pmg: añadido logger para registrar exclusiones
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodDetection.class);
 
     @Nonnull
     @Override
     public Optional<IAction<T>> toValue(
             @Nonnull IActionFactory<T> actionFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable) {
+            @Nullable List<String> invokedObjectTypeStringsSerializable) { // pmg: añadido parámetro
+        // nullable, tipo de objeto
 
+        // pmg: añadida lógica para realizar exclusiones
         // Iteramos por cada tipo y si hay uno que coincide, excluimos el método
         for (String type : invokedObjectTypeStringsSerializable) {
             if (ExcludedAssetsList.isAssetExcluded(type)) {

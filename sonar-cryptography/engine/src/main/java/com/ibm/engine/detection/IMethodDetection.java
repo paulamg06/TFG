@@ -30,5 +30,6 @@ public sealed interface IMethodDetection<T> extends IDetection<T> permits Method
     @Nonnull
     Optional<IAction<T>> toValue(
             @Nonnull IActionFactory<T> actionFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable);
+            @Nullable List<String> invokedObjectTypeStringsSerializable); // pmg: añadido parámetro
+    // nullable, tipo de objeto
 }

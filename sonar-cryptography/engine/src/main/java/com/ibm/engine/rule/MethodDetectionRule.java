@@ -49,7 +49,7 @@ public record MethodDetectionRule<T>(
         return matchers.match(expression, translation, MatchContext.build(false, this));
     }
 
-    // Método para obtener el tipo de objeto. Contiene el nombre de las reglas de detección
+    // pmg: añadido getter para obtener el tipo de objeto
     @Nonnull
     public List<String> getInvokedObjectTypeStringsSerializable() {
         return matchers.getInvokedObjectTypeStringsSerializable();

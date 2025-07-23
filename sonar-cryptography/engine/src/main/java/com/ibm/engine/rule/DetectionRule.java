@@ -27,8 +27,6 @@ import com.ibm.engine.model.factory.IActionFactory;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public record DetectionRule<T>(
         @Nonnull MethodMatcher<T> matchers,
@@ -40,8 +38,6 @@ public record DetectionRule<T>(
         @Nonnull List<IDetectionRule<T>> nextDetectionRules)
         implements IDetectionRule<T> {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(DetectionRule.class);
-
     @Override
     public boolean is(@Nonnull Class<? extends IDetectionRule> kind) {
         return kind.equals(DetectionRule.class);
@@ -52,13 +48,9 @@ public record DetectionRule<T>(
         return this.matchers.match(expression, translation, MatchContext.build(false, this));
     }
 
+    // pmg: añadido getter para obtener el tipo de objeto
     @Nonnull
     public List<String> getInvokedObjectTypeStringsSerializable() {
-        List<String> invokedObjectTypeStringsSerializable =
-                matchers.getInvokedObjectTypeStringsSerializable();
-        LOGGER.info(
-                "Invoked object type strings serializable: {}",
-                invokedObjectTypeStringsSerializable);
-        return invokedObjectTypeStringsSerializable;
+        return matchers.getInvokedObjectTypeStringsSerializable();
     }
 }
