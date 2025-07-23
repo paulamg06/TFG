@@ -118,6 +118,8 @@ public class ScanningResource {
                     new ProgressMessage(ProgressMessageType.LABEL, "Starting..."));
 
             // pmg: añadida lógica para el guardado de activos excluidos en la clase del plugin
+            // Limpiamos la lista de activos excluidos antes de iniciar el escaneo
+            ExcludedAssetsList.clearExcludedAssets();
             // Almacenamos la lista de assets a excluir
             final List<String> excludedAssets =
                     scanRequest.getExcludedAssets() != null
@@ -128,6 +130,7 @@ public class ScanningResource {
                 LOGGER.info(
                         "Iniciando escaneo excluyendo los siguientes activos: {}", excludedAssets);
             }
+
             commandBus.send(
                     new RequestScanCommand(
                             scanId,

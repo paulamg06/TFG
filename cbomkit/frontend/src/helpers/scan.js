@@ -92,7 +92,6 @@ function scan() {
     // pmg: guardado de excludedAssets en el modelo si existen
     if (model.scanning.excludedAssets && model.scanning.excludedAssets.length > 0) {
       scanRequest["excludedAssets"] = model.scanning.excludedAssets;
-      console.log("Excluded assets:", model.scanning.excludedAssets);
     }
     // set scan options
     scanRequest["scanUrl"] = model.codeOrigin.scanUrl;
@@ -150,18 +149,7 @@ function handleMessage(messageJson) {
   } else if (obj["type"] === "DETECTION") {
     let cryptoAssetJson = obj["message"];
     const cryptoAsset = JSON.parse(cryptoAssetJson);
-
-    // pmg: control de detecciones de activos excluidos
-    const algorithmsHide = model.scanning.excludedAssets || [];
-
-    if(!algorithmsHide.some(alg => cryptoAsset.name.includes(alg))) {
-      model.scanning.liveDetections.push(cryptoAsset);
-    }
-    else {
-      console.log("Detection ignored:", cryptoAsset.name);
-      console.log("Model", model.scanning.liveDetections);
-    }
-    // console.log("New detection:",obj)
+    model.scanning.liveDetections.push(cryptoAsset);
   } else if (obj["type"] === "CBOM") {
     let cbomString = obj["message"];
     setCbom(JSON.parse(cbomString));
@@ -224,7 +212,7 @@ function setCredentials(credentials) {
 función que se encarga de añadir al objeto model la lista de assets que el usuario ha introducido para excluir.
 Este objeto se mandará a sonar-cryptography-plugin para su exclusión. */
 function setExcludedAssets(excludedAssets) {
-  if (excludedAssets === null || excludedAssets.length === 0) {
+  if (excludedAssets === null || excludedAssets === undefined || excludedAssets.length === 0) {
     model.scanning.excludedAssets = [];
     console.log("No hay lista de activos a excluir.");
     return;
