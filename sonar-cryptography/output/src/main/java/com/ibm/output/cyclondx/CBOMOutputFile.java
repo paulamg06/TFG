@@ -61,7 +61,7 @@ import com.ibm.output.IOutputFile;
 import com.ibm.output.cyclondx.builder.AlgorithmComponentBuilder;
 import com.ibm.output.cyclondx.builder.ProtocolComponentBuilder;
 import com.ibm.output.cyclondx.builder.RelatedCryptoMaterialComponentBuilder;
-import com.ibm.output.util.ExcludedAssetsConfiguration;
+import com.ibm.output.util.ExcludedAssetsList;
 import com.ibm.output.util.Utils;
 import java.io.File;
 import java.io.IOException;
@@ -112,32 +112,10 @@ public class CBOMOutputFile implements IOutputFile {
     }
 
     private void add(@Nullable final String parentBomRef, @Nonnull List<INode> nodes) {
-        // pmg: obtención de assets a excluir
-        final List<String> excludedAssets = ExcludedAssetsConfiguration.getExcludedAssets();
-
         nodes.forEach(
                 node -> {
-
                     // pmg: control de exclusión de nodos
-                    boolean excludeNode = false; // Control de exclusión de nodos
-
-                    // Filtrado de nodos
-                    if (excludedAssets != null && !excludedAssets.isEmpty()) {
-                        String nodeString = node.asString().toUpperCase();
-
-                        if (nodeString != null) {
-                            // Valida si el nodo pertenece a la lista de activos excluidos
-                            excludeNode =
-                                    excludedAssets.stream()
-                                            .anyMatch(
-                                                    excludedAsset ->
-                                                            nodeString.contains(
-                                                                    excludedAsset.toUpperCase()));
-                        }
-                    }
-
-                    // pmg: exclusion de nodos si pertenece a la lista de activos excluidos
-                    if (!excludeNode) {
+                    if (!ExcludedAssetsList.isAssetExcluded(node.asString())) {
                         // switch for asset
                         if (node instanceof Algorithm algorithm) {
                             createAlgorithmComponent(parentBomRef, algorithm);

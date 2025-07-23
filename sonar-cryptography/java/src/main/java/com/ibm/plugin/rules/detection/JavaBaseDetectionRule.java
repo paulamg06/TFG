@@ -26,7 +26,7 @@ import com.ibm.engine.language.java.JavaScanContext;
 import com.ibm.engine.rule.IDetectionRule;
 import com.ibm.mapper.model.INode;
 import com.ibm.mapper.reorganizer.IReorganizerRule;
-import com.ibm.output.util.ExcludedAssetsConfiguration;
+import com.ibm.output.util.ExcludedAssetsList;
 import com.ibm.plugin.JavaAggregator;
 import com.ibm.plugin.translation.JavaTranslationProcess;
 import com.ibm.plugin.translation.reorganizer.JavaReorganizerRules;
@@ -112,32 +112,19 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
         // pmg: añadida lógica para el filtrado de nodos
         List<INode> nodesAux = new ArrayList<>(nodes); // Lista auxiliar modificable
         final List<String> excludedAssets =
-                ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
-
+                ExcludedAssetsList.getExcludedAssets(); // Assets excluidos
         // Filtrado de nodos
         if (excludedAssets != null && !excludedAssets.isEmpty()) {
             Iterator<INode> iterator = nodesAux.iterator();
-
             // Iteramos por cada nodo
             while (iterator.hasNext()) {
                 INode node = iterator.next();
-                String nodeString = node.asString().toUpperCase();
-
-                if (nodeString != null) {
-                    boolean excludeNode =
-                            excludedAssets.stream()
-                                    .anyMatch(
-                                            excludedAsset ->
-                                                    nodeString.contains(
-                                                            excludedAsset.toUpperCase()));
-
-                    // Si el nodo pertenece a la lista de activos excluidos, lo eliminamos
-                    if (excludeNode) {
-                        LOGGER.info(
-                                "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
-                                nodeString);
-                        iterator.remove();
-                    }
+                // Si el nodo pertenece a la lista de activos excluidos, lo eliminamos
+                if (!ExcludedAssetsList.isAssetExcluded(node.toString())) {
+                    LOGGER.info(
+                            "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
+                            node.toString());
+                    iterator.remove();
                 }
             }
         }

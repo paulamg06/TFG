@@ -31,7 +31,7 @@ import com.ibm.infrastructure.progress.ProgressMessageType;
 import com.ibm.infrastructure.progress.WebSocketProgressDispatcher;
 import com.ibm.infrastructure.scanning.IScanConfiguration;
 import com.ibm.infrastructure.scanning.repositories.ScanRepository;
-import com.ibm.output.util.ExcludedAssetsConfiguration;
+import com.ibm.output.util.ExcludedAssetsList;
 import com.ibm.usecases.scanning.commands.RequestScanCommand;
 import com.ibm.usecases.scanning.processmanager.ScanProcessManager;
 import jakarta.annotation.Nonnull;
@@ -124,7 +124,7 @@ public class ScanningResource {
                             ? scanRequest.getExcludedAssets()
                             : List.of();
             if (!excludedAssets.isEmpty()) {
-                ExcludedAssetsConfiguration.setExcludedAssets(excludedAssets);
+                ExcludedAssetsList.setExcludedAssets(excludedAssets);
                 LOGGER.info(
                         "Iniciando escaneo excluyendo los siguientes activos: {}", excludedAssets);
             }
