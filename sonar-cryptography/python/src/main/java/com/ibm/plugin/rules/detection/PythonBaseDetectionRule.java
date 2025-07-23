@@ -54,6 +54,7 @@ public abstract class PythonBaseDetectionRule extends PythonVisitorCheck
     @Nonnull protected final PythonTranslationProcess pythonTranslationProcess;
     @Nonnull protected final List<IDetectionRule<Tree>> detectionRules;
 
+    // pmg: añadido logger para registrar las exclusiones
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonBaseDetectionRule.class);
 
     protected PythonBaseDetectionRule() {
@@ -97,6 +98,8 @@ public abstract class PythonBaseDetectionRule extends PythonVisitorCheck
     @Override
     public void update(@Nonnull Finding<PythonCheck, Tree, Symbol, PythonVisitorContext> finding) {
         List<INode> nodes = pythonTranslationProcess.initiate(finding.detectionStore());
+
+        // pmg: añadida lógica para el filtrado de nodos
         List<INode> nodesAux = new ArrayList<>(nodes); // Lista auxiliar modificable
         final List<String> excludedAssets =
                 ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
@@ -130,9 +133,11 @@ public abstract class PythonBaseDetectionRule extends PythonVisitorCheck
         }
 
         if (isInventory) {
+            // pmg: guardado de nodos auxiliares que han sido filtrados
             PythonAggregator.addNodes(nodesAux);
         }
         // report
+        // pmg: reporte de los nodos auxiliares que han sido filtrados
         this.report(finding.getMarkerTree(), nodesAux)
                 .forEach(
                         issue ->

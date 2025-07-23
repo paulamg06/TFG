@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="search">
+      <!-- pmg: añadido parámetro a la función connectAndScan para incluir excludedAssets -->
       <cv-search
         :light="true"
         class="search-bar"
@@ -8,6 +9,7 @@
         v-model="model.codeOrigin.scanUrl"
         @keyup.enter="connectAndScan(advancedOptions()[0], advancedOptions()[1], advancedOptions()[2], advancedOptions()[3])"
       />
+      <!-- pmg: añadido parámetro a la función connectAndScan para incluir excludedAssets -->
       <cv-button
         class="search-button"
         :icon="ArrowRight24"
@@ -27,6 +29,7 @@
     <Transition name="filters">
       <div v-show="filterOpen">
         <cv-tabs style="padding-top: 15px; padding-bottom: 10px">
+          <!-- pmg: añadida pestaña para introducir activos a excluir por texto -->
           <cv-tab label="Assets">
             <cv-text-input
               class="filter-input"
@@ -91,6 +94,7 @@ export default {
   },
   methods: {
     advancedOptions: function () {
+      // pmg: añadido parámetro para incluir excludedAssets
       if (this.filterOpen) {
         return [this.excludedAssets, this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
       } else {

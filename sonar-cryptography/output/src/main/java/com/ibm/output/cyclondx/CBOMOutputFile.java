@@ -112,11 +112,13 @@ public class CBOMOutputFile implements IOutputFile {
     }
 
     private void add(@Nullable final String parentBomRef, @Nonnull List<INode> nodes) {
-        final List<String> excludedAssets =
-                ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
+        // pmg: obtención de assets a excluir
+        final List<String> excludedAssets = ExcludedAssetsConfiguration.getExcludedAssets();
 
         nodes.forEach(
                 node -> {
+
+                    // pmg: control de exclusión de nodos
                     boolean excludeNode = false; // Control de exclusión de nodos
 
                     // Filtrado de nodos
@@ -131,16 +133,10 @@ public class CBOMOutputFile implements IOutputFile {
                                                     excludedAsset ->
                                                             nodeString.contains(
                                                                     excludedAsset.toUpperCase()));
-
-                            if (excludeNode) { // Debugger
-                                LOGGER.info(
-                                        "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
-                                        nodeString);
-                            }
                         }
                     }
 
-                    // Si es un nodo a excluir, no lo procesamos
+                    // pmg: exclusion de nodos si pertenece a la lista de activos excluidos
                     if (!excludeNode) {
                         // switch for asset
                         if (node instanceof Algorithm algorithm) {
@@ -162,7 +158,9 @@ public class CBOMOutputFile implements IOutputFile {
                             add(parentBomRef, node.getChildren().values().stream().toList());
                         }
                     } else {
-                        LOGGER.info("Skipping node: {} due to exclusion", node.asString());
+                        LOGGER.info(
+                                "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
+                                node.asString());
                     }
                 });
     }

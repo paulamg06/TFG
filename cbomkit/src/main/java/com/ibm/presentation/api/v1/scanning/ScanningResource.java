@@ -116,6 +116,8 @@ public class ScanningResource {
 
             webSocketProgressDispatcher.send(
                     new ProgressMessage(ProgressMessageType.LABEL, "Starting..."));
+
+            // pmg: añadida lógica para el guardado de activos excluidos en la clase del plugin
             // Almacenamos la lista de assets a excluir
             final List<String> excludedAssets =
                     scanRequest.getExcludedAssets() != null

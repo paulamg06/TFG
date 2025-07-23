@@ -41,7 +41,7 @@
       <id>app-bootstrap</id>
       <url>https://maven.pkg.github.com/n1ckl0sk0rtge/app-bootstrap-core</url>
     </repository>
-    <!--
+    <!-- pmg: eliminado uso del plugin en el repositorio para usarlo desde el local
     <repository>
         <id>github</id>
         <url>https://maven.pkg.github.com/PQCA/sonar-cryptography</url>

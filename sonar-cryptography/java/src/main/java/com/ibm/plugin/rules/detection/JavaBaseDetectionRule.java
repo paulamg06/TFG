@@ -53,6 +53,7 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
     @Nonnull protected final JavaTranslationProcess javaTranslationProcess;
     @Nonnull protected final List<IDetectionRule<Tree>> detectionRules;
 
+    // pmg: añadido logger para registrar las exclusiones
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaBaseDetectionRule.class);
 
     protected JavaBaseDetectionRule() {
@@ -107,6 +108,8 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
     @Override
     public void update(@Nonnull Finding<JavaCheck, Tree, Symbol, JavaFileScannerContext> finding) {
         final List<INode> nodes = javaTranslationProcess.initiate(finding.detectionStore());
+
+        // pmg: añadida lógica para el filtrado de nodos
         List<INode> nodesAux = new ArrayList<>(nodes); // Lista auxiliar modificable
         final List<String> excludedAssets =
                 ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
@@ -140,9 +143,11 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
         }
 
         if (isInventory) {
+            // pmg: guardado de nodos auxiliares que han sido filtrados
             JavaAggregator.addNodes(nodesAux);
         }
         // report
+        // pmg: reporte de los nodos auxiliares que han sido filtrados
         this.report(finding.getMarkerTree(), nodesAux)
                 .forEach(
                         issue ->
