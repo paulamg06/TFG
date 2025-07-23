@@ -1,4 +1,4 @@
-# frontend/Dockerfile.dev
+# pmg: añadido Dockerfile para entorno de desarrollo de frontend
 FROM node:18-alpine
 
 WORKDIR /app

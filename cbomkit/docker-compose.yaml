@@ -41,6 +41,7 @@ services:
       - ext-compliance
       - dev-frontend
   frontend:
+    # pmg: eliminado uso de imagen predeterminada y añadida construcción de imagen local
     build:
       context: ./frontend
       dockerfile: ./docker/Dockerfile

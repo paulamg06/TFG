@@ -68,6 +68,7 @@ export function stopWebSocket() {
   // }
 }
 
+// pmg: añadido parámetro excludedAssets y la invocación a su set correspondiente para guardarlo
 export function connectAndScan(excludedAssets, gitBranch, gitSubfolder, credentials) {
   model.resetScanningInfo();
   setExcludedAssets(excludedAssets);
@@ -89,7 +90,7 @@ function scan() {
   } else {
     // build scan request
     const scanRequest = {};
-    // Exclusión de assets en caso de que se haya introducido al menos uno
+    // pmg: guardado de excludedAssets en el modelo si existen
     if (model.scanning.excludedAssets && model.scanning.excludedAssets.length > 0) {
       scanRequest["excludedAssets"] = model.scanning.excludedAssets;
     }
@@ -149,19 +150,7 @@ function handleMessage(messageJson) {
   } else if (obj["type"] === "DETECTION") {
     let cryptoAssetJson = obj["message"];
     const cryptoAsset = JSON.parse(cryptoAssetJson);
-
-    // const algorithmsHide = ["RSA", "AES", "private-key", "secret-key"];
-    const algorithmsHide = [];
-
-    if(!algorithmsHide.some(alg => cryptoAsset.name.includes(alg))) {
-      // If the algorithm is not in the hide list, add it to the live detections
-      model.scanning.liveDetections.push(cryptoAsset);
-    }
-    else {
-      console.log("Detection ignored:", cryptoAsset.name);
-      console.log("Model", model.scanning.liveDetections);
-    }
-    // console.log("New detection:",obj)
+    model.scanning.liveDetections.push(cryptoAsset);
   } else if (obj["type"] === "CBOM") {
     console.log("Received CBOM object", obj);
     let cbomString = obj["message"];
@@ -221,14 +210,14 @@ function setCredentials(credentials) {
   }
 }
 
-/* Función que se encarga de añadir al objeto model la lista de assets que el usuario ha introducido para excluir.
-Este objeto se mandará a sonar-cryptography-plugin para que los omita al crear el CBOM. */
+/* pmg: 
+función que se encarga de añadir al objeto model la lista de assets que el usuario ha introducido para excluir.
+Este objeto se mandará a sonar-cryptography-plugin para su exclusión. */
 function setExcludedAssets(excludedAssets) {
   console.log("Setting excluded assets:", excludedAssets);
   if (excludedAssets === null || excludedAssets === undefined || excludedAssets.length === 0) {
-    console.log("No excluded assets provided.");
-    // Si es null, undefined o vacío, limpiamos la lista del modelo
     model.scanning.excludedAssets = [];
+    console.log("No hay lista de activos a excluir.");
     return;
   }
   // Separamos el string en una lista de assets
@@ -237,5 +226,5 @@ function setExcludedAssets(excludedAssets) {
 
   // Almacenamos la lista de assets en el modelo
   model.scanning.excludedAssets = cleanAssets;
-  console.log("Excluded assets set:", model.scanning.excludedAssets);
+  console.log("Lista de activos a excluir:", model.scanning.excludedAssets);
 }

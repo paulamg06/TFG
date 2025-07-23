@@ -29,7 +29,7 @@ public class ScanRequest {
     private @Nullable String branch;
     private @Nullable String subfolder;
     private @Nullable Credentials credentials;
-    private @Nullable List<String> excludedAssets; // Lista de assets excluidos
+    private @Nullable List<String> excludedAssets; // pmg: añadida lista de assets excluidos
 
     protected ScanRequest() {}
 
@@ -38,12 +38,16 @@ public class ScanRequest {
             @Nullable @JsonProperty("branch") String branch,
             @Nullable @JsonProperty("subfolder") String subfolder,
             @Nullable @JsonProperty("credentials") Credentials credentials,
-            @Nullable @JsonProperty("excludedAssets") List<String> excludedAssets) {
+            @Nullable @JsonProperty("excludedAssets")
+                    List<String>
+                            excludedAssets) { // pmg: añadido parámetro para la lista de activos
+        // excluidos
         this.scanUrl = scanUrl;
         this.branch = branch;
         this.subfolder = subfolder;
         this.credentials = credentials;
-        this.excludedAssets = excludedAssets;
+        this.excludedAssets =
+                excludedAssets; // pmg: inicialización de la lista de activos excluidos
     }
 
     public String getScanUrl() {
@@ -62,6 +66,7 @@ public class ScanRequest {
         return credentials;
     }
 
+    // pmg: método para obtener la lista de activos excluidos
     @Nullable public List<String> getExcludedAssets() {
         return excludedAssets;
     }

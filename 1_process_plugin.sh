@@ -2,7 +2,7 @@
 
 cd $HOME/TFG/sonar-cryptography
 
-mvn clean install -Dmaven.test.skip=true
+mvn clean install
 
 echo "Plugin publicado en Maven local"
 
