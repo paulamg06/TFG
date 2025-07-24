@@ -3,25 +3,21 @@
 Este repositorio utiliza la versión 2.1.7 de CBOMkit.
 ## sonar-cryptography
 Esta versión de CBOMkit utiliza la versión 1.4.5 del plugin sonar-cryptography.
-## Ejecución
-Para ejecutar el CBOMkit utilizando el sonar-cryptograph y desde local, se deben seguir una serie de pasos:
 
-	1. Crear un directorio desde CBOMkit:
-		mkdir -p cbomkit/cbomkit-override/lib
-	2. Comentar la línea del docker-compose.yaml de CBOMkit relativo al volumen local del backend:
-		volumes:
-			- cbomkit-volume:/home/user/.cbomkit
-			# - ./cbomkit-override/lib/main/:/deployments/lib/main/
-	3. Crear un contenedor temporal del backend de CBOMkit o lanzarlo con make production.
-	4. Cuando se tenga el contenedor en ejecución, copiar todos los fichero de la carpeta /deployments/lib/main en la carpeta creada antetiormente.
-		docker cp cbomkit_backend_1:/deployments/lib/main ./cbomkit-override/lib
-		En el caso de un contenedor tempora, cambiar cbomkit_backend_1 por el nombre del contenedor
-	5. Compilar el proyecto de sonar-cryptography. Desde dentro de la carpeta sonar-cryptography:
-		mvn clean install -Dmaven.test.skip=true
-	6. Dar permisos de ejecución (en caso de que no haya) y ejecutar el script copy_jars.sh. Esto reemplazará los módulos correspondientes al plugin sonar-cryptography con los compilados localmente.
-		chmod +x cbomkit/copy_jars.sh
-	7. Descomentar la línea del docker-compose.yaml de CBOMkit que se ha comentado en el paso 2.
-	8. Ejecutar la aplicación desde la carpeta cbomkit.
-		make production
-	9. Acceder a la aplicación desde el navegador.
-		http://localhost:8001
+## Ramas
+Este repositorio constará de un total de 6 ramas:
+
+	- main: contiene los ficheros del repositorio de cbomkit y sonar-cryptography-plugin originales, es decir, sin modificaciones.
+ 	- develop: contiene la última versión que se ha finalizado. Tras las 4 versiones, debería de estar alineada con feature/v3
+  	- Todas las ramas que se encuentran dentro de la carpeta feature/, pertenecen a cada versión realizada.
+   	- feature/v0: esta versión incluye la entrada de los activos a excluir por texto en una nueva pestaña del front, en Advanced options. Tras esto, se realiza un filtrado previo a la generación del cbom.json, pero posterior a la detección.
+    	- feature/v1: en esta versión se incluye la funcionalidad anterior, a diferencia de que, en este caso, el filtrado se realiza anterior a la detección. La exclusión de los activos se realiza comparando el tipo de objeto, siendo menos exacto que el anterior.
+     	- feature/v2: esta versión se centra más en el front. En vez de introducir los activos por texto, se ofrecen de forma más visual, con un desplegable automatizado.
+      	- feature/v3: el objetivo de esta versión es aumentar la efectividad del filtrado. Para ello, la exclusión se realiza comparando el nombre del método, además del tipo de objeto como en las versiones anteriores. Esto aumentará la precisión de la detección de código en Python, ya que el nombre del método en Java no contiene los activos de forma explícita.
+
+## Ejecución
+En el caso de esta rama, la ejecución es muy sencilla. Hay que situarse en la rama cbomkit, y desde ahí lanzar la herramienta en modo producción:
+
+	cd cbomkit
+ 	make production
+  
