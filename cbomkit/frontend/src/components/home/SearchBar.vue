@@ -77,7 +77,7 @@
 
 <script>
 import { model } from "@/model.js";
-import { connectAndScan } from "@/helpers";
+import { connectAndScan, getAssetsFromRules } from "@/helpers";
 import { ArrowRight24 } from "@carbon/icons-vue";
 import { Treeselect } from "@riophae/vue-treeselect";
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
@@ -95,46 +95,47 @@ export default {
       gitSubfolder: null,
       username: null,
       passwordOrPAT: null,
-      assetList: [],
+      value: [],
     };
   },
 
+  // pmg: método para la obtención de activos para el desplegable
   mounted() {
-    this.assetList = [
-      {
-        id: 'crypto',
-        label: 'Criptografía',
-        children: [
-          { id: 'aes', label: 'AES' },
-          { id: 'rsa', label: 'RSA' }
-        ]
-      },
-      {
-        id: 'hashing',
-        label: 'Hashing',
-        children: [
-          { id: 'sha256', label: 'SHA-256' },
-          { id: 'md5', label: 'MD5' }
-        ]
-      }
-    ];
+    const auxAssets = getAssetsFromRules("python");
+    console.log(auxAssets);
+
+    this.assetList = []
+
+    for (const group in auxAssets){
+      const methodsList = [];
+
+      auxAssets[group].forEach(method => {
+        const methodDict = {
+          id: method,
+          label: method
+        };
+        methodsList.push(methodDict);
+      });
+
+      const dictGroup = {
+        id: group,
+        label: group,
+        children: methodsList
+      };
+
+      this.assetList.push(dictGroup);
+    }
   },
 
   methods: {
     advancedOptions: function () {
       // pmg: añadido parámetro para incluir excludedAssets
+      console.log(this.value);
       if (this.filterOpen) {
         return [this.excludedAssets, this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
       } else {
         return [null, null, null, null];
       }
-    },
-
-    // pmg
-    getAssetList() {
-      const rawAssets = ["AES", "RSA", "SHA-256", "MD5"];
-      console.log("Adding assets to list: ", rawAssets);
-      this.assetList = rawAssets.map(asset => ({ label: asset, value: asset }));
     },
   },
 };

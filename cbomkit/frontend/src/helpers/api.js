@@ -1,6 +1,8 @@
 import { model, ErrorStatus } from "@/model.js";
 import { API_LAST_CBOM_URL, API_CHECK_POLICY } from "@/app.config";
 import { checkValidComplianceResults, createLocalComplianceReport, isViewerOnly } from "@/helpers.js";
+import javaRulesData from '../../resources/rules/java_rules.json';
+import pythonRulesData from '../../resources/rules/python_rules.json';
 
 
 export function fetchLastCboms(number) {
@@ -89,4 +91,33 @@ function fetchDataFromApi(apiUrl, requestOptions) {
       console.error("Error during request:", error.message);
       throw error;
     });
+}
+
+// pmg: función para obtener los activos de rules.json
+export function getAssetsFromRules(language) {
+  const assetsList = {};
+
+  if (language == "java"){ // Reglas Java
+    javaRulesData.forEach(element =>{
+      console.log(element);
+    });
+  }
+  else { // Reglas Python
+    pythonRulesData.forEach(element =>{
+      const id = element.id.split('|')[0];
+      const group = id.split('.')[3];
+      const methodName = element.methodMatcher.methodNames[0];
+
+      if (group in assetsList){
+        if (!assetsList[group].includes(methodName)){
+          assetsList[group].push(methodName);
+        }
+      }
+      else {
+        // Si no existe el grupo, se inicializa la lista
+        assetsList[group] = [methodName];
+      }
+    });
+  }
+  return assetsList;
 }
