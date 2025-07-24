@@ -31,12 +31,14 @@
         <cv-tabs style="padding-top: 15px; padding-bottom: 10px">
           <!-- pmg: añadida pestaña para introducir activos a excluir por texto -->
           <cv-tab label="Assets">
-            <cv-text-input
+            <treeselect
               class="filter-input"
-              label="Asset"
-              placeholder="Specify a specific asset"
-              v-model="excludedAssets"
-            />
+              :multiple="true"
+              :options="assetList"
+              placeholder="Select assets to exclude"
+              v-model="value"
+              />
+            <treeselect-value :value="value"/>
           </cv-tab>
           <cv-tab label="Scan">
             <cv-text-input
@@ -77,9 +79,12 @@
 import { model } from "@/model.js";
 import { connectAndScan } from "@/helpers";
 import { ArrowRight24 } from "@carbon/icons-vue";
+import { Treeselect } from "@riophae/vue-treeselect";
+import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 
 export default {
   name: "SearchBar",
+  components: { Treeselect },
   data() {
     return {
       model,
@@ -90,8 +95,31 @@ export default {
       gitSubfolder: null,
       username: null,
       passwordOrPAT: null,
+      assetList: [],
     };
   },
+
+  mounted() {
+    this.assetList = [
+      {
+        id: 'crypto',
+        label: 'Criptografía',
+        children: [
+          { id: 'aes', label: 'AES' },
+          { id: 'rsa', label: 'RSA' }
+        ]
+      },
+      {
+        id: 'hashing',
+        label: 'Hashing',
+        children: [
+          { id: 'sha256', label: 'SHA-256' },
+          { id: 'md5', label: 'MD5' }
+        ]
+      }
+    ];
+  },
+
   methods: {
     advancedOptions: function () {
       // pmg: añadido parámetro para incluir excludedAssets
@@ -100,6 +128,13 @@ export default {
       } else {
         return [null, null, null, null];
       }
+    },
+
+    // pmg
+    getAssetList() {
+      const rawAssets = ["AES", "RSA", "SHA-256", "MD5"];
+      console.log("Adding assets to list: ", rawAssets);
+      this.assetList = rawAssets.map(asset => ({ label: asset, value: asset }));
     },
   },
 };
@@ -119,6 +154,9 @@ export default {
 }
 .filter-input {
   padding-top: 10px;
+}
+.vue-treeselect{
+  color: black;
 }
 /* Transition for advanced options */
 .filters-enter-active,
