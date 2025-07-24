@@ -33,6 +33,10 @@ public interface IDetectionRule<T> {
 
     boolean shouldMatchExactTypes();
 
+    // pmg: añadido getter para obtener el tipo de objeto
+    @Nonnull
+    List<String> getInvokedObjectTypeStringsSerializable();
+
     @Nonnull
     IDetectionContext detectionValueContext();
 

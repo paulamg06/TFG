@@ -156,12 +156,20 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
 
         if (methodInvocationHookWithParameterResolvement.getParameter()
                 instanceof DetectableParameter<T> detectableParameter) {
+
+            List<String> invokedObjectTypeStringsSerializable =
+                    detectionRule.getInvokedObjectTypeStringsSerializable();
+
             resolvedValues.stream()
                     .map(
                             resolvedValue ->
                                     new ValueDetection<>(
                                             resolvedValue, detectableParameter, argument, null))
-                    .map(detection -> detection.toValue(detectableParameter.getiValueFactory()))
+                    .map(
+                            detection ->
+                                    detection.toValue(
+                                            detectableParameter.getiValueFactory(),
+                                            invokedObjectTypeStringsSerializable))
                     .forEach(
                             iValue ->
                                     iValue.ifPresent(
@@ -254,12 +262,18 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
         if (enumHook.parameter().is(DetectableParameter.class)) {
             final DetectableParameter<T> detectableParameter =
                     (DetectableParameter<T>) enumHook.parameter();
+
+            List<String> invokedObjectTypeStringsSerializable =
+                    detectionRule.getInvokedObjectTypeStringsSerializable();
+
             new ValueDetection<>(
                             resolvedEnumValue,
                             detectableParameter,
                             enumHook.hookValue(),
                             resolvedEnumValue.tree())
-                    .toValue(detectableParameter.getiValueFactory())
+                    .toValue(
+                            detectableParameter.getiValueFactory(),
+                            invokedObjectTypeStringsSerializable)
                     .ifPresent(iValue -> addValue(detectableParameter.getIndex(), iValue));
         }
     }

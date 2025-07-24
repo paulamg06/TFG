@@ -45,6 +45,8 @@ import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, S, P> {
     protected final int level;
@@ -67,6 +69,9 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
      */
     @Nullable IAction<T> actionValue;
 
+    // pmg
+    public static final Logger LOGGER = LoggerFactory.getLogger(DetectionStore.class);
+
     public DetectionStore(
             final int level,
             @Nonnull final IDetectionRule<T> detectionRule,
@@ -81,6 +86,29 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         this.children = new TreeMap<>();
         this.handler = handler;
         this.statusReporting = statusReporting;
+    }
+
+    // pmg
+    @Override
+    public String toString() {
+        return "DetectionStore{"
+                + "level="
+                + level
+                + ", detectionRule="
+                + detectionRule
+                + ", scanContext="
+                + scanContext
+                + ", detectionValues="
+                + detectionValues
+                + ", children="
+                + children
+                + ", handler="
+                + handler
+                + ", statusReporting="
+                + statusReporting
+                + ", storeId="
+                + storeId
+                + '}';
     }
 
     public int getLevel() {
@@ -228,11 +256,19 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         detectionStore.detectionValues.compute(
                 index,
                 (i, list) -> {
+
+                    // pmg
+                    LOGGER.info("detectionValues list: {}", list);
+
                     if (list == null) {
                         // If the list is null, create a new ArrayList
                         // with the iValue and return it
                         final List<IValue<T>> values = new ArrayList<>();
                         values.add(iValue);
+
+                        // pmg
+                        LOGGER.info("Adding new value: {}", iValue);
+
                         return values;
                     } else {
                         // If the list is not null, add the iValue to it
@@ -267,15 +303,29 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
             if (detectionRule.is(DetectionRule.class)) {
                 DetectionRule<T> fullDetectionRule = (DetectionRule<T>) detectionRule;
                 if (fullDetectionRule.actionFactory() != null) {
+
+                    // pmg
+                    List<String> invokedObjectTypeStringsSerializable =
+                            fullDetectionRule.getInvokedObjectTypeStringsSerializable();
+
                     methodDetection
-                            .toValue(fullDetectionRule.actionFactory())
+                            .toValue(
+                                    fullDetectionRule.actionFactory(),
+                                    invokedObjectTypeStringsSerializable) // pmg
                             .ifPresent(iAction -> this.actionValue = iAction);
                 }
                 nextDetectionRules = fullDetectionRule.nextDetectionRules();
             } else if (detectionRule.is(MethodDetectionRule.class)) {
                 MethodDetectionRule<T> methodDetectionRule = (MethodDetectionRule<T>) detectionRule;
+
+                // pmg
+                List<String> invokedObjectTypeStringsSerializable =
+                        methodDetectionRule.getInvokedObjectTypeStringsSerializable();
+
                 methodDetection
-                        .toValue(methodDetectionRule.actionFactory())
+                        .toValue(
+                                methodDetectionRule.actionFactory(),
+                                invokedObjectTypeStringsSerializable) // pmg
                         .ifPresent(iAction -> this.actionValue = iAction);
                 nextDetectionRules = methodDetectionRule.nextDetectionRules();
             }
@@ -295,12 +345,19 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
             final DetectableParameter<T> detectableParameter = valueDetection.detectableParameter();
 
             final Optional<Integer> positionMove = detectableParameter.getShouldBeMovedUnder();
+
+            // pmg
+            List<String> invokedObjectTypeStringsSerializable =
+                    detectionRule.getInvokedObjectTypeStringsSerializable();
+
             // Check if the parameter should be moved under
             if (positionMove.isPresent()) {
                 final int id = positionMove.get();
                 // Get the iValue to be detected and store it in a variable
                 valueDetection
-                        .toValue(valueDetection.detectableParameter().getiValueFactory())
+                        .toValue(
+                                valueDetection.detectableParameter().getiValueFactory(),
+                                invokedObjectTypeStringsSerializable) // pmg
                         .ifPresent(
                                 iValue -> {
                                     // Create a detection store with the given parameters
@@ -318,7 +375,9 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                                 });
             } else {
                 valueDetection
-                        .toValue(valueDetection.detectableParameter().getiValueFactory())
+                        .toValue(
+                                valueDetection.detectableParameter().getiValueFactory(),
+                                invokedObjectTypeStringsSerializable)
                         .ifPresent(
                                 iValue -> addValue(this, detectableParameter.getIndex(), iValue));
             }

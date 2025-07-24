@@ -174,6 +174,7 @@ public final class MethodMatcher<T> {
                 && this.parameterTypes.test(param);
     }
 
+    // pmg: añadido getter para obtener el tipo de objeto
     @Nonnull
     public List<String> getInvokedObjectTypeStringsSerializable() {
         return this.invokedObjectTypeStringsSerializable;

@@ -26,19 +26,14 @@ import com.ibm.engine.language.java.JavaScanContext;
 import com.ibm.engine.rule.IDetectionRule;
 import com.ibm.mapper.model.INode;
 import com.ibm.mapper.reorganizer.IReorganizerRule;
-import com.ibm.output.util.ExcludedAssetsConfiguration;
 import com.ibm.plugin.JavaAggregator;
 import com.ibm.plugin.translation.JavaTranslationProcess;
 import com.ibm.plugin.translation.reorganizer.JavaReorganizerRules;
 import com.ibm.rules.IReportableDetectionRule;
 import com.ibm.rules.issue.Issue;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.JavaCheck;
 import org.sonar.plugins.java.api.JavaFileScannerContext;
@@ -52,8 +47,6 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
     private final boolean isInventory;
     @Nonnull protected final JavaTranslationProcess javaTranslationProcess;
     @Nonnull protected final List<IDetectionRule<Tree>> detectionRules;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaBaseDetectionRule.class);
 
     protected JavaBaseDetectionRule() {
         this.isInventory = false;
@@ -107,43 +100,12 @@ public abstract class JavaBaseDetectionRule extends IssuableSubscriptionVisitor
     @Override
     public void update(@Nonnull Finding<JavaCheck, Tree, Symbol, JavaFileScannerContext> finding) {
         final List<INode> nodes = javaTranslationProcess.initiate(finding.detectionStore());
-        List<INode> nodesAux = new ArrayList<>(nodes); // Lista auxiliar modificable
-        final List<String> excludedAssets =
-                ExcludedAssetsConfiguration.getExcludedAssets(); // Assets excluidos
-
-        // Filtrado de nodos
-        if (excludedAssets != null && !excludedAssets.isEmpty()) {
-            Iterator<INode> iterator = nodesAux.iterator();
-
-            // Iteramos por cada nodo
-            while (iterator.hasNext()) {
-                INode node = iterator.next();
-                String nodeString = node.asString().toUpperCase();
-
-                if (nodeString != null) {
-                    boolean excludeNode =
-                            excludedAssets.stream()
-                                    .anyMatch(
-                                            excludedAsset ->
-                                                    nodeString.contains(
-                                                            excludedAsset.toUpperCase()));
-
-                    // Si el nodo pertenece a la lista de activos excluidos, lo eliminamos
-                    if (excludeNode) {
-                        LOGGER.info(
-                                "Excluyendo nodo: {} por pertenecer a la lista de activos excluidos",
-                                nodeString);
-                        iterator.remove();
-                    }
-                }
-            }
-        }
 
         if (isInventory) {
-            JavaAggregator.addNodes(nodesAux);
+            JavaAggregator.addNodes(nodes);
         }
         // report
-        this.report(finding.getMarkerTree(), nodesAux)
+        this.report(finding.getMarkerTree(), nodes)
                 .forEach(
                         issue ->
                                 finding.detectionStore()

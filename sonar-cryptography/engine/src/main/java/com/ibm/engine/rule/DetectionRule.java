@@ -37,6 +37,7 @@ public record DetectionRule<T>(
         @Nonnull IBundle bundle,
         @Nonnull List<IDetectionRule<T>> nextDetectionRules)
         implements IDetectionRule<T> {
+
     @Override
     public boolean is(@Nonnull Class<? extends IDetectionRule> kind) {
         return kind.equals(DetectionRule.class);
@@ -45,5 +46,11 @@ public record DetectionRule<T>(
     @Override
     public boolean match(@Nonnull T expression, @Nonnull ILanguageTranslation<T> translation) {
         return this.matchers.match(expression, translation, MatchContext.build(false, this));
+    }
+
+    // pmg: añadido getter para obtener el tipo de objeto
+    @Nonnull
+    public List<String> getInvokedObjectTypeStringsSerializable() {
+        return matchers.getInvokedObjectTypeStringsSerializable();
     }
 }
