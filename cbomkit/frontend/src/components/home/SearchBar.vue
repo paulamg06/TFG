@@ -35,10 +35,15 @@
               class="filter-input"
               :multiple="true"
               :options="assetList"
+              :disable-branch-nodes="true"
               placeholder="Select assets to exclude"
               v-model="value"
               />
             <treeselect-value :value="value"/>
+            <!-- <p>
+              <label><input type="checkbox" v-model="java">Java</label>
+              <label><input type="checkbox" v-model="python">Python</label>
+            </p> -->
           </cv-tab>
           <cv-tab label="Scan">
             <cv-text-input
@@ -77,7 +82,7 @@
 
 <script>
 import { model } from "@/model.js";
-import { connectAndScan, getAssetsFromRules } from "@/helpers";
+import { connectAndScan, processPythonAssets, getJavaAssets } from "@/helpers";
 import { ArrowRight24 } from "@carbon/icons-vue";
 import { Treeselect } from "@riophae/vue-treeselect";
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
@@ -101,41 +106,28 @@ export default {
 
   // pmg: método para la obtención de activos para el desplegable
   mounted() {
-    // Obtenemos el diccionario con todos los assets
-    const auxAssets = getAssetsFromRules("python");
-    console.log(auxAssets);
+    const javaAssets = getJavaAssets();
+    console.log(javaAssets);
 
-    this.assetList = []
+    this.assetList = [];
 
-    // Iteramos por cada clave del diccionario para obtener cada agrupación
-    for (const group in auxAssets){
-      const methodsList = [];
+    const pythonAssets = {
+      id: "python",
+      label: "python",
+      children: processPythonAssets()
+    };
 
-      // Iteramos por cada elemento de cada agrupación para almacenarla en un diccionario
-      auxAssets[group].forEach(method => {
-        const methodDict = {
-          id: method,
-          label: `${group}_${method}`
-        };
-        methodsList.push(methodDict);
-      });
-
-      // Diccionario con los activos de cada agrupación
-      const dictGroup = {
-        id: group,
-        label: group,
-        children: methodsList
-      };
-
-      this.assetList.push(dictGroup);
-    }
+    this.assetList.push(pythonAssets);
   },
 
   methods: {
+
+    // pmg: método que se encarga de procesar los activos de Java
+
     advancedOptions: function () {
       // pmg: añadido parámetro para incluir excludedAssets
-      console.log(this.value);
       if (this.filterOpen) {
+        this.excludedAssets = this.value;
         return [this.excludedAssets, this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
       } else {
         return [null, null, null, null];

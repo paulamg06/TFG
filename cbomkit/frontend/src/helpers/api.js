@@ -93,44 +93,87 @@ function fetchDataFromApi(apiUrl, requestOptions) {
     });
 }
 
-// pmg: función para obtener los activos de rules.json
-export function getAssetsFromRules(language) {
+// pmg: función para obtener los activos de python_rules.json
+export function getPythonAssets() {
   const auxAssetsDict = {};
 
-  if (language == "java"){ // Reglas Java
-    javaRulesData.forEach(element =>{
-      console.log(element);
-    });
-  }
-  else { // Reglas Python
-    pythonRulesData.forEach(element =>{
-      const id = element.id.split('|')[0];
-      const auxList = id.split('.');
-      let group = auxList[3];
-      const methodName = element.methodMatcher.methodNames[0];
+  // Iteramos por cada regla del fichero
+  pythonRulesData.forEach(rule =>{
+    const id = rule.id.split('|')[0];
+    const auxList = id.split('.');
+    let group = auxList[3];
+    const methodName = rule.methodMatcher.methodNames[0];
 
-      // Si id de ese conjunto es menor de 4 elementos, va a obtener defined,
-      // por lo que se obtiene el último elemento.
-      if (group === undefined){
-        group = auxList.at(-1);
-      }
+    // Si id de ese conjunto es menor de 4 elementos, va a obtener defined,
+    // por lo que se obtiene el último elemento.
+    if (group === undefined){
+      group = auxList.at(-1);
+    }
 
-      if (group in auxAssetsDict){
-        if (!auxAssetsDict[group].includes(methodName)){
-          auxAssetsDict[group].push(methodName);
-        }
+    if (group in auxAssetsDict){
+      if (!auxAssetsDict[group].includes(methodName)){
+        auxAssetsDict[group].push(methodName);
       }
-      else {
-        // Si no existe el grupo, se inicializa la lista
-        auxAssetsDict[group] = [methodName];
-      }
-    });
-  }
+    }
+    else {
+      // Si no existe el grupo, se inicializa la lista
+      auxAssetsDict[group] = [methodName];
+    }
+  });
 
   // Limpiamos las claves
   const assetsDict = {};
   Object.keys(auxAssetsDict).forEach(key => {
     assetsDict[key.trim()] = auxAssetsDict[key];
+  });
+
+  return assetsDict;
+}
+
+// pmg: método que se encarga de procesar los activos de Python
+export function processPythonAssets() {
+  // Obtenemos el diccionario con todos los assets
+  const pythonAssets = getPythonAssets();
+  console.log(pythonAssets);
+
+  const assetList = []
+
+  // Iteramos por cada clave del diccionario para obtener cada agrupación
+  for (const group in pythonAssets){
+    const methodsList = [];
+
+    // Iteramos por cada elemento de cada agrupación para almacenarla en un diccionario
+    pythonAssets[group].forEach(method => {
+      const methodDict = {
+        id: `${group}_${method}`,
+        label: method
+      };
+      methodsList.push(methodDict);
+    });
+
+    // Diccionario con los activos de cada agrupación
+    const dictGroup = {
+      id: group,
+      label: group,
+      children: methodsList
+    };
+
+    assetList.push(dictGroup);
+  }
+
+  console.log("Lista: ", assetList);
+
+  return assetList;
+}
+
+
+
+// pmg: función para obtener los activos de java_rules.json
+export function getJavaAssets(){
+  const assetsDict = {};
+
+  javaRulesData.forEach(rule =>{
+    assetsDict[rule.id] = rule.methodMatcher;
   });
 
   return assetsDict;
