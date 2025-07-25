@@ -95,7 +95,7 @@ function fetchDataFromApi(apiUrl, requestOptions) {
 
 // pmg: función para obtener los activos de rules.json
 export function getAssetsFromRules(language) {
-  const assetsList = {};
+  const auxAssetsDict = {};
 
   if (language == "java"){ // Reglas Java
     javaRulesData.forEach(element =>{
@@ -105,19 +105,33 @@ export function getAssetsFromRules(language) {
   else { // Reglas Python
     pythonRulesData.forEach(element =>{
       const id = element.id.split('|')[0];
-      const group = id.split('.')[3];
+      const auxList = id.split('.');
+      let group = auxList[3];
       const methodName = element.methodMatcher.methodNames[0];
 
-      if (group in assetsList){
-        if (!assetsList[group].includes(methodName)){
-          assetsList[group].push(methodName);
+      // Si id de ese conjunto es menor de 4 elementos, va a obtener defined,
+      // por lo que se obtiene el último elemento.
+      if (group === undefined){
+        group = auxList.at(-1);
+      }
+
+      if (group in auxAssetsDict){
+        if (!auxAssetsDict[group].includes(methodName)){
+          auxAssetsDict[group].push(methodName);
         }
       }
       else {
         // Si no existe el grupo, se inicializa la lista
-        assetsList[group] = [methodName];
+        auxAssetsDict[group] = [methodName];
       }
     });
   }
-  return assetsList;
+
+  // Limpiamos las claves
+  const assetsDict = {};
+  Object.keys(auxAssetsDict).forEach(key => {
+    assetsDict[key.trim()] = auxAssetsDict[key];
+  });
+
+  return assetsDict;
 }

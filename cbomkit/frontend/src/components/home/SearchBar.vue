@@ -101,22 +101,26 @@ export default {
 
   // pmg: método para la obtención de activos para el desplegable
   mounted() {
+    // Obtenemos el diccionario con todos los assets
     const auxAssets = getAssetsFromRules("python");
     console.log(auxAssets);
 
     this.assetList = []
 
+    // Iteramos por cada clave del diccionario para obtener cada agrupación
     for (const group in auxAssets){
       const methodsList = [];
 
+      // Iteramos por cada elemento de cada agrupación para almacenarla en un diccionario
       auxAssets[group].forEach(method => {
         const methodDict = {
           id: method,
-          label: method
+          label: `${group}_${method}`
         };
         methodsList.push(methodDict);
       });
 
+      // Diccionario con los activos de cada agrupación
       const dictGroup = {
         id: group,
         label: group,
