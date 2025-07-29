@@ -35,7 +35,7 @@
               class="filter-input"
               :multiple="true"
               :options="assetList"
-              :disable-branch-nodes="true"
+              :load-options="loadOptions"
               placeholder="Select assets to exclude"
               v-model="value"
               />
@@ -82,7 +82,7 @@
 
 <script>
 import { model } from "@/model.js";
-import { connectAndScan, processPythonAssets, getJavaAssets } from "@/helpers";
+import { connectAndScan, processAssets, processJavaAssets } from "@/helpers";
 import { ArrowRight24 } from "@carbon/icons-vue";
 import { Treeselect } from "@riophae/vue-treeselect";
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
@@ -100,29 +100,44 @@ export default {
       gitSubfolder: null,
       username: null,
       passwordOrPAT: null,
-      value: [],
+      value: null,
+      assetList: [ 
+        {
+          id: 'python',
+          label: 'python',
+          children: null
+        },
+        {
+          id: 'java',
+          label: 'java',
+          children: null
+        }
+      ],
     };
-  },
-
-  // pmg: método para la obtención de activos para el desplegable
-  mounted() {
-    const javaAssets = getJavaAssets();
-    console.log(javaAssets);
-
-    this.assetList = [];
-
-    const pythonAssets = {
-      id: "python",
-      label: "python",
-      children: processPythonAssets()
-    };
-
-    this.assetList.push(pythonAssets);
   },
 
   methods: {
-
-    // pmg: método que se encarga de procesar los activos de Java
+    // pmg: método que se encarga de cargar las opciones del selector
+    loadOptions({ action, parentNode, callback }) {
+      if (action === 'LOAD_CHILDREN_OPTIONS'){
+        switch (parentNode.id) {
+          case 'python': {
+            parentNode.children = processAssets(parentNode.id);
+            callback();
+            break;
+          }
+          case 'java': {
+            parentNode.children = processJavaAssets(parentNode.id);
+            callback();
+            break;
+          }
+          // pmg: añadir los casos de futuros lenguajes
+          default: {
+            callback();
+          }
+        }
+      }
+    },
 
     advancedOptions: function () {
       // pmg: añadido parámetro para incluir excludedAssets
