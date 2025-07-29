@@ -1,0 +1,1363 @@
+[ {
+  "id" : "cryptography.hazmat.primitives.kdf.hkdf | HKDFExpand | cryptography.hazmat.primitives.hashes.* int * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.hkdf" ],
+    "methodNames" : [ "HKDFExpand" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*", "int", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key | sign | * cryptography.hazmat.primitives.asymmetric.ec.* ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key" ],
+    "methodNames" : [ "sign" ],
+    "parameterTypes" : [ "*", "cryptography.hazmat.primitives.asymmetric.ec.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.asymmetric.ec.*",
+    "values" : [ "cryptography.hazmat.primitives.asymmetric.ec | ECDSA | cryptography.hazmat.primitives.* " ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA512_256 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA512_256" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.padding | MGF1 | cryptography.hazmat.primitives.* ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.padding" ],
+    "methodNames" : [ "MGF1" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.*",
+    "values" : [ "cryptography.hazmat.primitives.hashes | SHA384 | ", "cryptography.hazmat.primitives.hashes | SHA3_384 | ", "cryptography.hazmat.primitives.hashes | SHA512_256 | ", "cryptography.hazmat.primitives.asymmetric.utils | Prehashed | cryptography.hazmat.primitives.hashes.* ", "cryptography.hazmat.primitives.hashes | BLAKE2s | ", "cryptography.hazmat.primitives.hashes | SHA1 | ", "cryptography.hazmat.primitives.hashes | SHA3_512 | ", "cryptography.hazmat.primitives.hashes | SHA224 | ", "cryptography.hazmat.primitives.hashes | SHA3_256 | ", "cryptography.hazmat.primitives.hashes | SHAKE256 | ", "cryptography.hazmat.primitives.hashes | SHA512 | ", "cryptography.hazmat.primitives.hashes | BLAKE2b | ", "cryptography.hazmat.primitives.hashes | SHAKE128 | ", "cryptography.hazmat.primitives.hashes | SHA512_224 | ", "cryptography.hazmat.primitives.hashes | SHA256 | ", "cryptography.hazmat.primitives.hashes | SHA3_224 | ", "cryptography.hazmat.primitives.hashes | MD5 | ", "cryptography.hazmat.primitives.hashes | SM3 | " ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESGCM | generate_key | int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCM" ],
+    "methodNames" : [ "generate_key" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCM | encrypt | ", "cryptography.hazmat.primitives.ciphers.aead.AESGCM | decrypt | " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.Cipher | encryptor | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.Cipher" ],
+    "methodNames" : [ "encryptor" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA1 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA1" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESCCM | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESCCM" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | BLAKE2b | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "BLAKE2b" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV | generate_key | int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV" ],
+    "methodNames" : [ "generate_key" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV | encrypt | ", "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV | decrypt | " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dsa | DSAPrivateNumbers | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dsa" ],
+    "methodNames" : [ "DSAPrivateNumbers" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dsa | generate_private_key | int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dsa" ],
+    "methodNames" : [ "generate_private_key" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.dsa.generate_private_key | sign | * cryptography.hazmat.primitives.* " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA3_384 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA3_384" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA3_512 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA3_512" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESGCM | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCM" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.Fernet | encrypt_at_time | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.Fernet" ],
+    "methodNames" : [ "encrypt_at_time" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ec | ECDSA | cryptography.hazmat.primitives.* ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ec" ],
+    "methodNames" : [ "ECDSA" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.*",
+    "values" : [ "cryptography.hazmat.primitives.hashes | SHA384 | ", "cryptography.hazmat.primitives.hashes | SHA3_384 | ", "cryptography.hazmat.primitives.hashes | SHA512_256 | ", "cryptography.hazmat.primitives.asymmetric.utils | Prehashed | cryptography.hazmat.primitives.hashes.* ", "cryptography.hazmat.primitives.hashes | BLAKE2s | ", "cryptography.hazmat.primitives.hashes | SHA1 | ", "cryptography.hazmat.primitives.hashes | SHA3_512 | ", "cryptography.hazmat.primitives.hashes | SHA224 | ", "cryptography.hazmat.primitives.hashes | SHA3_256 | ", "cryptography.hazmat.primitives.hashes | SHAKE256 | ", "cryptography.hazmat.primitives.hashes | SHA512 | ", "cryptography.hazmat.primitives.hashes | BLAKE2b | ", "cryptography.hazmat.primitives.hashes | SHAKE128 | ", "cryptography.hazmat.primitives.hashes | SHA512_224 | ", "cryptography.hazmat.primitives.hashes | SHA256 | ", "cryptography.hazmat.primitives.hashes | SHA3_224 | ", "cryptography.hazmat.primitives.hashes | MD5 | ", "cryptography.hazmat.primitives.hashes | SM3 | " ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA512_224 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA512_224" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.Fernet | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.Fernet" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ec | EllipticCurvePublicNumbers | * * * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ec" ],
+    "methodNames" : [ "EllipticCurvePublicNumbers" ],
+    "parameterTypes" : [ "*", "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.ec | EllipticCurvePrivateNumbers | * * " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.padding | PSS | * * ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.padding" ],
+    "methodNames" : [ "PSS" ],
+    "parameterTypes" : [ "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ "cryptography.hazmat.primitives.asymmetric.padding | MGF1 | cryptography.hazmat.primitives.* " ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESOCB3 | generate_key | int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESOCB3" ],
+    "methodNames" : [ "generate_key" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.ciphers.aead.AESOCB3 | encrypt | ", "cryptography.hazmat.primitives.ciphers.aead.AESOCB3 | decrypt | " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.poly1305 | Poly1305 | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.poly1305" ],
+    "methodNames" : [ "Poly1305" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA384 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA384" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.MultiFernet | encrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.MultiFernet" ],
+    "methodNames" : [ "encrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.concatkdf | ConcatKDFHash | cryptography.hazmat.primitives.hashes.* int * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.concatkdf" ],
+    "methodNames" : [ "ConcatKDFHash" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*", "int", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.utils | Prehashed | cryptography.hazmat.primitives.hashes.* ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.utils" ],
+    "methodNames" : [ "Prehashed" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ "cryptography.hazmat.primitives.hashes | SHA384 | ", "cryptography.hazmat.primitives.hashes | SHA3_384 | ", "cryptography.hazmat.primitives.hashes | SHA512_256 | ", "cryptography.hazmat.primitives.hashes | BLAKE2s | ", "cryptography.hazmat.primitives.hashes | SHA1 | ", "cryptography.hazmat.primitives.hashes | SHA3_512 | ", "cryptography.hazmat.primitives.hashes | SHA224 | ", "cryptography.hazmat.primitives.hashes | SHA3_256 | ", "cryptography.hazmat.primitives.hashes | SHAKE256 | ", "cryptography.hazmat.primitives.hashes | SHA512 | ", "cryptography.hazmat.primitives.hashes | BLAKE2b | ", "cryptography.hazmat.primitives.hashes | SHAKE128 | ", "cryptography.hazmat.primitives.hashes | SHA512_224 | ", "cryptography.hazmat.primitives.hashes | SHA256 | ", "cryptography.hazmat.primitives.hashes | SHA3_224 | ", "cryptography.hazmat.primitives.hashes | MD5 | ", "cryptography.hazmat.primitives.hashes | SM3 | " ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.x963kdf | X963KDF | cryptography.hazmat.primitives.hashes.* int * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.x963kdf" ],
+    "methodNames" : [ "X963KDF" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*", "int", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.MultiFernet | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.MultiFernet" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.kbkdf | KBKDFCMAC | cryptography.hazmat.primitives.ciphers.algorithms.* * int * * * * * * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.kbkdf" ],
+    "methodNames" : [ "KBKDFCMAC" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.*", "*", "int", "*", "*", "*", "*", "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA512 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA512" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESOCB3 | encrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESOCB3" ],
+    "methodNames" : [ "encrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.Fernet | decrypt_at_time | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.Fernet" ],
+    "methodNames" : [ "decrypt_at_time" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key | exchange | cryptography.hazmat.primitives.asymmetric.ec.* * ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key" ],
+    "methodNames" : [ "exchange" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.asymmetric.ec.*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.asymmetric.ec.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA256 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA256" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.Fernet | encrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.Fernet" ],
+    "methodNames" : [ "encrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.ChaCha20Poly1305 | generate_key | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.ChaCha20Poly1305" ],
+    "methodNames" : [ "generate_key" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.ciphers.aead.ChaCha20Poly1305 | decrypt | " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | sign | * cryptography.hazmat.primitives.asymmetric.padding.* cryptography.hazmat.primitives.* ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key" ],
+    "methodNames" : [ "sign" ],
+    "parameterTypes" : [ "*", "cryptography.hazmat.primitives.asymmetric.padding.*", "cryptography.hazmat.primitives.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.asymmetric.padding.*",
+    "values" : [ "cryptography.hazmat.primitives.asymmetric.padding | PKCS1v15 | ", "cryptography.hazmat.primitives.asymmetric.padding | PSS | * * " ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "cryptography.hazmat.primitives.*",
+    "values" : [ "cryptography.hazmat.primitives.hashes | SHA384 | ", "cryptography.hazmat.primitives.hashes | SHA3_384 | ", "cryptography.hazmat.primitives.hashes | SHA512_256 | ", "cryptography.hazmat.primitives.asymmetric.utils | Prehashed | cryptography.hazmat.primitives.hashes.* ", "cryptography.hazmat.primitives.hashes | BLAKE2s | ", "cryptography.hazmat.primitives.hashes | SHA1 | ", "cryptography.hazmat.primitives.hashes | SHA3_512 | ", "cryptography.hazmat.primitives.hashes | SHA224 | ", "cryptography.hazmat.primitives.hashes | SHA3_256 | ", "cryptography.hazmat.primitives.hashes | SHAKE256 | ", "cryptography.hazmat.primitives.hashes | SHA512 | ", "cryptography.hazmat.primitives.hashes | BLAKE2b | ", "cryptography.hazmat.primitives.hashes | SHAKE128 | ", "cryptography.hazmat.primitives.hashes | SHA512_224 | ", "cryptography.hazmat.primitives.hashes | SHA256 | ", "cryptography.hazmat.primitives.hashes | SHA3_224 | ", "cryptography.hazmat.primitives.hashes | MD5 | ", "cryptography.hazmat.primitives.hashes | SM3 | " ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESOCB3 | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESOCB3" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dh.generate_parameters | generate_private_key | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dh.generate_parameters" ],
+    "methodNames" : [ "generate_private_key" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.dh | generate_parameters | * int " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.Cipher | decryptor | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.Cipher" ],
+    "methodNames" : [ "decryptor" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ec | generate_private_key | * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ec" ],
+    "methodNames" : [ "generate_private_key" ],
+    "parameterTypes" : [ "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key | sign | * cryptography.hazmat.primitives.asymmetric.ec.* ", "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key | exchange | cryptography.hazmat.primitives.asymmetric.ec.* * " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.scrypt | Scrypt | * int int int int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.scrypt" ],
+    "methodNames" : [ "Scrypt" ],
+    "parameterTypes" : [ "*", "int", "int", "int", "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.rsa | RSAPublicNumbers | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.rsa" ],
+    "methodNames" : [ "RSAPublicNumbers" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | sign | * cryptography.hazmat.primitives.asymmetric.padding.* cryptography.hazmat.primitives.* ", "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | decrypt | * cryptography.hazmat.primitives.asymmetric.padding.* " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.x448.X448PrivateKey | generate | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.x448.X448PrivateKey" ],
+    "methodNames" : [ "generate" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.Fernet | generate_key | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.Fernet" ],
+    "methodNames" : [ "generate_key" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ "cryptography.fernet.Fernet | decrypt_at_time | ", "cryptography.fernet.MultiFernet | encrypt | ", "cryptography.fernet.Fernet | decrypt | ", "cryptography.fernet.MultiFernet | decrypt_at_time | ", "cryptography.fernet.MultiFernet | decrypt | ", "cryptography.fernet.Fernet | encrypt | ", "cryptography.fernet.MultiFernet | encrypt_at_time | ", "cryptography.fernet.Fernet | encrypt_at_time | " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.rsa | RSAPrivateNumbers | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.rsa" ],
+    "methodNames" : [ "RSAPrivateNumbers" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | sign | * cryptography.hazmat.primitives.asymmetric.padding.* cryptography.hazmat.primitives.* ", "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | decrypt | * cryptography.hazmat.primitives.asymmetric.padding.* " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESSIV | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESSIV" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESSIV | generate_key | int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESSIV" ],
+    "methodNames" : [ "generate_key" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.ciphers.aead.AESSIV | decrypt | ", "cryptography.hazmat.primitives.ciphers.aead.AESSIV | encrypt | " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.ChaCha20Poly1305 | decrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.ChaCha20Poly1305" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | decrypt | * cryptography.hazmat.primitives.asymmetric.padding.* ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key" ],
+    "methodNames" : [ "decrypt" ],
+    "parameterTypes" : [ "*", "cryptography.hazmat.primitives.asymmetric.padding.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.asymmetric.padding.*",
+    "values" : [ "cryptography.hazmat.primitives.asymmetric.padding | PKCS1v15 | ", "cryptography.hazmat.primitives.asymmetric.padding | OAEP | * cryptography.hazmat.primitives.* * " ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.keywrap | aes_key_wrap | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.keywrap" ],
+    "methodNames" : [ "aes_key_wrap" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.hkdf | HKDF | cryptography.hazmat.primitives.hashes.* int * * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.hkdf" ],
+    "methodNames" : [ "HKDF" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*", "int", "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dsa.generate_private_key | sign | * cryptography.hazmat.primitives.* ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dsa.generate_private_key" ],
+    "methodNames" : [ "sign" ],
+    "parameterTypes" : [ "*", "cryptography.hazmat.primitives.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "cryptography.hazmat.primitives.*",
+    "values" : [ "cryptography.hazmat.primitives.hashes | SHA384 | ", "cryptography.hazmat.primitives.hashes | SHA3_384 | ", "cryptography.hazmat.primitives.hashes | SHA512_256 | ", "cryptography.hazmat.primitives.asymmetric.utils | Prehashed | cryptography.hazmat.primitives.hashes.* ", "cryptography.hazmat.primitives.hashes | BLAKE2s | ", "cryptography.hazmat.primitives.hashes | SHA1 | ", "cryptography.hazmat.primitives.hashes | SHA3_512 | ", "cryptography.hazmat.primitives.hashes | SHA224 | ", "cryptography.hazmat.primitives.hashes | SHA3_256 | ", "cryptography.hazmat.primitives.hashes | SHAKE256 | ", "cryptography.hazmat.primitives.hashes | SHA512 | ", "cryptography.hazmat.primitives.hashes | BLAKE2b | ", "cryptography.hazmat.primitives.hashes | SHAKE128 | ", "cryptography.hazmat.primitives.hashes | SHA512_224 | ", "cryptography.hazmat.primitives.hashes | SHA256 | ", "cryptography.hazmat.primitives.hashes | SHA3_224 | ", "cryptography.hazmat.primitives.hashes | MD5 | ", "cryptography.hazmat.primitives.hashes | SM3 | " ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.keywrap | aes_key_wrap_with_padding | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.keywrap" ],
+    "methodNames" : [ "aes_key_wrap_with_padding" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers | Cipher | cryptography.hazmat.primitives.ciphers.algorithms.* cryptography.hazmat.primitives.ciphers.modes.* ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers" ],
+    "methodNames" : [ "Cipher" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.*", "cryptography.hazmat.primitives.ciphers.modes.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.*",
+    "values" : [ "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size ", "cryptography.hazmat.primitives.ciphers.Cipher | decryptor | ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size ", "cryptography.hazmat.primitives.ciphers.Cipher | encryptor | ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | int ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.AES.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.CAST5.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size ", "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size ", "cryptography.hazmat.primitives.padding | PKCS7 | int " ]
+  }, {
+    "key" : "cryptography.hazmat.primitives.ciphers.modes.*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.pbkdf2 | PBKDF2HMAC | cryptography.hazmat.primitives.hashes.* int * int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.pbkdf2" ],
+    "methodNames" : [ "PBKDF2HMAC" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*", "int", "*", "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.rsa | generate_private_key | * int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.rsa" ],
+    "methodNames" : [ "generate_private_key" ],
+    "parameterTypes" : [ "*", "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | sign | * cryptography.hazmat.primitives.asymmetric.padding.* cryptography.hazmat.primitives.* ", "cryptography.hazmat.primitives.asymmetric.rsa.generate_private_key | decrypt | * cryptography.hazmat.primitives.asymmetric.padding.* " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.cmac | CMAC | cryptography.hazmat.primitives.ciphers.algorithms.* ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.cmac" ],
+    "methodNames" : [ "CMAC" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESSIV | encrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESSIV" ],
+    "methodNames" : [ "encrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.TripleDES.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA3_224 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA3_224" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dh | generate_parameters | * int ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dh" ],
+    "methodNames" : [ "generate_parameters" ],
+    "parameterTypes" : [ "*", "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.padding | OAEP | * cryptography.hazmat.primitives.* * ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.padding" ],
+    "methodNames" : [ "OAEP" ],
+    "parameterTypes" : [ "*", "cryptography.hazmat.primitives.*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ "cryptography.hazmat.primitives.asymmetric.padding | MGF1 | cryptography.hazmat.primitives.* " ]
+  }, {
+    "key" : "cryptography.hazmat.primitives.*",
+    "values" : [ "cryptography.hazmat.primitives.hashes | SHA384 | ", "cryptography.hazmat.primitives.hashes | SHA3_384 | ", "cryptography.hazmat.primitives.hashes | SHA512_256 | ", "cryptography.hazmat.primitives.asymmetric.utils | Prehashed | cryptography.hazmat.primitives.hashes.* ", "cryptography.hazmat.primitives.hashes | BLAKE2s | ", "cryptography.hazmat.primitives.hashes | SHA1 | ", "cryptography.hazmat.primitives.hashes | SHA3_512 | ", "cryptography.hazmat.primitives.hashes | SHA224 | ", "cryptography.hazmat.primitives.hashes | SHA3_256 | ", "cryptography.hazmat.primitives.hashes | SHAKE256 | ", "cryptography.hazmat.primitives.hashes | SHA512 | ", "cryptography.hazmat.primitives.hashes | BLAKE2b | ", "cryptography.hazmat.primitives.hashes | SHAKE128 | ", "cryptography.hazmat.primitives.hashes | SHA512_224 | ", "cryptography.hazmat.primitives.hashes | SHA256 | ", "cryptography.hazmat.primitives.hashes | SHA3_224 | ", "cryptography.hazmat.primitives.hashes | MD5 | ", "cryptography.hazmat.primitives.hashes | SM3 | " ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.MultiFernet | encrypt_at_time | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.MultiFernet" ],
+    "methodNames" : [ "encrypt_at_time" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.padding | PKCS1v15 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.padding" ],
+    "methodNames" : [ "PKCS1v15" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | int ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESCCM | encrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESCCM" ],
+    "methodNames" : [ "encrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.concatkdf | ConcatKDFHMAC | cryptography.hazmat.primitives.hashes.* int * * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.concatkdf" ],
+    "methodNames" : [ "ConcatKDFHMAC" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*", "int", "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.x25519.X25519PrivateKey | generate | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.x25519.X25519PrivateKey" ],
+    "methodNames" : [ "generate" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dh | DHPrivateNumbers | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dh" ],
+    "methodNames" : [ "DHPrivateNumbers" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.AES256.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | MD5 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "MD5" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ec | derive_private_key | * * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ec" ],
+    "methodNames" : [ "derive_private_key" ],
+    "parameterTypes" : [ "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key | sign | * cryptography.hazmat.primitives.asymmetric.ec.* ", "cryptography.hazmat.primitives.asymmetric.ec.generate_private_key | exchange | cryptography.hazmat.primitives.asymmetric.ec.* * " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.Blowfish.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.IDEA.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESCCM | generate_key | int ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESCCM" ],
+    "methodNames" : [ "generate_key" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ "cryptography.hazmat.primitives.ciphers.aead.AESCCM | encrypt | ", "cryptography.hazmat.primitives.ciphers.aead.AESCCM | decrypt | " ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.Camellia.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHAKE256 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHAKE256" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHAKE128 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHAKE128" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESGCM | encrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCM" ],
+    "methodNames" : [ "encrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ed448.Ed448PrivateKey | generate | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ed448.Ed448PrivateKey" ],
+    "methodNames" : [ "generate" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.SEED.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dh | DHPublicNumbers | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dh" ],
+    "methodNames" : [ "DHPublicNumbers" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hmac | HMAC | * cryptography.hazmat.primitives.hashes.* ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hmac" ],
+    "methodNames" : [ "HMAC" ],
+    "parameterTypes" : [ "*", "cryptography.hazmat.primitives.hashes.*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | BLAKE2s | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "BLAKE2s" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.AES128.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ec | EllipticCurvePrivateNumbers | * * ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ec" ],
+    "methodNames" : [ "EllipticCurvePrivateNumbers" ],
+    "parameterTypes" : [ "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "*",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA224 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA224" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SHA3_256 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SHA3_256" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV | encrypt | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.ciphers.aead.AESGCMIV" ],
+    "methodNames" : [ "encrypt" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PrivateKey | generate | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.ed25519.Ed25519PrivateKey" ],
+    "methodNames" : [ "generate" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | ANSIX923 | cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "ANSIX923" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.ciphers.algorithms.SM4.block_size",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.fernet.MultiFernet | decrypt_at_time | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.fernet.MultiFernet" ],
+    "methodNames" : [ "decrypt_at_time" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.asymmetric.dsa | DSAPublicNumbers | ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.asymmetric.dsa" ],
+    "methodNames" : [ "DSAPublicNumbers" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.kdf.kbkdf | KBKDFHMAC | cryptography.hazmat.primitives.hashes.* * int * * * * * * ",
+  "isEntryPoint" : true,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.kdf.kbkdf" ],
+    "methodNames" : [ "KBKDFHMAC" ],
+    "parameterTypes" : [ "cryptography.hazmat.primitives.hashes.*", "*", "int", "*", "*", "*", "*", "*", "*" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "cryptography.hazmat.primitives.hashes.*",
+    "values" : [ ]
+  }, {
+    "key" : "*",
+    "values" : [ ]
+  }, {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.padding | PKCS7 | int ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.padding" ],
+    "methodNames" : [ "PKCS7" ],
+    "parameterTypes" : [ "int" ]
+  },
+  "parameterNextDetectionRules" : [ {
+    "key" : "int",
+    "values" : [ ]
+  } ],
+  "nextDetectionRules" : [ ]
+}, {
+  "id" : "cryptography.hazmat.primitives.hashes | SM3 | ",
+  "isEntryPoint" : false,
+  "methodMatcher" : {
+    "invokedObjectTypeStrings" : [ "cryptography.hazmat.primitives.hashes" ],
+    "methodNames" : [ "SM3" ],
+    "parameterTypes" : [ ]
+  },
+  "parameterNextDetectionRules" : [ ],
+  "nextDetectionRules" : [ ]
+} ]

@@ -220,11 +220,8 @@ function setExcludedAssets(excludedAssets) {
     console.log("No hay lista de activos a excluir.");
     return;
   }
-  // Separamos el string en una lista de assets
-  const listAssets = excludedAssets.split(",").map(asset => asset.trim());
-  const cleanAssets = [...new Set(listAssets)];
 
   // Almacenamos la lista de assets en el modelo
-  model.scanning.excludedAssets = cleanAssets;
+  model.scanning.excludedAssets = excludedAssets;
   console.log("Lista de activos a excluir:", model.scanning.excludedAssets);
 }

@@ -31,12 +31,17 @@
         <cv-tabs style="padding-top: 15px; padding-bottom: 10px">
           <!-- pmg: añadida pestaña para introducir activos a excluir por texto -->
           <cv-tab label="Assets">
-            <cv-text-input
+            <treeselect
               class="filter-input"
-              label="Asset"
-              placeholder="Specify a specific asset"
-              v-model="excludedAssets"
-            />
+              :multiple="true"
+              :options="assetList"
+              :load-options="loadOptions"
+              :show-count="true"
+              placeholder="Select assets to exclude"
+              v-model="value"
+              search-nested
+              />
+            <treeselect-value :value="value"/>
           </cv-tab>
           <cv-tab label="Scan">
             <cv-text-input
@@ -75,11 +80,14 @@
 
 <script>
 import { model } from "@/model.js";
-import { connectAndScan } from "@/helpers";
+import { connectAndScan, processAssets } from "@/helpers";
 import { ArrowRight24 } from "@carbon/icons-vue";
+import { Treeselect } from "@riophae/vue-treeselect";
+import '@riophae/vue-treeselect/dist/vue-treeselect.css';
 
 export default {
   name: "SearchBar",
+  components: { Treeselect },
   data() {
     return {
       model,
@@ -90,12 +98,72 @@ export default {
       gitSubfolder: null,
       username: null,
       passwordOrPAT: null,
+      value: null,
+      assetList: [ 
+        {
+          id: 'python-language',
+          label: 'python',
+          children: null
+        },
+        {
+          id: 'java-language',
+          label: 'java',
+          children: null
+        }
+      ],
+      excludedAssets: [],
+      ruleManagement: true,
     };
   },
+
   methods: {
+    // pmg: método que se encarga de cargar las opciones del selector
+    loadOptions({ action, parentNode, callback }) {
+      if (action === 'LOAD_CHILDREN_OPTIONS'){
+        switch (parentNode.label) {
+          case 'python': {
+            parentNode.children = processAssets(parentNode.label);
+            callback();
+            break;
+          }
+          case 'java': {
+            parentNode.children = processAssets(parentNode.label);
+            callback();
+            break;
+          }
+          // pmg: añadir los casos de futuros lenguajes
+          default: {
+            callback();
+          }
+        }
+      }
+    },
+
     advancedOptions: function () {
-      // pmg: añadido parámetro para incluir excludedAssets
       if (this.filterOpen) {
+        // pmg: añadido parámetro para incluir excludedAssets
+        if (this.ruleManagement) {
+          // pmg: si se han seleccionado todos los assets de Python y/o Java, se incluye control para
+          // que la lista incluya el nombre de los assets, no el nombre del lenguaje
+          if (this.value.includes('python-language') || this.value.includes('java-language')) {
+            this.value.forEach(element => {
+              if (element.includes('language')) {
+                const children = this.assetList.find(node => node.id === element).children;
+                children.forEach(child => {
+                  this.excludedAssets.push(child.id);
+                });
+              }
+              else {
+                this.excludedAssets.push(element);
+              }
+            });
+          }
+          else{
+            this.excludedAssets = this.value;
+          }
+          // pmg: control para evitar que se vuelva a seguir la lógica en siguientes llamadas a advancedOptions
+          this.ruleManagement = false;
+        }
         return [this.excludedAssets, this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
       } else {
         return [null, null, null, null];
@@ -119,6 +187,9 @@ export default {
 }
 .filter-input {
   padding-top: 10px;
+}
+.vue-treeselect{
+  color: black;
 }
 /* Transition for advanced options */
 .filters-enter-active,
