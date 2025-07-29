@@ -9,25 +9,33 @@ tanto en Python (python_rules.json) como en Java (java_rules.json) */
 // Función que construye el árbol de reglas teniendo en cuenta las siguientes longitudes
 function buildRuleTree(tree, nodeList, father) {
   const actualNode = nodeList[0].trim();
+  let idName = "";
   
+  if (father === "") { // Nodo raíz
+    idName = actualNode;
+  }
+  else {
+    idName = `${father}.${actualNode}`;
+  }
+
   if (nodeList.length > 1) { // Sub-rama
     // Si el nodo no existe, se crea
-    if (tree.length === 0 || !tree.some(node => node.id === `${father}.${actualNode}`)) {
+    if (tree.length === 0 || !tree.some(node => node.id === idName)) {
       tree.push({
-        id: `${father}.${actualNode}`,
+        id: idName,
         label: `${actualNode}`,
         children: []
       });
     }
     // Llamamos a la función de forma iterativa pasandole la lista de hijos de ese id
-    const subTree = tree.find(node => node.id === `${father}.${actualNode}`);
+    const subTree = tree.find(node => node.id === idName);
     if (subTree["children"]) {
       buildRuleTree(subTree["children"], nodeList.slice(1), subTree.id);
     }
   } else { // Nodo hoja
-    if (!tree.some(child => child.id === `${father}.${actualNode}`)) { // Si no existe, lo añadimos
+    if (!tree.some(child => child.id === idName)) { // Si no existe, lo añadimos
       tree.push({
-        id: `${father}.${actualNode}`,
+        id: idName,
         label: `${actualNode}`
       });
     }
@@ -67,7 +75,7 @@ export function processAssets(language) {
   // Construioms el árbol iterando por cada lista
   rulesList.forEach(rule => buildRuleTree(auxAssetsTree, rule, ""));
 
-  console.log(auxAssetsTree);
+  console.log(`tree for language ${language}: `, auxAssetsTree);
 
   return auxAssetsTree;
 }

@@ -36,8 +36,10 @@
               :multiple="true"
               :options="assetList"
               :load-options="loadOptions"
+              :show-count="true"
               placeholder="Select assets to exclude"
               v-model="value"
+              search-nested
               />
             <treeselect-value :value="value"/>
             <!-- <p>
@@ -82,7 +84,7 @@
 
 <script>
 import { model } from "@/model.js";
-import { connectAndScan, processAssets, processJavaAssets } from "@/helpers";
+import { connectAndScan, processAssets } from "@/helpers";
 import { ArrowRight24 } from "@carbon/icons-vue";
 import { Treeselect } from "@riophae/vue-treeselect";
 import '@riophae/vue-treeselect/dist/vue-treeselect.css';
@@ -103,16 +105,18 @@ export default {
       value: null,
       assetList: [ 
         {
-          id: 'python',
+          id: 'python-language',
           label: 'python',
           children: null
         },
         {
-          id: 'java',
+          id: 'java-language',
           label: 'java',
           children: null
         }
       ],
+      excludedAssets: [],
+      ruleManagement: true,
     };
   },
 
@@ -120,14 +124,14 @@ export default {
     // pmg: método que se encarga de cargar las opciones del selector
     loadOptions({ action, parentNode, callback }) {
       if (action === 'LOAD_CHILDREN_OPTIONS'){
-        switch (parentNode.id) {
+        switch (parentNode.label) {
           case 'python': {
-            parentNode.children = processAssets(parentNode.id);
+            parentNode.children = processAssets(parentNode.label);
             callback();
             break;
           }
           case 'java': {
-            parentNode.children = processJavaAssets(parentNode.id);
+            parentNode.children = processAssets(parentNode.label);
             callback();
             break;
           }
@@ -140,9 +144,30 @@ export default {
     },
 
     advancedOptions: function () {
-      // pmg: añadido parámetro para incluir excludedAssets
       if (this.filterOpen) {
-        this.excludedAssets = this.value;
+        // pmg: añadido parámetro para incluir excludedAssets
+        if (this.ruleManagement) {
+          // pmg: si se han seleccionado todos los assets de Python y/o Java, se incluye control para
+          // que la lista incluya el nombre de los assets, no el nombre del lenguaje
+          if (this.value.includes('python-language') || this.value.includes('java-language')) {
+            this.value.forEach(element => {
+              if (element.includes('language')) {
+                const children = this.assetList.find(node => node.id === element).children;
+                children.forEach(child => {
+                  this.excludedAssets.push(child.id);
+                });
+              }
+              else {
+                this.excludedAssets.push(element);
+              }
+            });
+          }
+          else{
+            this.excludedAssets = this.value;
+          }
+          // Control para evitar que se vuelva a seguir la lógica en siguientes llamadas a advancedOptions
+          this.ruleManagement = false;
+        }
         return [this.excludedAssets, this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
       } else {
         return [null, null, null, null];
