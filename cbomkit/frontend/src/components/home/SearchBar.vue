@@ -42,10 +42,6 @@
               search-nested
               />
             <treeselect-value :value="value"/>
-            <!-- <p>
-              <label><input type="checkbox" v-model="java">Java</label>
-              <label><input type="checkbox" v-model="python">Python</label>
-            </p> -->
           </cv-tab>
           <cv-tab label="Scan">
             <cv-text-input
@@ -165,7 +161,7 @@ export default {
           else{
             this.excludedAssets = this.value;
           }
-          // Control para evitar que se vuelva a seguir la lógica en siguientes llamadas a advancedOptions
+          // pmg: control para evitar que se vuelva a seguir la lógica en siguientes llamadas a advancedOptions
           this.ruleManagement = false;
         }
         return [this.excludedAssets, this.gitBranch, this.gitSubfolder, { username: this.username, passwordOrPAT: this.passwordOrPAT }];
