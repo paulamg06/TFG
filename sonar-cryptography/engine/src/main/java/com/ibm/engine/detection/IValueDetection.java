@@ -21,15 +21,10 @@ package com.ibm.engine.detection;
 
 import com.ibm.engine.model.IValue;
 import com.ibm.engine.model.factory.IValueFactory;
-import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public sealed interface IValueDetection<T> extends IDetection<T> permits ValueDetection {
     @Nonnull
-    Optional<IValue<T>> toValue(
-            @Nonnull IValueFactory<T> valueFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable); // pmg: añadido parámetro
-    // nullable, tipo de objeto
+    Optional<IValue<T>> toValue(@Nonnull IValueFactory<T> valueFactory);
 }
