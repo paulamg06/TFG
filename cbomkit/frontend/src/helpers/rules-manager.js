@@ -1,5 +1,5 @@
-import javaRulesData from '../../resources/rules/java_rules.json';
-import pythonRulesData from '../../resources/rules/python_rules.json';
+import javaRulesData from '../../resources/rules/java-rules.json';
+import pythonRulesData from '../../resources/rules/python-rules.json';
 
 /* pmg
 Fichero que contiene todas las operaciones relacionadas
