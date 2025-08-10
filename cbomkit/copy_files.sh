@@ -28,6 +28,6 @@ RESOURCE_DIR="$HOME/TFG/cbomkit/frontend/resources/rules"
 for language in "${LANGUAGES[@]}"; do
 	RULE_DIR="$HOME/TFG/sonar-cryptography/${language}/target/rules.json"
 	echo "Copiando $RULE_DIR a la carpeta $RESOURCE_DIR..."
-	cp "$RULE_DIR" "$RESOURCE_DIR/${language}_rules.json"
+	cp "$RULE_DIR" "$RESOURCE_DIR/${language}-rules.json"
 done
 
