@@ -9,9 +9,9 @@ echo "Plugin publicado en Maven local"
 
 cd $HOME/TFG/cbomkit
 
-chmod +x copy_jars.sh
+chmod +x copy-jars.sh
 
-./copy_jars.sh
+./copy-jars.sh
 
 echo "Plugin procesado"
 
