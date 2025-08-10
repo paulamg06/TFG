@@ -22,34 +22,22 @@ package com.ibm.engine.detection;
 import com.ibm.engine.model.IAction;
 import com.ibm.engine.model.factory.IActionFactory;
 import com.ibm.engine.rule.ExcludedAssetsList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public record MethodDetection<T>(@Nonnull T expression, @Nullable T markerTree)
         implements IMethodDetection<T> {
 
-    // pmg: añadido logger para registrar exclusiones
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodDetection.class);
-
     @Nonnull
     @Override
-    public Optional<IAction<T>> toValue(
-            @Nonnull IActionFactory<T> actionFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable) { // pmg: añadido parámetro
-        // nullable, tipo de objeto
+    public Optional<IAction<T>> toValue(@Nonnull IActionFactory<T> actionFactory) {
 
         // pmg: añadida lógica para realizar exclusiones
-        // Iteramos por cada tipo y si hay uno que coincide, excluimos el método
-        for (String type : invokedObjectTypeStringsSerializable) {
-            if (ExcludedAssetsList.isAssetExcluded(type)) {
-                LOGGER.info("Excluding method {} from detection", type);
-                return Optional.empty();
-            }
+        // Versión 3: solo invocamos al método, no le pasamos ningún parámetro
+        if (ExcludedAssetsList.isAssetExcluded()) {
+            return Optional.empty();
         }
 
         return actionFactory.apply(Objects.requireNonNullElse(markerTree, expression));

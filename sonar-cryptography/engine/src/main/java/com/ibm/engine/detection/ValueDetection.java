@@ -23,13 +23,10 @@ import com.ibm.engine.model.IValue;
 import com.ibm.engine.model.factory.IValueFactory;
 import com.ibm.engine.rule.DetectableParameter;
 import com.ibm.engine.rule.ExcludedAssetsList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public record ValueDetection<O, T>(
         @Nonnull ResolvedValue<O, T> resolvedValue,
@@ -38,23 +35,14 @@ public record ValueDetection<O, T>(
         @Nullable T markerTree)
         implements IValueDetection<T> {
 
-    // pmg: añadido logger para registrar exclusiones
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValueDetection.class);
-
     @Nonnull
     @Override
-    public Optional<IValue<T>> toValue(
-            @Nonnull IValueFactory<T> valueFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable) { // pmg: añadido parámetro
-        // nullable, tipo de objeto
+    public Optional<IValue<T>> toValue(@Nonnull IValueFactory<T> valueFactory) {
 
         // pmg: añadida lógica para realizar exclusiones
-        // Iteramos por cada tipo y si hay uno que coincide, excluimos el método
-        for (String type : invokedObjectTypeStringsSerializable) {
-            if (ExcludedAssetsList.isAssetExcluded(type)) {
-                LOGGER.info("Excluding method {} from detection", type);
-                return Optional.empty();
-            }
+        // Versión 3: solo invocamos al método, no le pasamos ningún parámetro
+        if (ExcludedAssetsList.isAssetExcluded()) {
+            return Optional.empty();
         }
 
         return valueFactory.apply(
