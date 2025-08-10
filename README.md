@@ -18,7 +18,7 @@ Este repositorio constará de un total de 6 ramas:
 ## Ejecución
 A partir de aqui, la ejecución de las ramas será igual. Como se desea utilizar los ficheros compilados localmente, tanto del plugin como del front y el back, no se puede ejecutar el cbomkit en modo producción. Para simplificar la ejecución, he creado tres scripts que se deben de ejecutar en el orden indicado. Los scripts 2 y 3 se deben ejecutar en terminales diferentes, ya que una vez ejecutados, bloquean la terminal hasta que se desee cerrar la herramienta ( Ctrl + C ).
 
-	./1_process_plugin.sh
- 	./2_run_backend.sh
-  	./3_run_frontend.sh
+	./1-process-plugin.sh
+ 	./2-run-backend.sh
+  	./3-run-frontend.sh
   
