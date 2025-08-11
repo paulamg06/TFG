@@ -39,7 +39,7 @@ public final class BcSigner {
                         BcISO9796d2PSSSigner.rules().stream(),
                         BcPQCSigner.rules().stream(),
                         BcPSSSigner.rules().stream(),
-                        // BcRSADigestSigner.rules().stream(),
+                        BcRSADigestSigner.rules().stream(),
                         BcSimpleSigner.rules().stream(),
                         BcSM2Signer.rules().stream(),
                         BcX931Signer.rules().stream(),

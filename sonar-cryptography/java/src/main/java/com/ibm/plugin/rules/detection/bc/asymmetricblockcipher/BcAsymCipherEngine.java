@@ -38,15 +38,13 @@ public final class BcAsymCipherEngine {
     }
 
     public static final List<String> blockCiphers =
-            List.of("ElGamalEngine", "NaccacheSternEngine", "NTRUEngine");
-
-    // List.of(
-    //         "ElGamalEngine",
-    //         "NaccacheSternEngine",
-    //         "NTRUEngine",
-    //         "RSABlindedEngine",
-    //         "RSABlindingEngine",
-    //         "RSAEngine");
+        List.of(
+                "ElGamalEngine",
+                "NaccacheSternEngine",
+                "NTRUEngine",
+                "RSABlindedEngine",
+                "RSABlindingEngine",
+                "RSAEngine");
 
     private static @Nonnull List<IDetectionRule<Tree>> constructors(
             @Nullable IDetectionContext detectionValueContext) {
