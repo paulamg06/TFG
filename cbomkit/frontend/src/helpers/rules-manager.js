@@ -27,7 +27,7 @@ function buildRuleTree(tree, nodeList, father) {
         children: []
       });
     }
-    // Llamamos a la función de forma iterativa pasandole la lista de hijos de ese id
+    // Llamamos a la función de forma recursiva pasandole la lista de hijos de ese id
     const subTree = tree.find(node => node.id === idName);
     if (subTree["children"]) {
       buildRuleTree(subTree["children"], nodeList.slice(1), subTree.id);
