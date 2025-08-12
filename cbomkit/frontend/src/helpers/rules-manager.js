@@ -53,6 +53,10 @@ function getAllJsonRules(language) {
     file = javaRulesData;
   }
 
+  if (file === null) {
+    return [];
+  }
+
   let rulesList = [];
 
   // Iteramos por cada regla
@@ -71,6 +75,11 @@ function getAllJsonRules(language) {
 export function processAssets(language) {
   const auxAssetsTree = [];
   const rulesList = getAllJsonRules(language);
+
+  if (rulesList.length === 0) {
+    console.warn(`No rules found for language: ${language}`);
+    return auxAssetsTree;
+  }
 
   // Construioms el árbol iterando por cada lista
   rulesList.forEach(rule => buildRuleTree(auxAssetsTree, rule, ""));
