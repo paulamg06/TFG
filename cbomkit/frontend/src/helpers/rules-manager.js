@@ -6,7 +6,7 @@ Fichero que contiene todas las operaciones relacionadas
 con la carga de activos que provienen de los inventarios de reglas
 tanto en Python (python_rules.json) como en Java (java_rules.json) */
 
-// Función que construye el árbol de reglas teniendo en cuenta las siguientes longitudes
+// Función que construye el árbol de reglas
 function buildRuleTree(tree, nodeList, father) {
   const actualNode = nodeList[0].trim();
   let idName = "";
