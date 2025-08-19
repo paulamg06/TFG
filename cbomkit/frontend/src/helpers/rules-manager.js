@@ -47,7 +47,7 @@ function buildRuleTree(tree, nodeList, father, language) {
   }
 }
 
-// Función que lee  java_rules.json con las reglas y 
+// Función que lee los .json con las reglas y 
 // devuelve una lista con ellas separadas en función del id
 function getRulesListFromJson(language) {
   let rulesList = [];
