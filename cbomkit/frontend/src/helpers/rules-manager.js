@@ -100,3 +100,4 @@ export function processAssets(language) {
 
   return auxAssetsTree;
 }
+

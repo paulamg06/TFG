@@ -13,4 +13,5 @@ mvn clean package -Dmaven.test.skip=true
 echo "Backend compilado correctamente"
 
 echo "Lanzando backend..."
+
 ./mvnw quarkus:dev
