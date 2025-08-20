@@ -77,11 +77,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class ScanProcessManager extends ProcessManager<ScanId, ScanAggregate> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScanProcessManager.class);
 
     @Nonnull private final ScanId scanId;
     @Nonnull private final IProgressDispatcher progressDispatcher;
