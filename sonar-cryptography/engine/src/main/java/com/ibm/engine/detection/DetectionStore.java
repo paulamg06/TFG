@@ -45,8 +45,6 @@ import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, S, P> {
     protected final int level;
@@ -68,9 +66,6 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
      * action related to the detected method
      */
     @Nullable IAction<T> actionValue;
-
-    // pmg
-    public static final Logger LOGGER = LoggerFactory.getLogger(DetectionStore.class);
 
     public DetectionStore(
             final int level,
@@ -257,17 +252,11 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                 index,
                 (i, list) -> {
 
-                    // pmg
-                    LOGGER.info("detectionValues list: {}", list);
-
                     if (list == null) {
                         // If the list is null, create a new ArrayList
                         // with the iValue and return it
                         final List<IValue<T>> values = new ArrayList<>();
                         values.add(iValue);
-
-                        // pmg
-                        LOGGER.info("Adding new value: {}", iValue);
 
                         return values;
                     } else {
@@ -377,7 +366,7 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                 valueDetection
                         .toValue(
                                 valueDetection.detectableParameter().getiValueFactory(),
-                                invokedObjectTypeStringsSerializable)
+                                invokedObjectTypeStringsSerializable) //pmg
                         .ifPresent(
                                 iValue -> addValue(this, detectableParameter.getIndex(), iValue));
             }

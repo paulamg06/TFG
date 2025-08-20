@@ -157,6 +157,7 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
         if (methodInvocationHookWithParameterResolvement.getParameter()
                 instanceof DetectableParameter<T> detectableParameter) {
 
+            // pmg
             List<String> invokedObjectTypeStringsSerializable =
                     detectionRule.getInvokedObjectTypeStringsSerializable();
 
@@ -169,7 +170,7 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
                             detection ->
                                     detection.toValue(
                                             detectableParameter.getiValueFactory(),
-                                            invokedObjectTypeStringsSerializable))
+                                            invokedObjectTypeStringsSerializable)) // pmg
                     .forEach(
                             iValue ->
                                     iValue.ifPresent(
@@ -263,6 +264,7 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
             final DetectableParameter<T> detectableParameter =
                     (DetectableParameter<T>) enumHook.parameter();
 
+            // pmg
             List<String> invokedObjectTypeStringsSerializable =
                     detectionRule.getInvokedObjectTypeStringsSerializable();
 
@@ -273,7 +275,7 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
                             resolvedEnumValue.tree())
                     .toValue(
                             detectableParameter.getiValueFactory(),
-                            invokedObjectTypeStringsSerializable)
+                            invokedObjectTypeStringsSerializable) // pmg
                     .ifPresent(iValue -> addValue(detectableParameter.getIndex(), iValue));
         }
     }
