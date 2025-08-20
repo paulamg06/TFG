@@ -251,7 +251,6 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         detectionStore.detectionValues.compute(
                 index,
                 (i, list) -> {
-
                     if (list == null) {
                         // If the list is null, create a new ArrayList
                         // with the iValue and return it
@@ -366,7 +365,7 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                 valueDetection
                         .toValue(
                                 valueDetection.detectableParameter().getiValueFactory(),
-                                invokedObjectTypeStringsSerializable) //pmg
+                                invokedObjectTypeStringsSerializable) // pmg
                         .ifPresent(
                                 iValue -> addValue(this, detectableParameter.getIndex(), iValue));
             }
