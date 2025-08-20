@@ -30,4 +30,3 @@ echo "Copiando los json de reglas..."
 # 	echo "Copiando $RULE_DIR a la carpeta $RESOURCE_DIR..."
 # 	cp "$RULE_DIR" "$RESOURCE_DIR/${language}-rules.json"
 # done
-
