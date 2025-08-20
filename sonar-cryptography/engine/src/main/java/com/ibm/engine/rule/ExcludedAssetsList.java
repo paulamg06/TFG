@@ -62,7 +62,6 @@ public final class ExcludedAssetsList {
     // Método para vaciar la lista de assets excluidos
     public static void clearExcludedAssets() {
         excludedAssets = List.of();
-        LOGGER.info("Excluded assets list cleared.");
     }
 
     // Método para verificar si un asset está excluido
@@ -74,13 +73,13 @@ public final class ExcludedAssetsList {
             if (asset.endsWith("_method")) {
                 // Formateamos methodName
                 methodName = processMethodName();
-                if (asset.contains(methodName)) {
+                if (methodName.contains(asset)) {
                     LOGGER.info("Excluyendo método {}", methodName);
                     return true;
                 }
             } else {
                 // Validamos con el tipo de objeto
-                if (asset.contains(invokedObjectTypeString)) {
+                if (invokedObjectTypeString.contains(asset)) {
                     LOGGER.info("Excluyendo el activo {}", invokedObjectTypeString);
                     return true;
                 }

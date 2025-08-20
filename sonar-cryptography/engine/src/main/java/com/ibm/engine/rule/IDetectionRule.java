@@ -37,7 +37,7 @@ public interface IDetectionRule<T> {
     @Nonnull
     List<String> getInvokedObjectTypeStringsSerializable();
 
-    // pmg versión 3: añadido getter para obtener el nombre del método
+    // pmg: versión 3: añadido getter para obtener el nombre del método
     @Nonnull
     List<String> getMethodNamesSerializable();
 
