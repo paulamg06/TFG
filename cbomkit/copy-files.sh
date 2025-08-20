@@ -7,6 +7,8 @@ mkdir -p ./cbomkit/cbomkit-override/lib
 docker create --name temp-cbomkit ghcr.io/pqca/cbomkit:2.1.7
 docker cp temp-cbomkit:/deployments/lib/main ./cbomkit/cbomkit-override/lib
 
+docker remove temp-cbomkit
+
 # Directorios de destino y de origen
 DIR_NAME="$HOME/TFG/cbomkit/cbomkit-override/lib/main"
 LOCAL_M2="$HOME/.m2/repository/com/ibm"
