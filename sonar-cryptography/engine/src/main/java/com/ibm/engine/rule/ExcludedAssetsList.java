@@ -19,7 +19,11 @@
  */
 package com.ibm.engine.rule;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Fichero que almacena la lista de assets excluidos para omitirlos
 // en el análisis.
@@ -27,15 +31,30 @@ import java.util.List;
 
 public final class ExcludedAssetsList {
     private static List<String> excludedAssets = List.of(); // Lista de assets a excluir
+    // Versión 3: incluidos campos de tipo de objeto y nombre del método
+    private static String invokedObjectTypeString;
+    private static String methodName;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcludedAssetsList.class);
 
     private ExcludedAssetsList() {
         // Evita instanciación
     }
 
+    // Setters
     public static void setExcludedAssets(List<String> excludedAssetsRequest) {
         excludedAssets = excludedAssetsRequest;
     }
 
+    public static void setInvokedObjectTypeStrings(List<String> invokedObjectTypeStringsRequest) {
+        invokedObjectTypeString = invokedObjectTypeStringsRequest.get(0);
+    }
+
+    public static void setMethodNames(List<String> methodNamesRequest) {
+        methodName = methodNamesRequest.get(0);
+    }
+
+    // Getters
     public static List<String> getExcludedAssets() {
         return excludedAssets;
     }
@@ -46,15 +65,45 @@ public final class ExcludedAssetsList {
     }
 
     // Método para verificar si un asset está excluido
-    public static boolean isAssetExcluded(String asset) {
-
-        // Si está vacía, no hace falta hacer nada
-        if (excludedAssets.isEmpty() || excludedAssets == null || excludedAssets.size() == 0) {
-            return false;
+    // Versión 3: lógica modificada de forma que la lista se encuentra guardada en el propio objeto
+    public static boolean isAssetExcluded() {
+        // Iteramos por cada activo de la lista
+        for (String asset : excludedAssets) {
+            // Si es un método, utilizamos methodNames para validar
+            if (asset.endsWith("_method")) {
+                // Formateamos methodName
+                methodName = processMethodName();
+                if (methodName.contains(asset)) {
+                    LOGGER.info("Excluyendo método {}", methodName);
+                    return true;
+                }
+            } else {
+                // Validamos con el tipo de objeto
+                if (invokedObjectTypeString.contains(asset)) {
+                    LOGGER.info("Excluyendo el activo {}", invokedObjectTypeString);
+                    return true;
+                }
+            }
         }
 
-        return excludedAssets.stream()
-                .anyMatch(
-                        excludedAsset -> asset.toUpperCase().contains(excludedAsset.toUpperCase()));
+        // Si no ha habido coincidencias, devuelve false
+        return false;
+    }
+
+    // Versión 3: método que se encarga de formatear el nombre del método del activo para
+    // que tenga el mismo formato que el de los activos guardados (<tipo de objeto>.<nombre del
+    // método>)
+    private static String processMethodName() {
+        List<String> auxList = new ArrayList<>(Arrays.asList(invokedObjectTypeString.split("\\.")));
+        // Si es mayor que 4, omitimos el úlitmo elemento
+        if (auxList.size() > 4) {
+            auxList.remove(auxList.size() - 1);
+        }
+        // Incorporamos el nombre del método formateado
+        String formattedMethodName = String.format("%s_method", methodName);
+        auxList.add(formattedMethodName);
+
+        // Mappeamos a tipo string
+        return String.join(".", auxList);
     }
 }

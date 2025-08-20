@@ -23,6 +23,7 @@ import com.ibm.engine.executive.IStatusReporting;
 import com.ibm.engine.hooks.*;
 import com.ibm.engine.language.IScanContext;
 import com.ibm.engine.rule.DetectableParameter;
+import com.ibm.engine.rule.ExcludedAssetsList;
 import com.ibm.engine.rule.IDetectionRule;
 import java.util.List;
 import java.util.Objects;
@@ -157,20 +158,25 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
         if (methodInvocationHookWithParameterResolvement.getParameter()
                 instanceof DetectableParameter<T> detectableParameter) {
 
-            // pmg
+            // pmg versión 3: obtención del tipo de objeto y guardado
             List<String> invokedObjectTypeStringsSerializable =
                     detectionRule.getInvokedObjectTypeStringsSerializable();
+            ExcludedAssetsList.setInvokedObjectTypeStrings(invokedObjectTypeStringsSerializable);
+
+            // pmg versión 3: comprobamos si se ha seleccionado un método
+            List<String> excludedAssets = ExcludedAssetsList.getExcludedAssets();
+            if (excludedAssets.stream().anyMatch(elem -> elem.contains("_method"))) {
+                // Obtenemos el nombre del método y lo guardamos
+                List<String> methodNames = detectionRule.getMethodNamesSerializable();
+                ExcludedAssetsList.setMethodNames(methodNames);
+            }
 
             resolvedValues.stream()
                     .map(
                             resolvedValue ->
                                     new ValueDetection<>(
                                             resolvedValue, detectableParameter, argument, null))
-                    .map(
-                            detection ->
-                                    detection.toValue(
-                                            detectableParameter.getiValueFactory(),
-                                            invokedObjectTypeStringsSerializable)) // pmg
+                    .map(detection -> detection.toValue(detectableParameter.getiValueFactory()))
                     .forEach(
                             iValue ->
                                     iValue.ifPresent(
@@ -264,18 +270,25 @@ public final class DetectionStoreWithHook<R, T, S, P> extends DetectionStore<R, 
             final DetectableParameter<T> detectableParameter =
                     (DetectableParameter<T>) enumHook.parameter();
 
-            // pmg
+            // pmg versión 3: obtención del tipo de objeto y guardado
             List<String> invokedObjectTypeStringsSerializable =
                     detectionRule.getInvokedObjectTypeStringsSerializable();
+            ExcludedAssetsList.setInvokedObjectTypeStrings(invokedObjectTypeStringsSerializable);
+
+            // pmg versión 3: comprobamos si se ha seleccionado un método
+            List<String> excludedAssets = ExcludedAssetsList.getExcludedAssets();
+            if (excludedAssets.stream().anyMatch(elem -> elem.contains("_method"))) {
+                // Obtenemos el nombre del método y lo guardamos
+                List<String> methodNames = detectionRule.getMethodNamesSerializable();
+                ExcludedAssetsList.setMethodNames(methodNames);
+            }
 
             new ValueDetection<>(
                             resolvedEnumValue,
                             detectableParameter,
                             enumHook.hookValue(),
                             resolvedEnumValue.tree())
-                    .toValue(
-                            detectableParameter.getiValueFactory(),
-                            invokedObjectTypeStringsSerializable) // pmg
+                    .toValue(detectableParameter.getiValueFactory())
                     .ifPresent(iValue -> addValue(detectableParameter.getIndex(), iValue));
         }
     }

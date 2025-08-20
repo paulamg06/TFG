@@ -21,15 +21,10 @@ package com.ibm.engine.detection;
 
 import com.ibm.engine.model.IAction;
 import com.ibm.engine.model.factory.IActionFactory;
-import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public sealed interface IMethodDetection<T> extends IDetection<T> permits MethodDetection {
     @Nonnull
-    Optional<IAction<T>> toValue(
-            @Nonnull IActionFactory<T> actionFactory,
-            @Nullable List<String> invokedObjectTypeStringsSerializable); // pmg: añadido parámetro
-    // nullable, tipo de objeto
+    Optional<IAction<T>> toValue(@Nonnull IActionFactory<T> actionFactory);
 }

@@ -54,4 +54,10 @@ public record MethodDetectionRule<T>(
     public List<String> getInvokedObjectTypeStringsSerializable() {
         return matchers.getInvokedObjectTypeStringsSerializable();
     }
+
+    // pmg: versión 3: añadido getter para obtener el nombre del método
+    @Nonnull
+    public List<String> getMethodNamesSerializable() {
+        return matchers.getMethodNamesSerializable();
+    }
 }

@@ -29,6 +29,7 @@ import com.ibm.engine.model.IValue;
 import com.ibm.engine.model.context.IDetectionContext;
 import com.ibm.engine.rule.DetectableParameter;
 import com.ibm.engine.rule.DetectionRule;
+import com.ibm.engine.rule.ExcludedAssetsList;
 import com.ibm.engine.rule.IDetectionRule;
 import com.ibm.engine.rule.MethodDetectionRule;
 import com.ibm.engine.rule.Parameter;
@@ -45,6 +46,8 @@ import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, S, P> {
     protected final int level;
@@ -67,6 +70,9 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
      */
     @Nullable IAction<T> actionValue;
 
+    // pmg
+    public static final Logger LOGGER = LoggerFactory.getLogger(DetectionStore.class);
+
     public DetectionStore(
             final int level,
             @Nonnull final IDetectionRule<T> detectionRule,
@@ -81,29 +87,6 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         this.children = new TreeMap<>();
         this.handler = handler;
         this.statusReporting = statusReporting;
-    }
-
-    // pmg
-    @Override
-    public String toString() {
-        return "DetectionStore{"
-                + "level="
-                + level
-                + ", detectionRule="
-                + detectionRule
-                + ", scanContext="
-                + scanContext
-                + ", detectionValues="
-                + detectionValues
-                + ", children="
-                + children
-                + ", handler="
-                + handler
-                + ", statusReporting="
-                + statusReporting
-                + ", storeId="
-                + storeId
-                + '}';
     }
 
     public int getLevel() {
@@ -251,7 +234,6 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
         detectionStore.detectionValues.compute(
                 index,
                 (i, list) -> {
-
                     if (list == null) {
                         // If the list is null, create a new ArrayList
                         // with the iValue and return it
@@ -293,28 +275,44 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                 DetectionRule<T> fullDetectionRule = (DetectionRule<T>) detectionRule;
                 if (fullDetectionRule.actionFactory() != null) {
 
-                    // pmg
+                    // pmg versión 3: obtención del tipo de objeto y guardado
                     List<String> invokedObjectTypeStringsSerializable =
                             fullDetectionRule.getInvokedObjectTypeStringsSerializable();
+                    ExcludedAssetsList.setInvokedObjectTypeStrings(
+                            invokedObjectTypeStringsSerializable);
+
+                    // pmg versión 3: comprobamos si se ha seleccionado un método
+                    List<String> excludedAssets = ExcludedAssetsList.getExcludedAssets();
+                    if (excludedAssets.stream().anyMatch(elem -> elem.contains("_method"))) {
+                        // Obtenemos el nombre del método y lo guardamos
+                        List<String> methodNames = fullDetectionRule.getMethodNamesSerializable();
+                        ExcludedAssetsList.setMethodNames(methodNames);
+                    }
 
                     methodDetection
-                            .toValue(
-                                    fullDetectionRule.actionFactory(),
-                                    invokedObjectTypeStringsSerializable) // pmg
+                            .toValue(fullDetectionRule.actionFactory())
                             .ifPresent(iAction -> this.actionValue = iAction);
                 }
                 nextDetectionRules = fullDetectionRule.nextDetectionRules();
             } else if (detectionRule.is(MethodDetectionRule.class)) {
                 MethodDetectionRule<T> methodDetectionRule = (MethodDetectionRule<T>) detectionRule;
 
-                // pmg
+                // pmg versión 3: obtención del tipo de objeto y guardado
                 List<String> invokedObjectTypeStringsSerializable =
                         methodDetectionRule.getInvokedObjectTypeStringsSerializable();
+                ExcludedAssetsList.setInvokedObjectTypeStrings(
+                        invokedObjectTypeStringsSerializable);
+
+                // pmg versión 3: comprobamos si se ha seleccionado un método
+                List<String> excludedAssets = ExcludedAssetsList.getExcludedAssets();
+                if (excludedAssets.stream().anyMatch(elem -> elem.contains("_method"))) {
+                    // Obtenemos el nombre del método y lo guardamos
+                    List<String> methodNames = methodDetectionRule.getMethodNamesSerializable();
+                    ExcludedAssetsList.setMethodNames(methodNames);
+                }
 
                 methodDetection
-                        .toValue(
-                                methodDetectionRule.actionFactory(),
-                                invokedObjectTypeStringsSerializable) // pmg
+                        .toValue(methodDetectionRule.actionFactory())
                         .ifPresent(iAction -> this.actionValue = iAction);
                 nextDetectionRules = methodDetectionRule.nextDetectionRules();
             }
@@ -335,18 +333,25 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
 
             final Optional<Integer> positionMove = detectableParameter.getShouldBeMovedUnder();
 
-            // pmg
+            // pmg versión 3: obtención del tipo de objeto y guardado
             List<String> invokedObjectTypeStringsSerializable =
                     detectionRule.getInvokedObjectTypeStringsSerializable();
+            ExcludedAssetsList.setInvokedObjectTypeStrings(invokedObjectTypeStringsSerializable);
+
+            // pmg versión 3: comprobamos si se ha seleccionado un método
+            List<String> excludedAssets = ExcludedAssetsList.getExcludedAssets();
+            if (excludedAssets.stream().anyMatch(elem -> elem.contains("_method"))) {
+                // Obtenemos el nombre del método y lo guardamos
+                List<String> methodNames = detectionRule.getMethodNamesSerializable();
+                ExcludedAssetsList.setMethodNames(methodNames);
+            }
 
             // Check if the parameter should be moved under
             if (positionMove.isPresent()) {
                 final int id = positionMove.get();
                 // Get the iValue to be detected and store it in a variable
                 valueDetection
-                        .toValue(
-                                valueDetection.detectableParameter().getiValueFactory(),
-                                invokedObjectTypeStringsSerializable) // pmg
+                        .toValue(valueDetection.detectableParameter().getiValueFactory())
                         .ifPresent(
                                 iValue -> {
                                     // Create a detection store with the given parameters
@@ -364,9 +369,7 @@ public class DetectionStore<R, T, S, P> implements IHookDetectionObserver<R, T, 
                                 });
             } else {
                 valueDetection
-                        .toValue(
-                                valueDetection.detectableParameter().getiValueFactory(),
-                                invokedObjectTypeStringsSerializable) //pmg
+                        .toValue(valueDetection.detectableParameter().getiValueFactory())
                         .ifPresent(
                                 iValue -> addValue(this, detectableParameter.getIndex(), iValue));
             }
