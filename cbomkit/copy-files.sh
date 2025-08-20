@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Creación del directorio de override
+echo "Creando directorio cbomkit/cbomkit-override/lib..."
+mkdir -p ./cbomkit/cbomkit-override/lib
+
+docker create --name temp-cbomkit ghcr.io/pqca/cbomkit:2.1.7
+docker cp temp-cbomkit:/deployments/lib/main ./cbomkit/cbomkit-override/lib
+
 # Directorios de destino y de origen
 DIR_NAME="$HOME/TFG/cbomkit/cbomkit-override/lib/main"
 LOCAL_M2="$HOME/.m2/repository/com/ibm"
@@ -19,7 +26,7 @@ done
 
 echo "Todos los JARs fueron copiados."
 
-echo "Copiando los json de reglas..."
+# echo "Copiando los json de reglas..."
 
 # Copiado de reglas
 # LANGUAGES=("python" "java")
